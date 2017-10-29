@@ -45,11 +45,13 @@ namespace SwarmClientVS
         public const string PackageGuidString = "7f3585ff-b094-482c-b5dd-38a76345d91f";
 
         private DTE2 applicationObject;
-        private BuildEvents buildEvents;
+        //private BuildEvents buildEvents;
         private DebuggerEvents debugEvents;
         private CommandEvents commandEvents;
-        private TextEditorEvents textEditorEvents;
-        private DocumentEvents documentEvents;
+        //private TextEditorEvents textEditorEvents;
+        //private DocumentEvents documentEvents;
+        private SCSession scSession;
+        private String currentCommandStep;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Command"/> class.
@@ -73,12 +75,16 @@ namespace SwarmClientVS
             Command.Initialize(this);
             base.Initialize();
 
+            scSession = new SCSession();
+            SCLog.WriteLog(String.Format("Started new session, {0} {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString()));
+
             applicationObject = (DTE2)GetService(typeof(DTE));
-            buildEvents = applicationObject.Events.BuildEvents;
+            //buildEvents = applicationObject.Events.BuildEvents;
             debugEvents = applicationObject.Events.DebuggerEvents;
             commandEvents = applicationObject.Events.CommandEvents;
-            textEditorEvents = applicationObject.Events.TextEditorEvents;
-            documentEvents = applicationObject.Events.DocumentEvents;
+            //textEditorEvents = applicationObject.Events.TextEditorEvents;
+            //documentEvents = applicationObject.Events.DocumentEvents;
+            currentCommandStep = String.Empty;
 
             //----------------------
             //DTE2 ao = (DTE2)GetService(typeof(DTE));
@@ -91,79 +97,101 @@ namespace SwarmClientVS
             //----------------------
 
             //applicationObject.Debugger.Breakpoints
-            debugEvents.OnContextChanged += delegate (EnvDTE.Process newProc, EnvDTE.Program newProg, EnvDTE.Thread newThread, EnvDTE.StackFrame newStkFrame)
-            {
+            //debugEvents.OnContextChanged += delegate (EnvDTE.Process newProc, EnvDTE.Program newProg, EnvDTE.Thread newThread, EnvDTE.StackFrame newStkFrame)
+            //{
 
-            };
+            //};
 
-            debugEvents.OnEnterDesignMode += delegate (dbgEventReason reason)
-            {
+            //debugEvents.OnEnterDesignMode += delegate (dbgEventReason reason)
+            //{
 
-            };
+            //};
 
             debugEvents.OnEnterBreakMode += delegate (dbgEventReason reason, ref dbgExecutionAction action)
             {
-                //dbgEventReason.dbgEventReasonBreakpoint
-                //https://msdn.microsoft.com/pt-br/subscriptions/envdte.dbgeventreason.aspx
+                DTE2 dte2 = (DTE2)GetService(typeof(DTE));
 
-                //if (reason != dbgEventReason.dbgEventReasonStep && Options.IsBeepOnBreakpointHit)
-                //{
-                //    HandleEventSafe(EventType.BreakpointHit, "Breakpoint was hit.");
-                //}
-            };
+                if (reason == dbgEventReason.dbgEventReasonBreakpoint)
+                    scSession.RegisterHitted(dte2.Debugger.CurrentStackFrame, dte2.Debugger.BreakpointLastHit);
 
-            commandEvents.AfterExecute += delegate (string Guid, int ID, object CustomIn, object CustomOut)
-            {
-                //CommandEventsAfterBeforeMonitoring("After", Guid, ID, CustomIn, CustomOut);
-
-                DTE2 ao1 = (DTE2)GetService(typeof(DTE));
-
-                if (ao1.Debugger.Breakpoints != null)//Se não há solution aberta, breakpoints é nulo
-                {
-                    foreach (Breakpoint bp in ao1.Debugger.Breakpoints)
-                    {
-                        Debug.WriteLine(String.Format("Afeter: {0}|{1}|{2}|{3}{4}", bp.FileLine, bp.File, bp.FunctionName, bp.Name, Environment.NewLine));
-                    }
-                }
-
-                Debug.WriteLine("-----------");
+                if (reason == dbgEventReason.dbgEventReasonStep)
+                    scSession.RegisterStep(currentCommandStep, dte2.Debugger.CurrentStackFrame);
             };
 
             commandEvents.BeforeExecute += delegate(string Guid, int ID, object CustomIn, object CustomOut, ref bool CancelDefault)
             {
                 //CommandEventsAfterBeforeMonitoring("Before", Guid, ID, CustomIn, CustomOut);
 
-                Debug.WriteLine("-----------");
+                //DTE2 ao1 = (DTE2)GetService(typeof(DTE));
 
-                DTE2 ao1 = (DTE2)GetService(typeof(DTE));
+                //Debug.WriteLine("-----------");
 
-                if (ao1.Debugger.Breakpoints != null)//Se não há solution aberta, breakpoints é nulo
-                {
-                    foreach (Breakpoint bp in ao1.Debugger.Breakpoints)
-                    {
-                        Debug.WriteLine(String.Format("Before: {0}|{1}|{2}|{3}{4}", bp.FileLine, bp.File, bp.FunctionName, bp.Name, Environment.NewLine));
-                    }
-                }
+                //if (ao1.Debugger.Breakpoints != null)//Se não há solution aberta, breakpoints é nulo
+                //{
+                //    foreach (Breakpoint bp in ao1.Debugger.Breakpoints)
+                //    {
+                //        Debug.WriteLine(String.Format("Before: {0}|{1}|{2}|{3}{4}", bp.FileLine, bp.File, bp.FunctionName, bp.Name, Environment.NewLine));
+                //    }
+                //}
             };
 
-            textEditorEvents.LineChanged += delegate (TextPoint StartPoint, TextPoint EndPoint, int Hint)
+            commandEvents.AfterExecute += delegate (string Guid, int ID, object CustomIn, object CustomOut)
             {
-                
+                DTE2 dte2 = (DTE2)GetService(typeof(DTE));
+
+                if (dte2.Debugger == null)//Situação inesperada
+                    return;
+
+                if (ID == 769)//É evento de adição de breakpoint
+                    scSession.VerifyBreakpointAddedOne(dte2.Debugger.Breakpoints);
+                else//É outro evento qualquer onde pode ter sido removido um breakpoint. Não há um evento específico para remoção de breakpoint.
+                    scSession.VerifyBreakpointRemovedOne(dte2.Debugger.Breakpoints);
+
+                //----------------------------------------
+
+                EnvDTE.Command command = dte2.Commands.Item(Guid, ID);
+
+                if (command == null)
+                    return;
+
+                switch (command.Name)
+                {
+                    case "Debug.StepInto": currentCommandStep = "Step Into"; break;
+                    case "Debug.StepOver": currentCommandStep = "Step Over"; break;
+                    case "Debug.StepOut": currentCommandStep = "Step Out"; break;
+                }
+
+                //CommandEventsAfterBeforeMonitoring("After", Guid, ID, CustomIn, CustomOut);
+
+                //if (dte2.Debugger.Breakpoints != null)//Se não há solution aberta, breakpoints é nulo
+                //{
+                //    foreach (Breakpoint bp in dte2.Debugger.Breakpoints)
+                //    {
+                //        Debug.WriteLine(String.Format("Afeter: {0}|{1}|{2}|{3}{4}", bp.FileLine, bp.File, bp.FunctionName, bp.Name, Environment.NewLine));
+                //    }
+                //}
+
+                //Debug.WriteLine("-----------");
             };
+
+            //textEditorEvents.LineChanged += delegate (TextPoint StartPoint, TextPoint EndPoint, int Hint)
+            //{
+                
+            //};
         }
 
         private void CommandEventsAfterBeforeMonitoring(string origin, string Guid, int ID, object CustomIn, object CustomOut)
         {
             DTE2 ao1 = (DTE2)GetService(typeof(DTE));
 
-            if (ID == 769)//Parece que o 769 é disparado sempre e apenas quando um breakpoint é inserido.
-            {
-                EnvDTE.Command bpCommand = ao1.Commands.Item(Guid, ID);
+            //if (ID == 769)//Parece que o 769 é disparado sempre e apenas quando um breakpoint é inserido.
+            //{
+            //    EnvDTE.Command bpCommand = ao1.Commands.Item(Guid, ID);
 
-                object bp = bpCommand.Bindings;
+            //    object bp = bpCommand.Bindings;
 
-                Debug.WriteLine(String.Format("{0}|{1}|{2}|{3}|{4}|{5}{6}", origin, bpCommand.ID, CustomIn, CustomOut, bpCommand.Name, bpCommand.LocalizedName, ao1.CommandLineArguments));
-            }
+            //    Debug.WriteLine(String.Format("{0}|{1}|{2}|{3}|{4}|{5}{6}", origin, bpCommand.ID, CustomIn, CustomOut, bpCommand.Name, bpCommand.LocalizedName, ao1.CommandLineArguments));
+            //}
 
             EnvDTE.Command command = ao1.Commands.Item(Guid, ID);
 
