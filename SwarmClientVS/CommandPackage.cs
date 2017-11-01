@@ -85,10 +85,10 @@ namespace SwarmClientVS
                 DTE2 dte2 = (DTE2)GetService(typeof(DTE));
 
                 if (reason == dbgEventReason.dbgEventReasonBreakpoint)//Breakpoint is hitted
-                    scSession.RegisterHitted(dte2.Debugger.CurrentStackFrame, dte2.Debugger.BreakpointLastHit);
+                    scSession.RegisterHitted(dte2.Debugger.CurrentStackFrame, dte2.Debugger.BreakpointLastHit, dte2.ActiveDocument);
 
                 if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
-                    scSession.RegisterStep(currentCommandStep, dte2.Debugger.CurrentStackFrame);
+                    scSession.RegisterStep(currentCommandStep, dte2.Debugger.CurrentStackFrame, dte2.ActiveDocument);
             };
 
             commandEvents.BeforeExecute += delegate(string Guid, int ID, object CustomIn, object CustomOut, ref bool CancelDefault)

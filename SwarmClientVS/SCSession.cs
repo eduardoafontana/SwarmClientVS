@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EnvDTE;
+using System.IO;
 
 namespace SwarmClientVS
 {
@@ -44,20 +45,39 @@ namespace SwarmClientVS
             }
         }
 
-        internal void RegisterHitted(StackFrame currentStackFrame, Breakpoint breakpointLastHit)
+        internal void RegisterHitted(StackFrame currentStackFrame, Breakpoint breakpointLastHit, Document currentDocument)
         {
-            SCLog.WriteLog(String.Format("Hitted: {0}|{1}", breakpointLastHit.Name, currentStackFrame.FunctionName));
+            lastStackFrameFunctionName = currentStackFrame.FunctionName;
+
+            SCLog.WriteLog(String.Format("Hitted: {0}|{1} : {2}", breakpointLastHit.Name, currentStackFrame.FunctionName, GetCurrentDocumentLine(currentDocument)));
         }
 
-        internal void RegisterStep(string stepName, StackFrame currentStackFrame)
+        internal void RegisterStep(string stepName, StackFrame currentStackFrame, Document currentDocument)
         {
             //TODO: point to continuous logical evolution
             //if (!debugger.CurrentStackFrame.FunctionName.Equals(lastStackFrameFunctionName))
             //{ 
-            SCLog.WriteLog(String.Format("{0}: {1} -> {2}", stepName, lastStackFrameFunctionName, currentStackFrame.FunctionName));
+            SCLog.WriteLog(String.Format("{0}: {1} -> {2} : {3}", stepName, lastStackFrameFunctionName, currentStackFrame.FunctionName, GetCurrentDocumentLine(currentDocument)));
 
             lastStackFrameFunctionName = currentStackFrame.FunctionName;
             //}
+        }
+
+        private string GetCurrentDocumentLine(Document currentDocument)
+        {
+            string line = "Fail to get line";
+
+            if (currentDocument == null)
+                return line + ", document null.";
+
+            TextSelection textSeleciont = (TextSelection)currentDocument.Selection;
+
+            if (textSeleciont == null)
+                return line + ", textselecion null.";
+
+            string activeFilePath = Path.Combine(currentDocument.Path, currentDocument.Name);
+
+            return File.ReadLines(activeFilePath).Skip(textSeleciont.ActivePoint.Line - 1).Take(1).First().Trim();
         }
     }
 }
