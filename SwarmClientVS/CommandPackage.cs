@@ -11,9 +11,10 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
 using EnvDTE;
 using EnvDTE80;
-using Domain;
 using System.IO;
 using System.Linq;
+using SwarmClientVS.Domain.Service;
+using SwarmClientVS.DataLog.FileLog;
 
 namespace SwarmClientVS
 {
@@ -50,7 +51,7 @@ namespace SwarmClientVS
         private DTE2 applicationObject;
         private DebuggerEvents debugEvents;
         private CommandEvents commandEvents;
-        private SCSession scSession;
+        private SessionService scSession;
         private String currentCommandStep;
 
         /// <summary>
@@ -75,8 +76,13 @@ namespace SwarmClientVS
             Command.Initialize(this);
             base.Initialize();
 
-            scSession = new SCSession();
-            SCLog.WriteLog(String.Format("Started new session, {0} {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString()));
+            scSession = new SessionService(new RepositoryLog());
+            scSession.RegisterNewSession(String.Format("Started new session, {0} {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString()));
+
+            //----Teste Domain Service Save ---
+            RepositoryLog log = new RepositoryLog();
+            Service1 svc1 = new Service1(new RepositoryLog());
+            //--------------------------------
 
             applicationObject = (DTE2)GetService(typeof(DTE));
             debugEvents = applicationObject.Events.DebuggerEvents;
