@@ -3,22 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EnvDTE;
 
-namespace SwarmClientVS
+namespace Domain
 {
-    public class SCBreakpoint
+    public class BreakpointModel
     {
-        public int HashCode { get; set; }
         public string Name { get; set; }
         public string FunctionName { get; set; }
         public int FileLine { get; set; }
 
-        public SCBreakpoint(Breakpoint breakpoint)
+        public BreakpointModel(string name, string functionName, int fileLine)
         {
-            Name = breakpoint.Name;
-            FunctionName = breakpoint.FunctionName;
-            FileLine = breakpoint.FileLine;
+            Name = name;
+            FunctionName = functionName;
+            FileLine = fileLine;
         }
 
         public override string ToString()

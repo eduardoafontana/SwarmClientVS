@@ -11,6 +11,9 @@ using Microsoft.VisualStudio.Shell.Interop;
 using Microsoft.Win32;
 using EnvDTE;
 using EnvDTE80;
+using Domain;
+using System.IO;
+using System.Linq;
 
 namespace SwarmClientVS
 {
@@ -85,10 +88,10 @@ namespace SwarmClientVS
                 DTE2 dte2 = (DTE2)GetService(typeof(DTE));
 
                 if (reason == dbgEventReason.dbgEventReasonBreakpoint)//Breakpoint is hitted
-                    scSession.RegisterHitted(dte2.Debugger.CurrentStackFrame, dte2.Debugger.BreakpointLastHit, dte2.ActiveDocument);
+                    scSession.RegisterHitted(new SessionModel() { CurrentStackFrameFunctionName = dte2.Debugger.CurrentStackFrame.FunctionName, BreakpointLastHitName = dte2.Debugger.BreakpointLastHit.Name, CurrentDocumentLine = GetCurrentDocumentLine(dte2.ActiveDocument) });
 
                 if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
-                    scSession.RegisterStep(currentCommandStep, dte2.Debugger.CurrentStackFrame, dte2.ActiveDocument);
+                    scSession.RegisterStep(new SessionModel() { StepName = currentCommandStep, CurrentStackFrameFunctionName = dte2.Debugger.CurrentStackFrame.FunctionName, CurrentDocumentLine = GetCurrentDocumentLine(dte2.ActiveDocument) });
             };
 
             commandEvents.BeforeExecute += delegate(string Guid, int ID, object CustomIn, object CustomOut, ref bool CancelDefault)
@@ -105,9 +108,9 @@ namespace SwarmClientVS
                     return;
 
                 if (ID == 769)//The event code for breakpoint add
-                    scSession.VerifyBreakpointAddedOne(dte2.Debugger.Breakpoints);
+                    scSession.VerifyBreakpointAddedOne(dte2.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => new BreakpointModel(x.Name, x.FunctionName, x.FileLine)).ToList());
                 else//The other event code that can represent a removed breakpoint. There is no especific event code for breakpoint remotion.
-                    scSession.VerifyBreakpointRemovedOne(dte2.Debugger.Breakpoints);
+                    scSession.VerifyBreakpointRemovedOne(dte2.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => new BreakpointModel(x.Name, x.FunctionName, x.FileLine)).ToList());
 
                 EnvDTE.Command command = dte2.Commands.Item(Guid, ID);
 
@@ -124,6 +127,23 @@ namespace SwarmClientVS
                 //API explorer code.
                 //CommandEventsAfterBeforeMonitoring("After", Guid, ID, CustomIn, CustomOut);
             };
+        }
+
+        private string GetCurrentDocumentLine(Document currentDocument)
+        {
+            string line = "Fail to get line";
+
+            if (currentDocument == null)
+                return line + ", document null.";
+
+            TextSelection textSeleciont = (TextSelection)currentDocument.Selection;
+
+            if (textSeleciont == null)
+                return line + ", textselecion null.";
+
+            string activeFilePath = Path.Combine(currentDocument.Path, currentDocument.Name);
+
+            return File.ReadLines(activeFilePath).Skip(textSeleciont.ActivePoint.Line - 1).Take(1).First().Trim();
         }
 
         //API explorer code.

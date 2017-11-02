@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SwarmClientVS", "SwarmClien
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTest", "UnitTest\UnitTest.csproj", "{01089EC0-0C02-4C7C-9E02-56AB3571FC0B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{A7D9FF70-DE4E-4BC8-9444-7D13B6AD5502}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{01089EC0-0C02-4C7C-9E02-56AB3571FC0B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{01089EC0-0C02-4C7C-9E02-56AB3571FC0B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{01089EC0-0C02-4C7C-9E02-56AB3571FC0B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7D9FF70-DE4E-4BC8-9444-7D13B6AD5502}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D9FF70-DE4E-4BC8-9444-7D13B6AD5502}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D9FF70-DE4E-4BC8-9444-7D13B6AD5502}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D9FF70-DE4E-4BC8-9444-7D13B6AD5502}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

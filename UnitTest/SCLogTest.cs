@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
 using System.Text;
-using SwarmClientVS;
+using Domain;
 
 namespace UnitTest
 {
