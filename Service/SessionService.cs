@@ -64,13 +64,9 @@ namespace SwarmClientVS.Domain.Service
 
         public void RegisterStep(SessionModel sessionModel)
         {
-            ////TODO: point to continuous logical evolution
-            ////if (!debugger.CurrentStackFrame.FunctionName.Equals(lastStackFrameFunctionName))
-            ////{ 
             //SCLog.WriteLog(String.Format("{0}: {1} -> {2} : {3}", sessionModel.StepName, lastStackFrameFunctionName, sessionModel.CurrentStackFrameFunctionName, sessionModel.CurrentDocumentLine));
 
             lastStackFrameFunctionName = sessionModel.CurrentStackFrameFunctionName;
-            ////}
         }
 
         public void RegisterNewSession(string newSessionInfo)
