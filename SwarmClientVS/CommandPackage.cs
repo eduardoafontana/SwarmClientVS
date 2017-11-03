@@ -77,7 +77,7 @@ namespace SwarmClientVS
             base.Initialize();
 
             scSession = new SessionService(new RepositoryLog());
-            scSession.RegisterNewSession(String.Format("Started new session, {0} {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString()));
+            scSession.RegisterNewSession();
 
             applicationObject = (DTE2)GetService(typeof(DTE));
             debugEvents = applicationObject.Events.DebuggerEvents;

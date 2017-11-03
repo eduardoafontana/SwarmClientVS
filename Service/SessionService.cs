@@ -69,9 +69,17 @@ namespace SwarmClientVS.Domain.Service
             lastStackFrameFunctionName = sessionModel.CurrentStackFrameFunctionName;
         }
 
-        public void RegisterNewSession(string newSessionInfo)
-        {
-            //String.Format("Started new session, {0} {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString())
+        public void RegisterNewSession()
+        {           
+            SessionData sessionData = new SessionData
+            {
+                Description = "Description...",
+                Label = "Fixed session, not implemented yet.",
+                Purpose = "Purpose",
+                Started = DateTime.Now
+            };
+
+            Repository.Save(sessionData);
         }
     }
 }

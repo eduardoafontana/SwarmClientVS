@@ -21,5 +21,9 @@ namespace SwarmClientVS.DataLog.FileLog
                 Debug.WriteLine(logContent);
             }
         }
+
+        //TODO: notes for next requirement that logs on literal text file.
+        //Old Session log way
+        //String.Format("Started new session, {0} {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString())
     }
 }
