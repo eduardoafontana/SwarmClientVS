@@ -21,10 +21,5 @@ namespace SwarmClientVS.DataLog.FileLog
                 file.WriteLine(objJsonData);
             }
         }
-
-        public void SaveLog(string log)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
