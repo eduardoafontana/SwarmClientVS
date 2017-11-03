@@ -7,9 +7,26 @@ using SwarmClientVS.Domain.IRepository;
 
 namespace SwarmClientVS.Domain.DataModel
 {
+    public enum EventKind
+    {
+        StepOut,
+        StepInto,
+        StepOver,
+        Suspend,
+        Resume,
+        BreakpointAdd,
+        BreakpointChange,
+        BreakpointRemove,
+        SuspendBreakpoint,
+        InspectVariable,
+        ModifyVariable,
+
+        BreakpointHitted
+    };
+
     public class EventData : IEventData
     {
-        public EventKind EventKind { get; set; }
+        public string EventKind { get; set; }
         public string Detail { get; set; }
         public string Namespace { get; set; }
         public string Type { get; set; }

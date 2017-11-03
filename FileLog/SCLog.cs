@@ -25,5 +25,9 @@ namespace SwarmClientVS.DataLog.FileLog
         //TODO: notes for next requirement that logs on literal text file.
         //Old Session log way
         //String.Format("Started new session, {0} {1}", DateTime.Now.ToShortDateString(), DateTime.Now.ToLongTimeString())
+        //Old register step way
+        //SCLog.WriteLog(String.Format("{0}: {1} -> {2} : {3}", sessionModel.StepName, lastStackFrameFunctionName, sessionModel.CurrentStackFrameFunctionName, sessionModel.CurrentDocumentLine));
+        //Old register breakpoint hitted way
+        //SCLog.WriteLog(String.Format("Hitted: {0}|{1} : {2}", sessionModel.BreakpointLastHitName, sessionModel.CurrentStackFrameFunctionName, sessionModel.CurrentDocumentLine));
     }
 }

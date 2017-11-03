@@ -6,9 +6,16 @@ using System.Threading.Tasks;
 
 namespace SwarmClientVS.Domain.Service
 {
+    public enum CurrentCommandStep
+    {
+        StepInto,
+        StepOver,
+        StepOut
+    }
+
     public class SessionModel
     {
-        public string StepName { get; set; }
+        public CurrentCommandStep CurrentCommandStep { get; set; }
         public string CurrentStackFrameFunctionName { get; set; }
         public string BreakpointLastHitName { get; set; }
         public string CurrentDocumentLine { get; set; }

@@ -52,7 +52,7 @@ namespace SwarmClientVS
         private DebuggerEvents debugEvents;
         private CommandEvents commandEvents;
         private SessionService scSession;
-        private String currentCommandStep;
+        private CurrentCommandStep currentCommandStep;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="Command"/> class.
@@ -82,7 +82,7 @@ namespace SwarmClientVS
             applicationObject = (DTE2)GetService(typeof(DTE));
             debugEvents = applicationObject.Events.DebuggerEvents;
             commandEvents = applicationObject.Events.CommandEvents;
-            currentCommandStep = String.Empty;
+            currentCommandStep = CurrentCommandStep.StepInto;
 
             debugEvents.OnEnterBreakMode += delegate (dbgEventReason reason, ref dbgExecutionAction action)
             {
@@ -92,7 +92,7 @@ namespace SwarmClientVS
                     scSession.RegisterHitted(new SessionModel() { CurrentStackFrameFunctionName = dte2.Debugger.CurrentStackFrame.FunctionName, BreakpointLastHitName = dte2.Debugger.BreakpointLastHit.Name, CurrentDocumentLine = GetCurrentDocumentLine(dte2.ActiveDocument) });
 
                 if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
-                    scSession.RegisterStep(new SessionModel() { StepName = currentCommandStep, CurrentStackFrameFunctionName = dte2.Debugger.CurrentStackFrame.FunctionName, CurrentDocumentLine = GetCurrentDocumentLine(dte2.ActiveDocument) });
+                    scSession.RegisterStep(new SessionModel() { CurrentCommandStep = currentCommandStep, CurrentStackFrameFunctionName = dte2.Debugger.CurrentStackFrame.FunctionName, CurrentDocumentLine = GetCurrentDocumentLine(dte2.ActiveDocument) });
             };
 
             commandEvents.BeforeExecute += delegate(string Guid, int ID, object CustomIn, object CustomOut, ref bool CancelDefault)
@@ -120,9 +120,9 @@ namespace SwarmClientVS
 
                 switch (command.Name)
                 {
-                    case "Debug.StepInto": currentCommandStep = "Step Into"; break;
-                    case "Debug.StepOver": currentCommandStep = "Step Over"; break;
-                    case "Debug.StepOut": currentCommandStep = "Step Out"; break;
+                    case "Debug.StepInto": currentCommandStep = CurrentCommandStep.StepInto; break;
+                    case "Debug.StepOver": currentCommandStep = CurrentCommandStep.StepOver; break;
+                    case "Debug.StepOut": currentCommandStep = CurrentCommandStep.StepOut; break;
                 }
 
                 //API explorer code.

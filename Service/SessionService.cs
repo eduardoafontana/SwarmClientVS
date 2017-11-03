@@ -19,7 +19,6 @@ namespace SwarmClientVS.Domain.Service
         }
 
         private List<BreakpointModel> currentBreakpointsList = new List<BreakpointModel>();
-        private string lastStackFrameFunctionName = String.Empty;
 
         public void VerifyBreakpointAddedOne(List<BreakpointModel> breakpoints)
         {
@@ -47,31 +46,52 @@ namespace SwarmClientVS.Domain.Service
         }
 
         public void RegisterHitted(SessionModel sessionModel)
-        {
-            lastStackFrameFunctionName = sessionModel.CurrentStackFrameFunctionName;
-
-            //SCLog.WriteLog(String.Format("Hitted: {0}|{1} : {2}", sessionModel.BreakpointLastHitName, sessionModel.CurrentStackFrameFunctionName, sessionModel.CurrentDocumentLine));
-
+        {           
             IEventData eventData = new EventData
             {
+                EventKind = EventKind.BreakpointHitted.ToString(),
+                Detail = sessionModel.BreakpointLastHitName,
+                Namespace = "TODO",
+                Type = "TODO",
+                TypeFullPath = "TODO",
+                Method = sessionModel.CurrentStackFrameFunctionName,
+                MethodKey = "TODO",
+                MethodSignature = "TODO",
+                CharStart = 0,
+                CharEnd = 0,
+                LineNumber = 0,
                 LineOfCode = sessionModel.CurrentDocumentLine,
-                Detail = sessionModel.CurrentStackFrameFunctionName,
-                Method = sessionModel.BreakpointLastHitName
+                Created = DateTime.Now
             };
 
             Repository.Save(eventData);
         }
 
         public void RegisterStep(SessionModel sessionModel)
-        {
-            //SCLog.WriteLog(String.Format("{0}: {1} -> {2} : {3}", sessionModel.StepName, lastStackFrameFunctionName, sessionModel.CurrentStackFrameFunctionName, sessionModel.CurrentDocumentLine));
+        {           
+            IEventData eventData = new EventData
+            {
+                EventKind = ((EventKind)sessionModel.CurrentCommandStep).ToString(),
+                Detail = "TODO",
+                Namespace = "TODO",
+                Type = "TODO",
+                TypeFullPath = "TODO",
+                Method = sessionModel.CurrentStackFrameFunctionName,
+                MethodKey = "TODO",
+                MethodSignature = "TODO",
+                CharStart = 0,
+                CharEnd = 0,
+                LineNumber = 0,
+                LineOfCode = sessionModel.CurrentDocumentLine,
+                Created = DateTime.Now
+            };
 
-            lastStackFrameFunctionName = sessionModel.CurrentStackFrameFunctionName;
+            Repository.Save(eventData);
         }
 
         public void RegisterNewSession()
         {           
-            SessionData sessionData = new SessionData
+            ISessionData sessionData = new SessionData
             {
                 Description = "Description...",
                 Label = "Fixed session, not implemented yet.",

@@ -6,24 +6,9 @@ using System.Threading.Tasks;
 
 namespace SwarmClientVS.Domain.IRepository
 {
-    public enum EventKind
-    {
-        StepOut,
-        StepInto,
-        StepOver,
-        Suspend,
-        Resume,
-        BreakpointAdd,
-        BreakpointChange,
-        BreakpointRemove,
-        SuspendBreakpoint,
-        InspectVariable,
-        ModifyVariable
-    };
-
     public interface IEventData : IData
     {
-        EventKind EventKind { get; set; }
+        string EventKind { get; set; }
         string Detail { get; set; }
         string Namespace { get; set; }
         string Type { get; set; }
