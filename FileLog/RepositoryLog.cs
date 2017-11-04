@@ -10,7 +10,7 @@ namespace SwarmClientVS.DataLog.FileLog
 {
     public class RepositoryLog : IRepository<IData>
     {
-        public string FileName { get { return @".\SCLog.txt"; } }
+        public string FileName { get { return @".\SCLog-Json.txt"; } }
 
         public void Save(IData dataModel)
         {
