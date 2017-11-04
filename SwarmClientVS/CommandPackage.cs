@@ -91,10 +91,10 @@ namespace SwarmClientVS
                 DTE2 dte = (DTE2)GetService(typeof(DTE));
 
                 if (reason == dbgEventReason.dbgEventReasonBreakpoint)//Breakpoint is hitted
-                    scSession.RegisterHitted(new SessionModel() { CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName, BreakpointLastHitName = dte.Debugger.BreakpointLastHit.Name, CurrentDocumentLine = GetCurrentDocumentLine(dte.ActiveDocument) });
+                    scSession.RegisterHitted(new StepModel { CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName, BreakpointLastHitName = dte.Debugger.BreakpointLastHit.Name, CurrentDocument = GetCurrentDocumentModel(dte.ActiveDocument) });
 
                 if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
-                    scSession.RegisterStep(new SessionModel() { CurrentCommandStep = currentCommandStep, CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName, CurrentDocumentLine = GetCurrentDocumentLine(dte.ActiveDocument) });
+                    scSession.RegisterStep(new StepModel { CurrentCommandStep = currentCommandStep, CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName, CurrentDocument = GetCurrentDocumentModel(dte.ActiveDocument) });
             };
 
             commandEvents.BeforeExecute += delegate(string Guid, int ID, object CustomIn, object CustomOut, ref bool CancelDefault)
@@ -159,21 +159,34 @@ namespace SwarmClientVS
                 scSession.VerifyBreakpointRemovedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => new BreakpointModel(x.Name, x.FunctionName, x.FileLine)).ToList());
         }
 
-        private string GetCurrentDocumentLine(Document currentDocument)
+        private DocumentModel GetCurrentDocumentModel(Document currentDocument)
         {
-            string line = "Fail to get line";
+            DocumentModel documentModel = new DocumentModel
+            {
+                CurrentLine = "Fail to get line",
+                CurrentLineNumber = -1
+            };
 
             if (currentDocument == null)
-                return line + ", document null.";
+            {
+                documentModel.CurrentLine += ", document null.";
+                return documentModel;
+            }
 
             TextSelection textSeleciont = (TextSelection)currentDocument.Selection;
 
             if (textSeleciont == null)
-                return line + ", textselecion null.";
+            {
+                documentModel.CurrentLine += ", textselecion null.";
+                return documentModel;
+            }
 
             string activeFilePath = Path.Combine(currentDocument.Path, currentDocument.Name);
 
-            return File.ReadLines(activeFilePath).Skip(textSeleciont.ActivePoint.Line - 1).Take(1).First().Trim();
+            documentModel.CurrentLineNumber = textSeleciont.ActivePoint.Line;
+            documentModel.CurrentLine = File.ReadLines(activeFilePath).Skip(textSeleciont.ActivePoint.Line - 1).Take(1).First().Trim();
+
+            return documentModel;
         }
 
         //API explorer code.

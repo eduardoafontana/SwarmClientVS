@@ -13,11 +13,11 @@ namespace SwarmClientVS.Domain.Service
         StepOver
     }
 
-    public class SessionModel
+    public class StepModel
     {
         public CurrentCommandStep CurrentCommandStep { get; set; }
         public string CurrentStackFrameFunctionName { get; set; }
         public string BreakpointLastHitName { get; set; }
-        public string CurrentDocumentLine { get; set; }
+        public DocumentModel CurrentDocument { get; set; }
     }
 }

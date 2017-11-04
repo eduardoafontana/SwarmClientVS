@@ -84,7 +84,7 @@ namespace SwarmClientVS.Domain.Service
             }
         }
 
-        public void RegisterHitted(SessionModel sessionModel)
+        public void RegisterHitted(StepModel sessionModel)
         {           
             IEventData eventData = new EventData
             {
@@ -98,15 +98,15 @@ namespace SwarmClientVS.Domain.Service
                 MethodSignature = "TODO",
                 CharStart = 0,
                 CharEnd = 0,
-                LineNumber = 0,
-                LineOfCode = sessionModel.CurrentDocumentLine,
+                LineNumber = sessionModel.CurrentDocument.CurrentLineNumber,
+                LineOfCode = sessionModel.CurrentDocument.CurrentLine,
                 Created = DateTime.Now
             };
 
             Repository.Save(eventData);
         }
 
-        public void RegisterStep(SessionModel sessionModel)
+        public void RegisterStep(StepModel sessionModel)
         {           
             IEventData eventData = new EventData
             {
@@ -120,8 +120,8 @@ namespace SwarmClientVS.Domain.Service
                 MethodSignature = "TODO",
                 CharStart = 0,
                 CharEnd = 0,
-                LineNumber = 0,
-                LineOfCode = sessionModel.CurrentDocumentLine,
+                LineNumber = sessionModel.CurrentDocument.CurrentLineNumber,
+                LineOfCode = sessionModel.CurrentDocument.CurrentLine,
                 Created = DateTime.Now
             };
 
