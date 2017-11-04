@@ -20,6 +20,26 @@ namespace SwarmClientVS.Domain.Service
 
         private List<BreakpointModel> currentBreakpointsList = new List<BreakpointModel>();
 
+        public void RegisterAlreadyAddedBreakpoints(List<BreakpointModel> breakpoints)
+        {
+            foreach (BreakpointModel item in breakpoints)
+            {
+                BreakpointData breakpointData = new BreakpointData
+                {
+                    BreakpointKind = BreakpointKind.Line.ToString(),
+                    Namespace = "TODO",
+                    Type = "AlreadyAdded",
+                    LineNumber = item.FileLine,
+                    LineOfCode = item.FunctionName + "|" + item.Name,
+                    Created = DateTime.Now
+                };
+
+                Repository.Save(breakpointData);
+
+                currentBreakpointsList.Add(item);
+            }
+        }
+
         public void VerifyBreakpointAddedOne(List<BreakpointModel> breakpoints)
         {
             List<BreakpointModel> newBreakpointsList = breakpoints.Where(n => !currentBreakpointsList.Any(o => o.Name == n.Name)).ToList();

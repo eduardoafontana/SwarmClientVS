@@ -84,15 +84,17 @@ namespace SwarmClientVS
             commandEvents = applicationObject.Events.CommandEvents;
             currentCommandStep = CurrentCommandStep.StepInto;
 
+            VerifyBreakpointAlreadyAdded(applicationObject);            
+
             debugEvents.OnEnterBreakMode += delegate (dbgEventReason reason, ref dbgExecutionAction action)
             {
-                DTE2 dte2 = (DTE2)GetService(typeof(DTE));
+                DTE2 dte = (DTE2)GetService(typeof(DTE));
 
                 if (reason == dbgEventReason.dbgEventReasonBreakpoint)//Breakpoint is hitted
-                    scSession.RegisterHitted(new SessionModel() { CurrentStackFrameFunctionName = dte2.Debugger.CurrentStackFrame.FunctionName, BreakpointLastHitName = dte2.Debugger.BreakpointLastHit.Name, CurrentDocumentLine = GetCurrentDocumentLine(dte2.ActiveDocument) });
+                    scSession.RegisterHitted(new SessionModel() { CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName, BreakpointLastHitName = dte.Debugger.BreakpointLastHit.Name, CurrentDocumentLine = GetCurrentDocumentLine(dte.ActiveDocument) });
 
                 if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
-                    scSession.RegisterStep(new SessionModel() { CurrentCommandStep = currentCommandStep, CurrentStackFrameFunctionName = dte2.Debugger.CurrentStackFrame.FunctionName, CurrentDocumentLine = GetCurrentDocumentLine(dte2.ActiveDocument) });
+                    scSession.RegisterStep(new SessionModel() { CurrentCommandStep = currentCommandStep, CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName, CurrentDocumentLine = GetCurrentDocumentLine(dte.ActiveDocument) });
             };
 
             commandEvents.BeforeExecute += delegate(string Guid, int ID, object CustomIn, object CustomOut, ref bool CancelDefault)
@@ -103,31 +105,58 @@ namespace SwarmClientVS
 
             commandEvents.AfterExecute += delegate (string Guid, int ID, object CustomIn, object CustomOut)
             {
-                DTE2 dte2 = (DTE2)GetService(typeof(DTE));
+                DTE2 dte = (DTE2)GetService(typeof(DTE));
 
-                if (dte2.Debugger == null)//Enexpected situation
-                    return;
+                VerifyBreakpointAddedRemoved(ID, dte);
 
-                if (ID == 769)//The event code for breakpoint add
-                    scSession.VerifyBreakpointAddedOne(dte2.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => new BreakpointModel(x.Name, x.FunctionName, x.FileLine)).ToList());
-                else//The other event code that can represent a removed breakpoint. There is no especific event code for breakpoint remotion.
-                    scSession.VerifyBreakpointRemovedOne(dte2.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => new BreakpointModel(x.Name, x.FunctionName, x.FileLine)).ToList());
-
-                EnvDTE.Command command = dte2.Commands.Item(Guid, ID);
-
-                if (command == null)
-                    return;
-
-                switch (command.Name)
-                {
-                    case "Debug.StepInto": currentCommandStep = CurrentCommandStep.StepInto; break;
-                    case "Debug.StepOver": currentCommandStep = CurrentCommandStep.StepOver; break;
-                    case "Debug.StepOut": currentCommandStep = CurrentCommandStep.StepOut; break;
-                }
+                VerifyCommandStep(Guid, ID, dte);
 
                 //API explorer code.
                 //CommandEventsAfterBeforeMonitoring("After", Guid, ID, CustomIn, CustomOut);
             };
+        }
+
+        private void VerifyBreakpointAlreadyAdded(DTE2 dte)
+        {
+            if (dte.Debugger == null)
+                return;
+
+            if (dte.Debugger.Breakpoints == null)
+                return;
+
+            scSession.RegisterAlreadyAddedBreakpoints(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => new BreakpointModel(x.Name, x.FunctionName, x.FileLine)).ToList());
+        }
+
+        private void VerifyCommandStep(string Guid, int ID, DTE2 dte)
+        {
+            if (dte.Commands == null)
+                return;
+
+            EnvDTE.Command command = dte.Commands.Item(Guid, ID);
+
+            if (command == null)
+                return;
+
+            switch (command.Name)
+            {
+                case "Debug.StepInto": currentCommandStep = CurrentCommandStep.StepInto; break;
+                case "Debug.StepOver": currentCommandStep = CurrentCommandStep.StepOver; break;
+                case "Debug.StepOut": currentCommandStep = CurrentCommandStep.StepOut; break;
+            }
+        }
+
+        private void VerifyBreakpointAddedRemoved(int ID, DTE2 dte)
+        {
+            if (dte.Debugger == null)
+                return;
+
+            if (dte.Debugger.Breakpoints == null)
+                return;
+
+            if (ID == 769)//The event code for breakpoint add
+                scSession.VerifyBreakpointAddedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => new BreakpointModel(x.Name, x.FunctionName, x.FileLine)).ToList());
+            else//The other event code that can represent a removed breakpoint. There is no especific event code for breakpoint remotion.
+                scSession.VerifyBreakpointRemovedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => new BreakpointModel(x.Name, x.FunctionName, x.FileLine)).ToList());
         }
 
         private string GetCurrentDocumentLine(Document currentDocument)
@@ -150,11 +179,11 @@ namespace SwarmClientVS
         //API explorer code.
         private void CommandEventsAfterBeforeMonitoring(string origin, string Guid, int ID, object CustomIn, object CustomOut)
         {
-            DTE2 ao1 = (DTE2)GetService(typeof(DTE));
+            DTE2 dte = (DTE2)GetService(typeof(DTE));
 
-            EnvDTE.Command command = ao1.Commands.Item(Guid, ID);
+            EnvDTE.Command command = dte.Commands.Item(Guid, ID);
 
-            Debug.WriteLine(String.Format("{0}|{1}|{2}|{3}|{4}|{5}{6}", origin, command.ID, CustomIn, CustomOut, command.Name, command.LocalizedName, ao1.CommandLineArguments));
+            Debug.WriteLine(String.Format("{0}|{1}|{2}|{3}|{4}|{5}{6}", origin, command.ID, CustomIn, CustomOut, command.Name, command.LocalizedName, dte.CommandLineArguments));
         }
         #endregion
     }
