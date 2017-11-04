@@ -6,16 +6,9 @@ using System.Threading.Tasks;
 
 namespace SwarmClientVS.Domain.IRepository
 {
-    public enum BreakpointKind
-    {
-        Line,
-        Conditional,
-        Exception
-    };
-
     public interface IBreakpointData : IData
     {
-        BreakpointKind BreakpointKind { get; set; }
+        string BreakpointKind { get; set; }
         string Namespace { get; set; }
         string Type { get; set; }
         int LineNumber { get; set; }

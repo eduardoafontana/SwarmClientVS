@@ -26,8 +26,17 @@ namespace SwarmClientVS.Domain.Service
 
             foreach (BreakpointModel item in newBreakpointsList)
             {
-                //Repository.SaveLog(String.Format("Added: {0}", item.ToString()));
-                //SCLog.WriteLog(String.Format("Added: {0}", item.ToString()));
+                BreakpointData breakpointData = new BreakpointData
+                {
+                    BreakpointKind = BreakpointKind.Line.ToString(),
+                    Namespace = "TODO",
+                    Type = "Added",
+                    LineNumber = item.FileLine,
+                    LineOfCode = item.FunctionName + "|" + item.Name,
+                    Created = DateTime.Now
+                };
+
+                Repository.Save(breakpointData);
 
                 currentBreakpointsList.Add(item);
             }
@@ -39,7 +48,17 @@ namespace SwarmClientVS.Domain.Service
 
             foreach (BreakpointModel item in newBreakpointsList)
             {
-                //SCLog.WriteLog(String.Format("Removed: {0}", item.ToString()));
+                BreakpointData breakpointData = new BreakpointData
+                {
+                    BreakpointKind = BreakpointKind.Line.ToString(),
+                    Namespace = "TODO",
+                    Type = "Removed",
+                    LineNumber = item.FileLine,
+                    LineOfCode = item.FunctionName + "|" + item.Name,
+                    Created = DateTime.Now
+                };
+
+                Repository.Save(breakpointData);
 
                 currentBreakpointsList.Remove(item);
             }

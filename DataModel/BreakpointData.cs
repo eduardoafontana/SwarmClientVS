@@ -7,9 +7,16 @@ using SwarmClientVS.Domain.IRepository;
 
 namespace SwarmClientVS.Domain.DataModel
 {
+    public enum BreakpointKind
+    {
+        Line,
+        Conditional,
+        Exception
+    };
+
     public class BreakpointData : IBreakpointData
     {
-        public BreakpointKind BreakpointKind { get; set; }
+        public string BreakpointKind { get; set; }
         public string Namespace { get; set; }
         public string Type { get; set; }
         public int LineNumber { get; set; }
