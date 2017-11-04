@@ -8,9 +8,9 @@ namespace SwarmClientVS.Domain.Service
 {
     public enum CurrentCommandStep
     {
+        StepOut,
         StepInto,
-        StepOver,
-        StepOut
+        StepOver
     }
 
     public class SessionModel
