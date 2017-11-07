@@ -94,7 +94,20 @@ namespace SwarmClientVS
                     scSession.RegisterHitted(new StepModel { CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName, BreakpointLastHitName = dte.Debugger.BreakpointLastHit.Name, CurrentDocument = GetCurrentDocumentModel(dte.ActiveDocument) });
 
                 if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
-                    scSession.RegisterStep(new StepModel { CurrentCommandStep = currentCommandStep, CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName, CurrentDocument = GetCurrentDocumentModel(dte.ActiveDocument) });
+                {
+                    //string module = dte.Debugger.CurrentStackFrame.Module;
+                    //dbgEventReason lastReason = dte.Debugger.LastBreakReason;
+                    //string pname = dte.Debugger.CurrentProgram.Name;
+                    //dbgDebugMode mode = dte.Debugger.CurrentMode;
+
+                    //try
+                    //{
+                    //    Expression exp = dte.Debugger.CurrentStackFrame.Locals.Item(1);
+                    //}
+                    //catch { }
+
+                 scSession.RegisterStep(new StepModel { CurrentCommandStep = currentCommandStep, CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName, CurrentDocument = GetCurrentDocumentModel(dte.ActiveDocument) });
+                }
             };
 
             commandEvents.BeforeExecute += delegate(string Guid, int ID, object CustomIn, object CustomOut, ref bool CancelDefault)
@@ -164,12 +177,14 @@ namespace SwarmClientVS
             DocumentModel documentModel = new DocumentModel
             {
                 CurrentLine = "Fail to get line",
-                CurrentLineNumber = -1
+                CurrentLineNumber = -1,
+                Namespace = "Fail to get namespace"
             };
 
             if (currentDocument == null)
             {
                 documentModel.CurrentLine += ", document null.";
+                documentModel.Namespace += ", document null.";
                 return documentModel;
             }
 
@@ -178,6 +193,7 @@ namespace SwarmClientVS
             if (textSeleciont == null)
             {
                 documentModel.CurrentLine += ", textselecion null.";
+                documentModel.Namespace += ", textselecion null.";
                 return documentModel;
             }
 
@@ -185,6 +201,7 @@ namespace SwarmClientVS
 
             documentModel.CurrentLineNumber = textSeleciont.ActivePoint.Line;
             documentModel.CurrentLine = File.ReadLines(activeFilePath).Skip(textSeleciont.ActivePoint.Line - 1).Take(1).First().Trim();
+            documentModel.Namespace = File.ReadLines(activeFilePath).Where(p => p.IndexOf("namespace") >= 0).Take(1).First().Replace("namespace", "").Trim();
 
             return documentModel;
         }

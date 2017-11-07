@@ -90,7 +90,7 @@ namespace SwarmClientVS.Domain.Service
             {
                 EventKind = EventKind.BreakpointHitted.ToString(),
                 Detail = sessionModel.BreakpointLastHitName,
-                Namespace = "TODO",
+                Namespace = sessionModel.CurrentDocument.Namespace,
                 Type = "TODO",
                 TypeFullPath = "TODO",
                 Method = sessionModel.CurrentStackFrameFunctionName,
@@ -107,12 +107,12 @@ namespace SwarmClientVS.Domain.Service
         }
 
         public void RegisterStep(StepModel sessionModel)
-        {           
+        {
             IEventData eventData = new EventData
             {
                 EventKind = ((EventKind)sessionModel.CurrentCommandStep).ToString(),
                 Detail = "TODO",
-                Namespace = "TODO",
+                Namespace = sessionModel.CurrentDocument.Namespace,
                 Type = "TODO",
                 TypeFullPath = "TODO",
                 Method = sessionModel.CurrentStackFrameFunctionName,
