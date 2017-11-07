@@ -7,5 +7,7 @@ namespace SwarmClientVS.Domain.Service
         public string CurrentLine { get; set; }
         public int CurrentLineNumber { get; set; }
         public string Namespace { get; set; }
+        public int StartLineText { get; set; }
+        public int EndLineText { get; set; }
     }
 }

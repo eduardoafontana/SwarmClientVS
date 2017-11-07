@@ -47,6 +47,8 @@ namespace SwarmClientVS
                 documentModel.Namespace += ", namespace word not found.";
 
             documentModel.Namespace = TryGetCurrentNameSpace(namespaceLine);
+            documentModel.StartLineText = textSelection.CurrentColumn;
+            documentModel.EndLineText = textSelection.ActivePoint.LineLength;
 
             return documentModel;
         }

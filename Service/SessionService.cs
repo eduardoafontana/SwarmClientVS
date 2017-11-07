@@ -96,8 +96,8 @@ namespace SwarmClientVS.Domain.Service
                 Method = sessionModel.CurrentStackFrameFunctionName,
                 MethodKey = "TODO",
                 MethodSignature = "TODO",
-                CharStart = 0,
-                CharEnd = 0,
+                CharStart = sessionModel.CurrentDocument.StartLineText,
+                CharEnd = sessionModel.CurrentDocument.EndLineText,
                 LineNumber = sessionModel.CurrentDocument.CurrentLineNumber,
                 LineOfCode = sessionModel.CurrentDocument.CurrentLine,
                 Created = DateTime.Now
@@ -118,8 +118,8 @@ namespace SwarmClientVS.Domain.Service
                 Method = sessionModel.CurrentStackFrameFunctionName,
                 MethodKey = "TODO",
                 MethodSignature = "TODO",
-                //CharStart = sessionModel.CurrentDocument,
-                CharEnd = 0,
+                CharStart = sessionModel.CurrentDocument.StartLineText,
+                CharEnd = sessionModel.CurrentDocument.EndLineText,
                 LineNumber = sessionModel.CurrentDocument.CurrentLineNumber,
                 LineOfCode = sessionModel.CurrentDocument.CurrentLine,
                 Created = DateTime.Now
