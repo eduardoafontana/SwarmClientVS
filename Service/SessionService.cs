@@ -118,7 +118,7 @@ namespace SwarmClientVS.Domain.Service
                 Method = sessionModel.CurrentStackFrameFunctionName,
                 MethodKey = "TODO",
                 MethodSignature = "TODO",
-                CharStart = 0,
+                //CharStart = sessionModel.CurrentDocument,
                 CharEnd = 0,
                 LineNumber = sessionModel.CurrentDocument.CurrentLineNumber,
                 LineOfCode = sessionModel.CurrentDocument.CurrentLine,
