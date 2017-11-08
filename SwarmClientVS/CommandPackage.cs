@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Runtime.InteropServices;
 using Microsoft.VisualStudio;
+using Microsoft.VisualStudio.PlatformUI;
 using Microsoft.VisualStudio.OLE.Interop;
 using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
@@ -51,6 +52,7 @@ namespace SwarmClientVS
         private DTE2 applicationObject;
         private DebuggerEvents debugEvents;
         private CommandEvents commandEvents;
+        private SolutionEvents solutionEvents;
         private SessionService scSession;
         private CurrentCommandStep currentCommandStep;
 
@@ -82,52 +84,60 @@ namespace SwarmClientVS
             applicationObject = (DTE2)GetService(typeof(DTE));
             debugEvents = applicationObject.Events.DebuggerEvents;
             commandEvents = applicationObject.Events.CommandEvents;
+            solutionEvents = applicationObject.Events.SolutionEvents;
             currentCommandStep = CurrentCommandStep.StepInto;
 
             VerifyBreakpointAlreadyAdded(applicationObject);
 
-            debugEvents.OnEnterBreakMode += delegate (dbgEventReason reason, ref dbgExecutionAction action)
-            {
-                DTE2 dte = (DTE2)GetService(typeof(DTE));
+            solutionEvents.Opened += SolutionEvents_Opened;
+            debugEvents.OnEnterBreakMode += DebugEvents_OnEnterBreakMode;
+            commandEvents.AfterExecute += CommandEvents_AfterExecute;
+        }
 
-                if (reason == dbgEventReason.dbgEventReasonBreakpoint)//Breakpoint is hitted
-                    scSession.RegisterHitted(
-                        new StepModel
-                        {
-                            CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName,
-                            BreakpointLastHitName = dte.Debugger.BreakpointLastHit.Name,
-                            CurrentDocument = DocumentModelBuilder.Build(dte.ActiveDocument)
-                        }
-                   );
+        private void CommandEvents_AfterExecute(string Guid, int ID, object CustomIn, object CustomOut)
+        {
+            DTE2 dte = (DTE2)GetService(typeof(DTE));
 
-                if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
-                    scSession.RegisterStep(
-                        new StepModel
-                        {
-                            CurrentCommandStep = currentCommandStep,
-                            CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName,
-                            CurrentDocument = DocumentModelBuilder.Build(dte.ActiveDocument)
-                        }
-                   );
-            };
+            VerifyBreakpointAddedRemoved(ID, dte);
 
-            commandEvents.BeforeExecute += delegate (string Guid, int ID, object CustomIn, object CustomOut, ref bool CancelDefault)
-            {
-                //API explorer code.
-                //CommandEventsAfterBeforeMonitoring("Before", Guid, ID, CustomIn, CustomOut);
-            };
+            VerifyCommandStep(Guid, ID, dte);
 
-            commandEvents.AfterExecute += delegate (string Guid, int ID, object CustomIn, object CustomOut)
-            {
-                DTE2 dte = (DTE2)GetService(typeof(DTE));
+            //API explorer code.
+            //CommandEventsAfterBeforeMonitoring("After", Guid, ID, CustomIn, CustomOut);
+        }
 
-                VerifyBreakpointAddedRemoved(ID, dte);
+        private void DebugEvents_OnEnterBreakMode(dbgEventReason reason, ref dbgExecutionAction action)
+        {
+            DTE2 dte = (DTE2)GetService(typeof(DTE));
 
-                VerifyCommandStep(Guid, ID, dte);
+            if (reason == dbgEventReason.dbgEventReasonBreakpoint)//Breakpoint is hitted
+                scSession.RegisterHitted(
+                    new StepModel
+                    {
+                        CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName,
+                        BreakpointLastHitName = dte.Debugger.BreakpointLastHit.Name,
+                        CurrentDocument = DocumentModelBuilder.Build(dte.ActiveDocument)
+                    }
+               );
 
-                //API explorer code.
-                //CommandEventsAfterBeforeMonitoring("After", Guid, ID, CustomIn, CustomOut);
-            };
+            if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
+                scSession.RegisterStep(
+                    new StepModel
+                    {
+                        CurrentCommandStep = currentCommandStep,
+                        CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName,
+                        CurrentDocument = DocumentModelBuilder.Build(dte.ActiveDocument)
+                    }
+               );
+        }
+
+        private void SolutionEvents_Opened()
+        {
+            SessionInput window = new SessionInput();
+            window.ShowDialog();
+
+            //DialogWindow dialogWindow = new DialogWindow();
+            //dialogWindow.ShowModal();
         }
 
         private void VerifyBreakpointAlreadyAdded(DTE2 dte)
