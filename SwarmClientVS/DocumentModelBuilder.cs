@@ -11,6 +11,30 @@ namespace SwarmClientVS
 {
     public class DocumentModelBuilder
     {
+        public static DocumentModel Build(string file, int fileLine)
+        {
+            DocumentModel documentModel = new DocumentModel
+            {
+                CurrentLine = "Fail to get line",
+                CurrentLineNumber = -1,
+                Namespace = "Fail to get namespace",
+            };
+
+            documentModel.CurrentLineNumber = fileLine;
+
+            string activeFilePath = Path.Combine(file);
+
+            documentModel.CurrentLine = TryGetCurrentLineCode(activeFilePath, fileLine);
+
+            string namespaceLine = File.ReadLines(activeFilePath).Where(p => p.IndexOf("namespace") >= 0).FirstOrDefault();
+            if (String.IsNullOrEmpty(namespaceLine))
+                documentModel.Namespace += ", namespace word not found.";
+
+            documentModel.Namespace = TryGetCurrentNameSpace(namespaceLine);
+
+            return documentModel;
+        }
+
         public static DocumentModel Build(Document currentDocument)
         {
             DocumentModel documentModel = new DocumentModel

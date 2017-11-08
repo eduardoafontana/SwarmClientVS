@@ -27,10 +27,11 @@ namespace SwarmClientVS.Domain.Service
                 BreakpointData breakpointData = new BreakpointData
                 {
                     BreakpointKind = BreakpointKind.Line.ToString(),
-                    Namespace = "TODO",
+                    Namespace = item.DocumentModel.Namespace,
                     Type = "AlreadyAdded",
                     LineNumber = item.FileLine,
-                    LineOfCode = item.FunctionName + "|" + item.Name,
+                    //LineOfCode = item.FunctionName + "|" + item.Name,
+                    LineOfCode = item.DocumentModel.CurrentLine,
                     Created = DateTime.Now
                 };
 
@@ -49,10 +50,11 @@ namespace SwarmClientVS.Domain.Service
                 BreakpointData breakpointData = new BreakpointData
                 {
                     BreakpointKind = BreakpointKind.Line.ToString(),
-                    Namespace = "TODO",
+                    Namespace = item.DocumentModel.Namespace,
                     Type = "Added",
                     LineNumber = item.FileLine,
-                    LineOfCode = item.FunctionName + "|" + item.Name,
+                    //LineOfCode = item.FunctionName + "|" + item.Name,
+                    LineOfCode = item.DocumentModel.CurrentLine,
                     Created = DateTime.Now
                 };
 
@@ -71,10 +73,11 @@ namespace SwarmClientVS.Domain.Service
                 BreakpointData breakpointData = new BreakpointData
                 {
                     BreakpointKind = BreakpointKind.Line.ToString(),
-                    Namespace = "TODO",
+                    Namespace = item.DocumentModel.Namespace,
                     Type = "Removed",
                     LineNumber = item.FileLine,
-                    LineOfCode = item.FunctionName + "|" + item.Name,
+                    //LineOfCode = item.FunctionName + "|" + item.Name,
+                    LineOfCode = item.DocumentModel.CurrentLine,
                     Created = DateTime.Now
                 };
 

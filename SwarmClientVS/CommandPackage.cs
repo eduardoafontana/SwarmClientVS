@@ -138,7 +138,15 @@ namespace SwarmClientVS
             if (dte.Debugger.Breakpoints == null)
                 return;
 
-            scSession.RegisterAlreadyAddedBreakpoints(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => new BreakpointModel(x.Name, x.FunctionName, x.FileLine)).ToList());
+            scSession.RegisterAlreadyAddedBreakpoints(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => 
+                new BreakpointModel
+                {
+                    Name = x.Name,
+                    FunctionName = x.FunctionName,
+                    FileLine = x.FileLine,
+                    DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine)
+                }
+            ).ToList());
         }
 
         private void VerifyCommandStep(string Guid, int ID, DTE2 dte)
@@ -168,9 +176,25 @@ namespace SwarmClientVS
                 return;
 
             if (ID == 769)//The event code for breakpoint add
-                scSession.VerifyBreakpointAddedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => new BreakpointModel(x.Name, x.FunctionName, x.FileLine)).ToList());
+                scSession.VerifyBreakpointAddedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x =>
+                    new BreakpointModel
+                    {
+                        Name = x.Name,
+                        FunctionName = x.FunctionName,
+                        FileLine = x.FileLine,
+                        DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine)
+                    }
+                ).ToList());
             else//The other event code that can represent a removed breakpoint. There is no especific event code for breakpoint remotion.
-                scSession.VerifyBreakpointRemovedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => new BreakpointModel(x.Name, x.FunctionName, x.FileLine)).ToList());
+                scSession.VerifyBreakpointRemovedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => 
+                    new BreakpointModel
+                    {
+                        Name = x.Name,
+                        FunctionName = x.FunctionName,
+                        FileLine = x.FileLine,
+                        DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine)
+                    }
+                ).ToList());
         }
 
         //API explorer code.
