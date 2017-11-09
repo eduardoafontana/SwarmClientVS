@@ -78,16 +78,11 @@ namespace SwarmClientVS
             Command.Initialize(this);
             base.Initialize();
 
-            scSession = new SessionService(new RepositoryLog());
-            scSession.RegisterNewSession();
-
             applicationObject = (DTE2)GetService(typeof(DTE));
             debugEvents = applicationObject.Events.DebuggerEvents;
             commandEvents = applicationObject.Events.CommandEvents;
             solutionEvents = applicationObject.Events.SolutionEvents;
             currentCommandStep = CurrentCommandStep.StepInto;
-
-            VerifyBreakpointAlreadyAdded(applicationObject);
 
             solutionEvents.Opened += SolutionEvents_Opened;
             debugEvents.OnEnterBreakMode += DebugEvents_OnEnterBreakMode;
@@ -133,8 +128,14 @@ namespace SwarmClientVS
 
         private void SolutionEvents_Opened()
         {
-            SessionInput window = new SessionInput();
-            window.ShowDialog();
+            scSession = new SessionService(new RepositoryLog());
+            scSession.RegisterNewSession();
+
+            VerifyBreakpointAlreadyAdded(applicationObject);
+
+            //Good way
+            //SessionInput window = new SessionInput();
+            //window.ShowDialog();
 
             //DialogWindow dialogWindow = new DialogWindow();
             //dialogWindow.ShowModal();

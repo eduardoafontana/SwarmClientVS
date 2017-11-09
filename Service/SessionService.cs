@@ -141,6 +141,7 @@ namespace SwarmClientVS.Domain.Service
                 Started = DateTime.Now
             };
 
+            Repository.GenerateIdentifier();
             Repository.Save(sessionData);
         }
     }

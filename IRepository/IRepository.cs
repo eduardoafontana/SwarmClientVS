@@ -8,6 +8,7 @@ namespace SwarmClientVS.Domain.IRepository
 {
     public interface IRepository<T> where T : IData
     {
+        void GenerateIdentifier();
         void Save(T dataModel);
     }
 }
