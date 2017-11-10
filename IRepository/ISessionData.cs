@@ -13,5 +13,11 @@ namespace SwarmClientVS.Domain.IRepository
         string Purpose { get; set; }
         DateTime Started { get; set; }
         DateTime Finished { get; set; }
+        List<IBreakpointData> Breakpoint { get; set; }
+        List<IEventData> Event { get; set; }
+        List<IPathNodeData> PathNode { get; set; }
+        List<IProjectData> Project { get; set; }
+        List<ITaskData> Task { get; set; }
+        List<IDeveloperData> Developer { get; set; }
     }
 }

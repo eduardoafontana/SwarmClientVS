@@ -12,6 +12,7 @@ namespace SwarmClientVS.Domain.Service
     public class SessionService
     {
         private IRepository<IData> Repository { get; set; }
+        private ISessionData CurrentSession { get; set; }
 
         public SessionService(IRepository<IData> repository)
         {
@@ -35,7 +36,8 @@ namespace SwarmClientVS.Domain.Service
                     Created = DateTime.Now
                 };
 
-                Repository.Save(breakpointData);
+                CurrentSession.Breakpoint.Add(breakpointData);
+                Repository.Save(CurrentSession);
 
                 currentBreakpointsList.Add(item);
             }
@@ -58,7 +60,8 @@ namespace SwarmClientVS.Domain.Service
                     Created = DateTime.Now
                 };
 
-                Repository.Save(breakpointData);
+                CurrentSession.Breakpoint.Add(breakpointData);
+                Repository.Save(CurrentSession);
 
                 currentBreakpointsList.Add(item);
             }
@@ -81,7 +84,8 @@ namespace SwarmClientVS.Domain.Service
                     Created = DateTime.Now
                 };
 
-                Repository.Save(breakpointData);
+                CurrentSession.Breakpoint.Add(breakpointData);
+                Repository.Save(CurrentSession);
 
                 currentBreakpointsList.Remove(item);
             }
@@ -106,7 +110,8 @@ namespace SwarmClientVS.Domain.Service
                 Created = DateTime.Now
             };
 
-            Repository.Save(eventData);
+            CurrentSession.Event.Add(eventData);
+            Repository.Save(CurrentSession);
         }
 
         public void RegisterStep(StepModel sessionModel)
@@ -128,12 +133,13 @@ namespace SwarmClientVS.Domain.Service
                 Created = DateTime.Now
             };
 
-            Repository.Save(eventData);
+            CurrentSession.Event.Add(eventData);
+            Repository.Save(CurrentSession);
         }
 
         public void RegisterNewSession()
-        {           
-            ISessionData sessionData = new SessionData
+        {
+            CurrentSession = new SessionData
             {
                 Description = "Description...",
                 Label = "Fixed session, not implemented yet.",
@@ -142,7 +148,7 @@ namespace SwarmClientVS.Domain.Service
             };
 
             Repository.GenerateIdentifier();
-            Repository.Save(sessionData);
+            Repository.Save(CurrentSession);
         }
     }
 }

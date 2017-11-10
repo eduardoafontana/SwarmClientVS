@@ -37,11 +37,11 @@ namespace SwarmClientVS.DataLog.FileLog
 
         public void Save(IData dataModel)
         {
-            string objJsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dataModel);
+            string objJsonData = Newtonsoft.Json.JsonConvert.SerializeObject(dataModel, Newtonsoft.Json.Formatting.Indented);
 
-            using (StreamWriter file = new StreamWriter(FileName, true, Encoding.UTF8))
+            using (StreamWriter file = new StreamWriter(FileName, false, Encoding.UTF8))
             {
-                file.WriteLine(objJsonData);
+                file.Write(objJsonData);
             }
         }
     }
