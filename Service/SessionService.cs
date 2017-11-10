@@ -20,26 +20,45 @@ namespace SwarmClientVS.Domain.Service
         }
 
         private List<BreakpointModel> currentBreakpointsList = new List<BreakpointModel>();
+        private List<BreakpointModel> dataBreakpointsList = new List<BreakpointModel>();
 
         public void RegisterAlreadyAddedBreakpoints(List<BreakpointModel> breakpoints)
         {
             foreach (BreakpointModel item in breakpoints)
             {
+                currentBreakpointsList.Add(item);
+                dataBreakpointsList.Add(item);
+
+                IEventData eventData = new EventData
+                {
+                    EventKind = EventKind.BreakpointAdd.ToString(),
+                    Detail = item.Name,
+                    Namespace = item.DocumentModel.Namespace,
+                    Type = "TODO",
+                    TypeFullPath = "TODO",
+                    Method = item.FunctionName,
+                    MethodKey = "TODO",
+                    MethodSignature = "TODO",
+                    CharStart = item.StartLineText,
+                    CharEnd = item.DocumentModel.EndLineText,
+                    LineNumber = item.DocumentModel.CurrentLineNumber,
+                    LineOfCode = item.DocumentModel.CurrentLine,
+                    Created = DateTime.Now
+                };
+
                 BreakpointData breakpointData = new BreakpointData
                 {
                     BreakpointKind = BreakpointKind.Line.ToString(),
                     Namespace = item.DocumentModel.Namespace,
                     Type = "AlreadyAdded",
                     LineNumber = item.FileLine,
-                    //LineOfCode = item.FunctionName + "|" + item.Name,
                     LineOfCode = item.DocumentModel.CurrentLine,
                     Created = DateTime.Now
                 };
 
+                CurrentSession.Event.Add(eventData);
                 CurrentSession.Breakpoint.Add(breakpointData);
                 Repository.Save(CurrentSession);
-
-                currentBreakpointsList.Add(item);
             }
         }
 
@@ -49,21 +68,47 @@ namespace SwarmClientVS.Domain.Service
 
             foreach (BreakpointModel item in newBreakpointsList)
             {
+                currentBreakpointsList.Add(item);
+
+                IEventData eventData = new EventData
+                {
+                    EventKind = EventKind.BreakpointAdd.ToString(),
+                    Detail = item.Name,
+                    Namespace = item.DocumentModel.Namespace,
+                    Type = "TODO",
+                    TypeFullPath = "TODO",
+                    Method = item.FunctionName,
+                    MethodKey = "TODO",
+                    MethodSignature = "TODO",
+                    CharStart = item.StartLineText,
+                    CharEnd = item.DocumentModel.EndLineText,
+                    LineNumber = item.DocumentModel.CurrentLineNumber,
+                    LineOfCode = item.DocumentModel.CurrentLine,
+                    Created = DateTime.Now
+                };
+
+                CurrentSession.Event.Add(eventData);
+                Repository.Save(CurrentSession);
+            }
+
+            List<BreakpointModel> newBreakpointsListData = breakpoints.Where(n => !dataBreakpointsList.Any(o => o.Name == n.Name)).ToList();
+
+            foreach (BreakpointModel item in newBreakpointsListData)
+            {
+                dataBreakpointsList.Add(item);
+
                 BreakpointData breakpointData = new BreakpointData
                 {
                     BreakpointKind = BreakpointKind.Line.ToString(),
                     Namespace = item.DocumentModel.Namespace,
                     Type = "Added",
                     LineNumber = item.FileLine,
-                    //LineOfCode = item.FunctionName + "|" + item.Name,
                     LineOfCode = item.DocumentModel.CurrentLine,
                     Created = DateTime.Now
                 };
 
                 CurrentSession.Breakpoint.Add(breakpointData);
                 Repository.Save(CurrentSession);
-
-                currentBreakpointsList.Add(item);
             }
         }
 
@@ -73,21 +118,27 @@ namespace SwarmClientVS.Domain.Service
 
             foreach (BreakpointModel item in newBreakpointsList)
             {
-                BreakpointData breakpointData = new BreakpointData
+                currentBreakpointsList.Remove(item);
+
+                IEventData eventData = new EventData
                 {
-                    BreakpointKind = BreakpointKind.Line.ToString(),
+                    EventKind = EventKind.BreakpointRemove.ToString(),
+                    Detail = item.Name,
                     Namespace = item.DocumentModel.Namespace,
-                    Type = "Removed",
-                    LineNumber = item.FileLine,
-                    //LineOfCode = item.FunctionName + "|" + item.Name,
+                    Type = "TODO",
+                    TypeFullPath = "TODO",
+                    Method = item.FunctionName,
+                    MethodKey = "TODO",
+                    MethodSignature = "TODO",
+                    CharStart = item.StartLineText,
+                    CharEnd = item.DocumentModel.EndLineText,
+                    LineNumber = item.DocumentModel.CurrentLineNumber,
                     LineOfCode = item.DocumentModel.CurrentLine,
                     Created = DateTime.Now
                 };
 
-                CurrentSession.Breakpoint.Add(breakpointData);
+                CurrentSession.Event.Add(eventData);
                 Repository.Save(CurrentSession);
-
-                currentBreakpointsList.Remove(item);
             }
         }
 

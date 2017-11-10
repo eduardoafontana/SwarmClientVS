@@ -11,12 +11,7 @@ namespace SwarmClientVS.Domain.Service
         public string Name { get; set; }
         public string FunctionName { get; set; }
         public int FileLine { get; set; }
+        public int StartLineText { get; set; }
         public DocumentModel DocumentModel { get; set; }
-
-        //TODO : Removed because not used. Review later.
-        //public override string ToString()
-        //{
-        //    return String.Format("{0}|{1}|{2}", Name, FunctionName, FileLine);
-        //}
     }
 }

@@ -149,13 +149,14 @@ namespace SwarmClientVS
             if (dte.Debugger.Breakpoints == null)
                 return;
 
-            sessionService.RegisterAlreadyAddedBreakpoints(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => 
+            sessionService.RegisterAlreadyAddedBreakpoints(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x =>
                 new BreakpointModel
                 {
                     Name = x.Name,
                     FunctionName = x.FunctionName,
                     FileLine = x.FileLine,
-                    DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine)
+                    StartLineText = x.FileColumn,
+                    DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine, x.FileColumn)
                 }
             ).ToList());
         }
@@ -193,7 +194,8 @@ namespace SwarmClientVS
                         Name = x.Name,
                         FunctionName = x.FunctionName,
                         FileLine = x.FileLine,
-                        DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine)
+                        StartLineText = x.FileColumn,
+                        DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine, x.FileColumn)
                     }
                 ).ToList());
             else//The other event code that can represent a removed breakpoint. There is no especific event code for breakpoint remotion.
@@ -203,7 +205,8 @@ namespace SwarmClientVS
                         Name = x.Name,
                         FunctionName = x.FunctionName,
                         FileLine = x.FileLine,
-                        DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine)
+                        StartLineText = x.FileColumn,
+                        DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine, x.FileColumn)
                     }
                 ).ToList());
         }

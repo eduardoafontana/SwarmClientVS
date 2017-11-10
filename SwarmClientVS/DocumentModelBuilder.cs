@@ -11,7 +11,7 @@ namespace SwarmClientVS
 {
     public class DocumentModelBuilder
     {
-        public static DocumentModel Build(string file, int fileLine)
+        public static DocumentModel Build(string file, int fileLine, int fileColumn)
         {
             DocumentModel documentModel = new DocumentModel
             {
@@ -31,6 +31,7 @@ namespace SwarmClientVS
                 documentModel.Namespace += ", namespace word not found.";
 
             documentModel.Namespace = TryGetCurrentNameSpace(namespaceLine);
+            documentModel.EndLineText = fileColumn + documentModel.CurrentLine.Length;
 
             return documentModel;
         }
