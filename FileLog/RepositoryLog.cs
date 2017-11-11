@@ -13,8 +13,8 @@ namespace SwarmClientVS.DataLog.FileLog
         private string Identifier { get; set; }
         private string DirectoryPath { get { return @".\SwarmData"; } }
 
-        private string DefaultFilePath { get { return String.Format(@".\{0}\json-default.txt", DirectoryPath); } }
-        private string IdentifierFilePath { get { return String.Format(@".\{0}\{1}.txt", DirectoryPath, Identifier); } }
+        private string DefaultFilePath { get { return String.Format(@".\{0}\swarm-input-data.txt", DirectoryPath); } }
+        private string IdentifierFilePath { get { return String.Format(@".\{0}\session-{1}.txt", DirectoryPath, Identifier); } }
 
         private string FileName
         {

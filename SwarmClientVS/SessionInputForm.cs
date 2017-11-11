@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using SwarmClientVS.DataLog.FileLog;
 using SwarmClientVS.Domain.IRepository;
 using SwarmClientVS.Domain.Service;
 
@@ -15,12 +16,21 @@ namespace SwarmClientVS
     public partial class SessionInputForm : Form
     {
         private SessionService SessionService;
+        private SessionInputService SessionInputService;
 
         public SessionInputForm(SessionService sessionService)
         {
             InitializeComponent();
 
             SessionService = sessionService;
+            SessionInputService = new SessionInputService(new RepositoryLog());
+
+            LoadInputData();
+        }
+
+        private void LoadInputData()
+        {
+            SessionInputService.Test();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
