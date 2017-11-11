@@ -133,7 +133,7 @@ namespace SwarmClientVS
 
             VerifyBreakpointAlreadyAdded(applicationObject);
 
-            SessionInput window = new SessionInput(sessionService);
+            SessionInputForm window = new SessionInputForm(sessionService);
             window.ShowDialog();
         }
 

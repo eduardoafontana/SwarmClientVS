@@ -12,11 +12,11 @@ using SwarmClientVS.Domain.Service;
 
 namespace SwarmClientVS
 {
-    public partial class SessionInput : Form
+    public partial class SessionInputForm : Form
     {
         private SessionService SessionService;
 
-        public SessionInput(SessionService sessionService)
+        public SessionInputForm(SessionService sessionService)
         {
             InitializeComponent();
 

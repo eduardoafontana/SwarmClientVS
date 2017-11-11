@@ -1,6 +1,6 @@
 ﻿namespace SwarmClientVS
 {
-    partial class SessionInput
+    partial class SessionInputForm
     {
         /// <summary>
         /// Required designer variable.
