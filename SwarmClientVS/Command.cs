@@ -101,8 +101,9 @@ namespace SwarmClientVS
             //    OLEMSGBUTTON.OLEMSGBUTTON_OK,
             //    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
 
-            SessionInput window = new SessionInput();
-            window.Show();
+            //TODO implement later
+            //SessionInput window = new SessionInput();
+            //window.Show();
         }
     }
 }

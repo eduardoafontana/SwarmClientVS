@@ -46,6 +46,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DeveloperData.cs" />
+    <Compile Include="ProjectData.cs" />
     <Compile Include="TaskData.cs" />
     <Compile Include="SessionData.cs" />
     <Compile Include="PathNodeData.cs" />

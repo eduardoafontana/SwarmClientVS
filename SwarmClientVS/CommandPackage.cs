@@ -133,12 +133,8 @@ namespace SwarmClientVS
 
             VerifyBreakpointAlreadyAdded(applicationObject);
 
-            //Good way
-            SessionInput window = new SessionInput();
+            SessionInput window = new SessionInput(sessionService);
             window.ShowDialog();
-
-            //DialogWindow dialogWindow = new DialogWindow();
-            //dialogWindow.ShowModal();
         }
 
         private void VerifyBreakpointAlreadyAdded(DTE2 dte)

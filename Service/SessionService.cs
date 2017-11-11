@@ -22,6 +22,27 @@ namespace SwarmClientVS.Domain.Service
         private List<BreakpointModel> currentBreakpointsList = new List<BreakpointModel>();
         private List<BreakpointModel> dataBreakpointsList = new List<BreakpointModel>();
 
+        public void RegisterSessionInformation(SessionModel sessionModel)
+        {
+            CurrentSession.Task = new TaskData
+            {
+                Name = sessionModel.Task,
+                Description = "TODO",
+                Project = new ProjectData
+                {
+                    Name = sessionModel.Project,
+                    Description = "TODO"
+                }
+            };
+
+            CurrentSession.Developer = new DeveloperData
+            {
+                Name = sessionModel.Developer
+            };
+
+            Repository.Save(CurrentSession);
+        }
+
         public void RegisterAlreadyAddedBreakpoints(List<BreakpointModel> breakpoints)
         {
             foreach (BreakpointModel item in breakpoints)
@@ -143,7 +164,7 @@ namespace SwarmClientVS.Domain.Service
         }
 
         public void RegisterHitted(StepModel sessionModel)
-        {           
+        {
             IEventData eventData = new EventData
             {
                 EventKind = EventKind.BreakpointHitted.ToString(),

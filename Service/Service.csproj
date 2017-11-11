@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BreakpointModel.cs" />
+    <Compile Include="SessionModel.cs" />
     <Compile Include="DocumentModel.cs" />
     <Compile Include="SessionService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
