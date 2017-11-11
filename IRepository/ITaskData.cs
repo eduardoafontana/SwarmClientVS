@@ -10,5 +10,6 @@ namespace SwarmClientVS.Domain.IRepository
     {
         string Name { get; set; }
         string Description { get; set; }
+        IProjectData Project { get; set; }
     }
 }

@@ -134,8 +134,8 @@ namespace SwarmClientVS
             VerifyBreakpointAlreadyAdded(applicationObject);
 
             //Good way
-            //SessionInput window = new SessionInput();
-            //window.ShowDialog();
+            SessionInput window = new SessionInput();
+            window.ShowDialog();
 
             //DialogWindow dialogWindow = new DialogWindow();
             //dialogWindow.ShowModal();

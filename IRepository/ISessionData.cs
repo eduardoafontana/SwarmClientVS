@@ -16,8 +16,7 @@ namespace SwarmClientVS.Domain.IRepository
         List<IBreakpointData> Breakpoint { get; set; }
         List<IEventData> Event { get; set; }
         List<IPathNodeData> PathNode { get; set; }
-        List<IProjectData> Project { get; set; }
-        List<ITaskData> Task { get; set; }
-        List<IDeveloperData> Developer { get; set; }
+        ITaskData Task { get; set; }
+        IDeveloperData Developer { get; set; }
     }
 }
