@@ -30,7 +30,7 @@ namespace SwarmClientVS
 
         private void LoadInputData()
         {
-            SessionInputService.Test();
+            SessionInputService.GetTask();
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -41,6 +41,8 @@ namespace SwarmClientVS
                 Task = txtTaskTitle.Text,
                 Developer = txtDeveloper.Text
             });
+
+            SessionInputService.SaveTask();
 
             Close();
         }

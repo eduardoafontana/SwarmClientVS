@@ -10,5 +10,6 @@ namespace SwarmClientVS.Domain.IRepository
     {
         void GenerateIdentifier();
         void Save(T dataModel);
+        T Get();
     }
 }

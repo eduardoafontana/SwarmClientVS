@@ -18,7 +18,12 @@ namespace SwarmClientVS.Domain.Service
             Repository = repository;
         }
 
-        public void Test()
+        public void GetTask()
+        {
+            TaskData task = (TaskData)Repository.Get();
+        }
+
+        public void SaveTask()
         {
             Repository.Save(new TaskData
             {

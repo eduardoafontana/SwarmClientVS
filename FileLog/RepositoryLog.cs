@@ -44,5 +44,17 @@ namespace SwarmClientVS.DataLog.FileLog
                 file.Write(objJsonData);
             }
         }
+
+        public IData Get()
+        {
+            string objJsonData = String.Empty;
+
+            using (StreamReader file = new StreamReader(FileName, Encoding.UTF8))
+            {
+                objJsonData = file.ReadToEnd();
+            }
+
+            return (IData)Newtonsoft.Json.JsonConvert.DeserializeObject(objJsonData); 
+        }
     }
 }
