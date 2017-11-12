@@ -33,7 +33,9 @@ namespace SwarmClientVS
             SessionModel sessionModel = SessionInputService.GetInputDataState();
            
             txtProjectTitle.Text = sessionModel.Project;
+            txtProjectDescription.Text = sessionModel.ProjectDescription;
             txtTaskTitle.Text = sessionModel.Task;
+            txtTaskDescription.Text = sessionModel.TaskDescription;
             txtDeveloper.Text = sessionModel.Developer;
         }
 
@@ -42,14 +44,18 @@ namespace SwarmClientVS
             SessionService.RegisterSessionInformation(new SessionModel
             {
                 Project = txtProjectTitle.Text,
+                ProjectDescription = txtProjectDescription.Text,
                 Task = txtTaskTitle.Text,
+                TaskDescription = txtTaskDescription.Text,
                 Developer = txtDeveloper.Text
             });
 
             SessionInputService.PersistInputDataState(new SessionModel
             {
                 Project = txtProjectTitle.Text,
+                ProjectDescription = txtProjectDescription.Text,
                 Task = txtTaskTitle.Text,
+                TaskDescription = txtTaskDescription.Text,
                 Developer = txtDeveloper.Text
             });
 

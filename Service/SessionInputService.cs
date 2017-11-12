@@ -28,7 +28,9 @@ namespace SwarmClientVS.Domain.Service
             return new SessionModel
             {
                 Task = inputData.Task.Name,
+                TaskDescription = inputData.Task.Description,
                 Project = inputData.Task.Project.Name,
+                ProjectDescription = inputData.Task.Project.Description,
                 Developer = inputData.Developer.Name
             };
         }
@@ -40,11 +42,11 @@ namespace SwarmClientVS.Domain.Service
                 Task = new TaskData
                 {
                     Name = sessionModel.Task,
-                    Description = "TODO",
+                    Description = sessionModel.TaskDescription,
                     Project = new ProjectData
                     {
                         Name = sessionModel.Project,
-                        Description = "TODO"
+                        Description = sessionModel.ProjectDescription
                     }
                 },
                 Developer = new DeveloperData
