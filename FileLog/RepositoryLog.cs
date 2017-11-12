@@ -47,6 +47,12 @@ namespace SwarmClientVS.DataLog.FileLog
 
         public IData Get<IData>()
         {
+            if (!Directory.Exists(DirectoryPath))
+                return default(IData);
+
+            if (!File.Exists(FileName))
+                return default(IData);
+
             string objJsonData = String.Empty;
 
             using (StreamReader file = new StreamReader(FileName, Encoding.UTF8))

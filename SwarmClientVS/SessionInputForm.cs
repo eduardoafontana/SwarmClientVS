@@ -30,7 +30,11 @@ namespace SwarmClientVS
 
         private void LoadInputData()
         {
-            SessionInputService.GetTask();
+            SessionModel sessionModel = SessionInputService.GetInputDataState();
+           
+            txtProjectTitle.Text = sessionModel.Project;
+            txtTaskTitle.Text = sessionModel.Task;
+            txtDeveloper.Text = sessionModel.Developer;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -42,7 +46,12 @@ namespace SwarmClientVS
                 Developer = txtDeveloper.Text
             });
 
-            SessionInputService.SaveTask();
+            SessionInputService.PersistInputDataState(new SessionModel
+            {
+                Project = txtProjectTitle.Text,
+                Task = txtTaskTitle.Text,
+                Developer = txtDeveloper.Text
+            });
 
             Close();
         }

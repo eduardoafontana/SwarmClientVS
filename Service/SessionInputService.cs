@@ -18,21 +18,38 @@ namespace SwarmClientVS.Domain.Service
             Repository = repository;
         }
 
-        public void GetTask()
+        public SessionModel GetInputDataState()
         {
-            TaskData task = Repository.Get<TaskData>();
+            ISessionInputData inputData = Repository.Get<SessionInputData>();
+
+            if (inputData == null)
+                return new SessionModel { };
+
+            return new SessionModel
+            {
+                Task = inputData.Task.Name,
+                Project = inputData.Task.Project.Name,
+                Developer = inputData.Developer.Name
+            };
         }
 
-        public void SaveTask()
+        public void PersistInputDataState(SessionModel sessionModel)
         {
-            Repository.Save(new TaskData
+            Repository.Save(new SessionInputData
             {
-                Name = "TODO",
-                Description = "TODO",
-                Project = new ProjectData
+                Task = new TaskData
                 {
-                    Name = "TODO",
-                    Description = "TODO"
+                    Name = sessionModel.Task,
+                    Description = "TODO",
+                    Project = new ProjectData
+                    {
+                        Name = sessionModel.Project,
+                        Description = "TODO"
+                    }
+                },
+                Developer = new DeveloperData
+                {
+                    Name = sessionModel.Developer
                 }
             });
         }
