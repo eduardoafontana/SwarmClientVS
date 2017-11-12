@@ -45,7 +45,7 @@ namespace SwarmClientVS.DataLog.FileLog
             }
         }
 
-        public IData Get()
+        public IData Get<IData>()
         {
             string objJsonData = String.Empty;
 
@@ -54,7 +54,7 @@ namespace SwarmClientVS.DataLog.FileLog
                 objJsonData = file.ReadToEnd();
             }
 
-            return (IData)Newtonsoft.Json.JsonConvert.DeserializeObject(objJsonData); 
+            return Newtonsoft.Json.JsonConvert.DeserializeObject<IData>(objJsonData); 
         }
     }
 }
