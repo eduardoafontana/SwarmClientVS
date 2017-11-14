@@ -68,6 +68,7 @@
             // txtProjectDescription
             // 
             this.txtProjectDescription.Location = new System.Drawing.Point(6, 124);
+            this.txtProjectDescription.MaxLength = 320;
             this.txtProjectDescription.Multiline = true;
             this.txtProjectDescription.Name = "txtProjectDescription";
             this.txtProjectDescription.Size = new System.Drawing.Size(503, 58);
@@ -76,7 +77,7 @@
             // txtProjectTitle
             // 
             this.txtProjectTitle.Location = new System.Drawing.Point(6, 97);
-            this.txtProjectTitle.MaxLength = 120;
+            this.txtProjectTitle.MaxLength = 75;
             this.txtProjectTitle.Name = "txtProjectTitle";
             this.txtProjectTitle.Size = new System.Drawing.Size(503, 20);
             this.txtProjectTitle.TabIndex = 1;
@@ -96,6 +97,7 @@
             // txtTaskDescription
             // 
             this.txtTaskDescription.Location = new System.Drawing.Point(6, 121);
+            this.txtTaskDescription.MaxLength = 320;
             this.txtTaskDescription.Multiline = true;
             this.txtTaskDescription.Name = "txtTaskDescription";
             this.txtTaskDescription.Size = new System.Drawing.Size(503, 58);
@@ -104,7 +106,7 @@
             // txtTaskTitle
             // 
             this.txtTaskTitle.Location = new System.Drawing.Point(7, 95);
-            this.txtTaskTitle.MaxLength = 120;
+            this.txtTaskTitle.MaxLength = 75;
             this.txtTaskTitle.Name = "txtTaskTitle";
             this.txtTaskTitle.Size = new System.Drawing.Size(503, 20);
             this.txtTaskTitle.TabIndex = 4;
@@ -122,7 +124,7 @@
             // txtDeveloper
             // 
             this.txtDeveloper.Location = new System.Drawing.Point(7, 20);
-            this.txtDeveloper.MaxLength = 120;
+            this.txtDeveloper.MaxLength = 75;
             this.txtDeveloper.Name = "txtDeveloper";
             this.txtDeveloper.Size = new System.Drawing.Size(503, 20);
             this.txtDeveloper.TabIndex = 6;
