@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace SwarmClientVS.Domain.IRepository
 {
-    public interface ISessionInputData : IData
+    public interface IProjectInputData : IData
     {
-        List<IProjectInputData> ProjectInput { get; set; }
-        IDeveloperData Developer { get; set; }
+        string Name { get; set; }
+        string Description { get; set; }
+        List<ITaskData> Task { get; set; }
     }
 }

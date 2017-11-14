@@ -8,9 +8,10 @@ using SwarmClientVS.Domain.IRepository;
 
 namespace SwarmClientVS.Domain.DataModel
 {
-    public class SessionInputData : IData
+    public class ProjectInputData : IData
     {
-        public List<ProjectInputData> ProjectInput { get; set; } = new List<ProjectInputData>();
-        public DeveloperData Developer { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public List<TaskData> Task { get; set; } = new List<TaskData>();
     }
 }

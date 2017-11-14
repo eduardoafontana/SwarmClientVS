@@ -20,35 +20,32 @@ namespace SwarmClientVS.Domain.Service
 
         public SessionModel GetInputDataState()
         {
-            ISessionInputData inputData = Repository.Get<SessionInputData>();
+            SessionInputData inputData = Repository.Get<SessionInputData>();
 
             if (inputData == null)
-                return new SessionModel { };
+            return new SessionModel { };
 
             return new SessionModel
             {
-                Task = inputData.Task.Name,
-                TaskDescription = inputData.Task.Description,
-                Project = inputData.Task.Project.Name,
-                ProjectDescription = inputData.Task.Project.Description,
+                Task = inputData.ProjectInput[0].Task[0].Name,
+                TaskDescription = inputData.ProjectInput[0].Task[0].Description,
+                Project = inputData.ProjectInput[0].Name,
+                ProjectDescription = inputData.ProjectInput[0].Task[0].Description,
                 Developer = inputData.Developer.Name
             };
         }
 
         public void PersistInputDataState(SessionModel sessionModel)
         {
+
             Repository.Save(new SessionInputData
             {
-                Task = new TaskData
+                ProjectInput = new List<ProjectInputData>() { new ProjectInputData
                 {
-                    Name = sessionModel.Task,
-                    Description = sessionModel.TaskDescription,
-                    Project = new ProjectData
-                    {
-                        Name = sessionModel.Project,
-                        Description = sessionModel.ProjectDescription
-                    }
-                },
+                    Name = sessionModel.Project,
+                    Description = sessionModel.ProjectDescription,
+                    Task =  new List<TaskData>() { new TaskData { Name = sessionModel.Task, Description = sessionModel.TaskDescription } }
+                }},
                 Developer = new DeveloperData
                 {
                     Name = sessionModel.Developer

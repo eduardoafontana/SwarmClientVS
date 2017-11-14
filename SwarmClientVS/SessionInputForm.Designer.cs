@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.lstProject = new System.Windows.Forms.ListBox();
+            this.txtProjectDescription = new System.Windows.Forms.TextBox();
             this.txtProjectTitle = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.txtTaskDescription = new System.Windows.Forms.TextBox();
             this.txtTaskTitle = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtDeveloper = new System.Windows.Forms.TextBox();
             this.btnStart = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.txtProjectDescription = new System.Windows.Forms.TextBox();
-            this.txtTaskDescription = new System.Windows.Forms.TextBox();
-            this.lstProject = new System.Windows.Forms.ListBox();
             this.lstTask = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
@@ -57,13 +57,29 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Project";
             // 
+            // lstProject
+            // 
+            this.lstProject.FormattingEnabled = true;
+            this.lstProject.Location = new System.Drawing.Point(7, 23);
+            this.lstProject.Name = "lstProject";
+            this.lstProject.Size = new System.Drawing.Size(502, 69);
+            this.lstProject.TabIndex = 0;
+            // 
+            // txtProjectDescription
+            // 
+            this.txtProjectDescription.Location = new System.Drawing.Point(6, 124);
+            this.txtProjectDescription.Multiline = true;
+            this.txtProjectDescription.Name = "txtProjectDescription";
+            this.txtProjectDescription.Size = new System.Drawing.Size(503, 58);
+            this.txtProjectDescription.TabIndex = 2;
+            // 
             // txtProjectTitle
             // 
             this.txtProjectTitle.Location = new System.Drawing.Point(6, 97);
             this.txtProjectTitle.MaxLength = 120;
             this.txtProjectTitle.Name = "txtProjectTitle";
             this.txtProjectTitle.Size = new System.Drawing.Size(503, 20);
-            this.txtProjectTitle.TabIndex = 0;
+            this.txtProjectTitle.TabIndex = 1;
             // 
             // groupBox2
             // 
@@ -77,13 +93,21 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Task";
             // 
+            // txtTaskDescription
+            // 
+            this.txtTaskDescription.Location = new System.Drawing.Point(6, 121);
+            this.txtTaskDescription.Multiline = true;
+            this.txtTaskDescription.Name = "txtTaskDescription";
+            this.txtTaskDescription.Size = new System.Drawing.Size(503, 58);
+            this.txtTaskDescription.TabIndex = 5;
+            // 
             // txtTaskTitle
             // 
             this.txtTaskTitle.Location = new System.Drawing.Point(7, 95);
             this.txtTaskTitle.MaxLength = 120;
             this.txtTaskTitle.Name = "txtTaskTitle";
             this.txtTaskTitle.Size = new System.Drawing.Size(503, 20);
-            this.txtTaskTitle.TabIndex = 0;
+            this.txtTaskTitle.TabIndex = 4;
             // 
             // groupBox3
             // 
@@ -101,7 +125,7 @@
             this.txtDeveloper.MaxLength = 120;
             this.txtDeveloper.Name = "txtDeveloper";
             this.txtDeveloper.Size = new System.Drawing.Size(503, 20);
-            this.txtDeveloper.TabIndex = 0;
+            this.txtDeveloper.TabIndex = 6;
             // 
             // btnStart
             // 
@@ -120,30 +144,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(541, 22);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // txtProjectDescription
-            // 
-            this.txtProjectDescription.Location = new System.Drawing.Point(6, 124);
-            this.txtProjectDescription.Multiline = true;
-            this.txtProjectDescription.Name = "txtProjectDescription";
-            this.txtProjectDescription.Size = new System.Drawing.Size(503, 58);
-            this.txtProjectDescription.TabIndex = 1;
-            // 
-            // txtTaskDescription
-            // 
-            this.txtTaskDescription.Location = new System.Drawing.Point(6, 121);
-            this.txtTaskDescription.Multiline = true;
-            this.txtTaskDescription.Name = "txtTaskDescription";
-            this.txtTaskDescription.Size = new System.Drawing.Size(503, 58);
-            this.txtTaskDescription.TabIndex = 2;
-            // 
-            // lstProject
-            // 
-            this.lstProject.FormattingEnabled = true;
-            this.lstProject.Location = new System.Drawing.Point(7, 23);
-            this.lstProject.Name = "lstProject";
-            this.lstProject.Size = new System.Drawing.Size(502, 69);
-            this.lstProject.TabIndex = 2;
             // 
             // lstTask
             // 
