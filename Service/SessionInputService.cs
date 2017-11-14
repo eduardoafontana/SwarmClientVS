@@ -19,7 +19,7 @@ namespace SwarmClientVS.Domain.Service
             Repository = repository;
         }
 
-        public SessionModel GetInputDataState()
+        public SessionInputModel GetInputDataState()
         {
             SessionInputData inputData = Repository.Get<SessionInputData>();
 
@@ -29,12 +29,18 @@ namespace SwarmClientVS.Domain.Service
             if (inputData.Developer == null)
                 inputData.Developer = new DeveloperData { };
 
-            return new SessionModel
+            return new SessionInputModel
             {
-                //Task = inputData.ProjectInput[0].Task[0].Name,
-                //TaskDescription = inputData.ProjectInput[0].Task[0].Description,
-                //Project = inputData.ProjectInput[0].Name,
-                //ProjectDescription = inputData.ProjectInput[0].Task[0].Description,
+                Project = inputData.ProjectInput.Select(x => new SessionListBoxItemModel
+                {
+                    Name = x.Name,
+                    Description = x.Description,
+                    Task = x.Task.Select(p => new SessionListBoxItemModel
+                    {
+                        Name = p.Name,
+                        Description = p.Description
+                    }).ToList()
+                }).ToList(),
                 Developer = String.IsNullOrWhiteSpace(inputData.Developer.Name) ? WindowsIdentity.GetCurrent().Name : inputData.Developer.Name
             };
         }

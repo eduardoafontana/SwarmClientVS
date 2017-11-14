@@ -32,14 +32,15 @@ namespace SwarmClientVS
 
         private void LoadInputData()
         {
-            SessionModel sessionModel = SessionInputService.GetInputDataState();
+            SessionInputModel sessionModel = SessionInputService.GetInputDataState();
 
-            //lstProject.Items.Add()
+            lstProject.DataSource = sessionModel.Project;
+            lstProject.DisplayMember = "Name";
 
-            txtProjectTitle.Text = sessionModel.Project;
-            txtProjectDescription.Text = sessionModel.ProjectDescription;
-            txtTaskTitle.Text = sessionModel.Task;
-            txtTaskDescription.Text = sessionModel.TaskDescription;
+            //txtProjectTitle.Text = sessionModel.Project;
+            //txtProjectDescription.Text = sessionModel.ProjectDescription;
+            //txtTaskTitle.Text = sessionModel.Task;
+            //txtTaskDescription.Text = sessionModel.TaskDescription;
             txtDeveloper.Text = sessionModel.Developer;
         }
 
