@@ -17,12 +17,14 @@ namespace SwarmClientVS
     {
         private SessionService SessionService;
         private SessionInputService SessionInputService;
+        private string OpenedSolutionName;
 
-        public SessionInputForm(SessionService sessionService)
+        public SessionInputForm(SessionService sessionService, string solutionName)
         {
             InitializeComponent();
 
             SessionService = sessionService;
+            OpenedSolutionName = solutionName;
             SessionInputService = new SessionInputService(new RepositoryLog());
 
             LoadInputData();
@@ -31,7 +33,9 @@ namespace SwarmClientVS
         private void LoadInputData()
         {
             SessionModel sessionModel = SessionInputService.GetInputDataState();
-           
+
+            //lstProject.Items.Add()
+
             txtProjectTitle.Text = sessionModel.Project;
             txtProjectDescription.Text = sessionModel.ProjectDescription;
             txtTaskTitle.Text = sessionModel.Task;

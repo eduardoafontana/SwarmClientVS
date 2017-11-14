@@ -133,8 +133,19 @@ namespace SwarmClientVS
 
             VerifyBreakpointAlreadyAdded(applicationObject);
 
-            SessionInputForm window = new SessionInputForm(sessionService);
+            SessionInputForm window = new SessionInputForm(sessionService, GetSolutionName(applicationObject));
             window.ShowDialog();
+        }
+
+        private string GetSolutionName(DTE2 dte)
+        {
+            if (dte.Solution == null)
+                return "Fail to get solution name. Solution null.";
+
+            if (String.IsNullOrEmpty(dte.Solution.FileName))
+                return "Fail to get solution name. FileName empty.";
+
+            return Path.GetFileName(dte.Solution.FileName);
         }
 
         private void VerifyBreakpointAlreadyAdded(DTE2 dte)
