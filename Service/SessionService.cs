@@ -27,11 +27,11 @@ namespace SwarmClientVS.Domain.Service
             CurrentSession.Task = new TaskData
             {
                 Name = sessionModel.Task,
-                Description = "TODO",
+                Description = sessionModel.TaskDescription,
                 Project = new ProjectData
                 {
                     Name = sessionModel.Project,
-                    Description = "TODO"
+                    Description = sessionModel.ProjectDescription
                 }
             };
 

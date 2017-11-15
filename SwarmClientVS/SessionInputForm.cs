@@ -306,11 +306,9 @@ namespace SwarmClientVS
                 Developer = txtDeveloper.Text
             });
 
-            SessionInputService.PersistInputDataState(new SessionInputModel
-            {
-                Project = lstProject.Items.Cast<SessionListBoxItemModel>().ToList(),
-                Developer = txtDeveloper.Text
-            });
+            SessionInputModel.Developer = txtDeveloper.Text;
+
+            SessionInputService.PersistInputDataState(SessionInputModel);
 
             Close();
         }
