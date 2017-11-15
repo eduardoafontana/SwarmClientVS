@@ -74,6 +74,7 @@
             this.txtProjectDescription.Name = "txtProjectDescription";
             this.txtProjectDescription.Size = new System.Drawing.Size(503, 58);
             this.txtProjectDescription.TabIndex = 2;
+            this.txtProjectDescription.TextChanged += new System.EventHandler(this.txtProjectDescription_TextChanged);
             // 
             // txtProjectTitle
             // 

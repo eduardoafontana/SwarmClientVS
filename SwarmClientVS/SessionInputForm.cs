@@ -19,8 +19,10 @@ namespace SwarmClientVS
         private SessionInputService SessionInputService;
         private SessionListBoxItemModel NewProject;
         private SessionInputModel SessionInputModel;
-        private bool CanExecuteEventTextChange = false;
-        private bool CanExecuteEventSelectedChange = false;
+        private bool CEEtxtProjectTitle = false;
+        private bool CEEtxtProjectDescription = false;
+        private bool CEElstProject = false;
+        //CEE - can execute event - flag to blog events triggers by backend, allowing only trigger by user
 
         public SessionInputForm(SessionService sessionService, string solutionName)
         {
@@ -34,8 +36,7 @@ namespace SwarmClientVS
 
         private void LoadInputData()
         {
-            CanExecuteEventSelectedChange = false;
-            CanExecuteEventTextChange = false;
+            DisableEvents();
 
             SessionInputModel = SessionInputService.GetInputDataState();
 
@@ -57,14 +58,12 @@ namespace SwarmClientVS
 
             txtDeveloper.Text = SessionInputModel.Developer;
 
-            CanExecuteEventSelectedChange = true;
-            CanExecuteEventTextChange = true;
+            EnableEvents();
         }
 
         private void UpdateProjectListBox()
         {
-            CanExecuteEventSelectedChange = false;
-            CanExecuteEventTextChange = false;
+            DisableEvents();
 
             lstProject.DataSource = null;
             lstProject.DataSource = SessionInputModel.Project;
@@ -72,14 +71,12 @@ namespace SwarmClientVS
             lstProject.ClearSelected();
             lstProject.SelectedItem = SessionInputModel.SelectedProject;
 
-            CanExecuteEventSelectedChange = true;
-            CanExecuteEventTextChange = true;
+            EnableEvents();
         }
 
         private void ChangeSelectedProject()
         {
-            CanExecuteEventSelectedChange = false;
-            CanExecuteEventTextChange = false;
+            DisableEvents();
 
             txtProjectTitle.Text = SessionInputModel.SelectedProject.Name;
             txtProjectDescription.Text = SessionInputModel.SelectedProject.Description;
@@ -92,13 +89,26 @@ namespace SwarmClientVS
             lstTask.ClearSelected();
             lstTask.SelectedItem = SessionInputModel.SelectedProject.Task.LastOrDefault() ?? new SessionListBoxItemModel { };
 
-            CanExecuteEventSelectedChange = true;
-            CanExecuteEventTextChange = true;
+            EnableEvents();
+        }
+
+        private void EnableEvents()
+        {
+            CEElstProject = true;
+            CEEtxtProjectTitle = true;
+            CEEtxtProjectDescription = true;
+        }
+
+        private void DisableEvents()
+        {
+            CEElstProject = false;
+            CEEtxtProjectTitle = false;
+            CEEtxtProjectDescription = false;
         }
 
         private void lstProject_SelectedValueChanged(object sender, EventArgs e)
         {
-            if (CanExecuteEventSelectedChange == false)
+            if (CEElstProject == false)
                 return;
 
             if (lstProject.SelectedItem == null)
@@ -120,7 +130,7 @@ namespace SwarmClientVS
 
         private void txtProjectTitle_TextChanged(object sender, EventArgs e)
         {
-            if (CanExecuteEventTextChange == false)
+            if (CEEtxtProjectTitle == false)
                 return;
 
             SessionListBoxItemModel existentProjectItem = SessionInputModel.Project.FirstOrDefault(p => p.Name.Equals(txtProjectTitle.Text));
@@ -152,6 +162,19 @@ namespace SwarmClientVS
 
             UpdateProjectListBox();
             ChangeSelectedProject();
+        }
+
+        private void txtProjectDescription_TextChanged(object sender, EventArgs e)
+        {
+            if (CEEtxtProjectDescription == false)
+                return;
+
+            SessionListBoxItemModel existentProjectItem = SessionInputModel.Project.FirstOrDefault(p => p.Name.Equals(txtProjectTitle.Text));
+
+            if (existentProjectItem == null)
+                return;
+
+            existentProjectItem.Description = txtProjectDescription.Text;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
