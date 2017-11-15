@@ -22,6 +22,7 @@ namespace SwarmClientVS
         private bool CEEtxtProjectTitle = false;
         private bool CEEtxtProjectDescription = false;
         private bool CEElstProject = false;
+        private bool CEEtxtTaskDescription = false;
         //CEE - can execute event - flag to blog events triggers by backend, allowing only trigger by user
 
         public SessionInputForm(SessionService sessionService, string solutionName)
@@ -97,6 +98,7 @@ namespace SwarmClientVS
             CEElstProject = true;
             CEEtxtProjectTitle = true;
             CEEtxtProjectDescription = true;
+            CEEtxtTaskDescription = true;
         }
 
         private void DisableEvents()
@@ -104,6 +106,7 @@ namespace SwarmClientVS
             CEElstProject = false;
             CEEtxtProjectTitle = false;
             CEEtxtProjectDescription = false;
+            CEEtxtTaskDescription = false;
         }
 
         private void lstProject_SelectedValueChanged(object sender, EventArgs e)
@@ -175,6 +178,24 @@ namespace SwarmClientVS
                 return;
 
             existentProjectItem.Description = txtProjectDescription.Text;
+        }
+
+        private void txtTaskDescription_TextChanged(object sender, EventArgs e)
+        {
+            if (CEEtxtTaskDescription == false)
+                return;
+
+            SessionListBoxItemModel existentProjectItem = SessionInputModel.Project.FirstOrDefault(p => p.Name.Equals(txtProjectTitle.Text));
+
+            if (existentProjectItem == null)
+                return;
+
+            SessionListBoxItemModel existentTaskItem = existentProjectItem.Task.FirstOrDefault(p => p.Name.Equals(txtTaskTitle.Text));
+
+            if (existentTaskItem == null)
+                return;
+
+            existentTaskItem.Description = txtTaskDescription.Text;
         }
 
         private void btnStart_Click(object sender, EventArgs e)

@@ -114,6 +114,7 @@
             this.txtTaskDescription.Name = "txtTaskDescription";
             this.txtTaskDescription.Size = new System.Drawing.Size(503, 58);
             this.txtTaskDescription.TabIndex = 5;
+            this.txtTaskDescription.TextChanged += new System.EventHandler(this.txtTaskDescription_TextChanged);
             // 
             // txtTaskTitle
             // 
