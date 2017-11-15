@@ -82,6 +82,7 @@
             this.txtProjectTitle.Name = "txtProjectTitle";
             this.txtProjectTitle.Size = new System.Drawing.Size(503, 20);
             this.txtProjectTitle.TabIndex = 1;
+            this.txtProjectTitle.TextChanged += new System.EventHandler(this.txtProjectTitle_TextChanged);
             // 
             // groupBox2
             // 

@@ -17,6 +17,10 @@ namespace SwarmClientVS
     {
         private SessionService SessionService;
         private SessionInputService SessionInputService;
+        private SessionListBoxItemModel NewProject;
+        private SessionInputModel SessionInputModel;
+        private bool CanExecuteEventTextChange = false;
+        private bool CanExecuteEventSelectedChange = false;
 
         public SessionInputForm(SessionService sessionService, string solutionName)
         {
@@ -30,25 +34,31 @@ namespace SwarmClientVS
 
         private void LoadInputData()
         {
-            SessionInputModel sessionInputModel = SessionInputService.GetInputDataState();
+            CanExecuteEventSelectedChange = false;
+            CanExecuteEventTextChange = false;
 
-            lstProject.DataSource = sessionInputModel.Project;
+            SessionInputModel = SessionInputService.GetInputDataState();
+
+            lstProject.DataSource = SessionInputModel.Project;
             lstProject.DisplayMember = "Name";
-            lstProject.ClearSelected();
-            lstProject.SelectedItem = sessionInputModel.SelectedProject;
+            lstTask.ClearSelected();
+            lstProject.SelectedItem = SessionInputModel.SelectedProject;
 
-            txtProjectTitle.Text = sessionInputModel.SelectedProject.Name;
-            txtProjectDescription.Text = sessionInputModel.SelectedProject.Description;
+            txtProjectTitle.Text = SessionInputModel.SelectedProject.Name;
+            txtProjectDescription.Text = SessionInputModel.SelectedProject.Description;
 
-            lstTask.DataSource = sessionInputModel.SelectedProject.Task;
+            lstTask.DataSource = SessionInputModel.SelectedProject.Task;
             lstTask.DisplayMember = "Name";
             lstTask.ClearSelected();
-            lstTask.SelectedItem = sessionInputModel.SelectedTask;
+            lstTask.SelectedItem = SessionInputModel.SelectedTask;
 
-            txtTaskTitle.Text = sessionInputModel.SelectedTask.Name;
-            txtTaskDescription.Text = sessionInputModel.SelectedTask.Description;
+            txtTaskTitle.Text = SessionInputModel.SelectedTask.Name;
+            txtTaskDescription.Text = SessionInputModel.SelectedTask.Description;
 
-            txtDeveloper.Text = sessionInputModel.Developer;
+            txtDeveloper.Text = SessionInputModel.Developer;
+
+            CanExecuteEventSelectedChange = true;
+            CanExecuteEventTextChange = true;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
@@ -73,21 +83,35 @@ namespace SwarmClientVS
 
         private void lstProject_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (CanExecuteEventSelectedChange == false)
+                return;
+
             if (lstProject.SelectedItem == null)
                 return;
 
-            SessionListBoxItemModel selectedProject = (SessionListBoxItemModel)lstProject.SelectedItem;
+            SessionInputModel.SelectedProject = (SessionListBoxItemModel)lstProject.SelectedItem;
 
-            txtProjectTitle.Text = selectedProject.Name;
-            txtProjectDescription.Text = selectedProject.Description;
+            ChangeSelectedProject();
+        }
+
+        private void ChangeSelectedProject()
+        {
+            CanExecuteEventSelectedChange = false;
+            CanExecuteEventTextChange = false;
+
+            txtProjectTitle.Text = SessionInputModel.SelectedProject.Name;
+            txtProjectDescription.Text = SessionInputModel.SelectedProject.Description;
 
             txtTaskTitle.Text = String.Empty;
             txtTaskDescription.Text = String.Empty;
 
-            lstTask.DataSource = selectedProject.Task;
+            lstTask.DataSource = SessionInputModel.SelectedProject.Task;
             lstTask.DisplayMember = "Name";
             lstTask.ClearSelected();
-            lstTask.SelectedItem = selectedProject.Task.LastOrDefault() ?? new SessionListBoxItemModel { };
+            lstTask.SelectedItem = SessionInputModel.SelectedProject.Task.LastOrDefault() ?? new SessionListBoxItemModel { };
+
+            CanExecuteEventSelectedChange = true;
+            CanExecuteEventTextChange = true;
         }
 
         private void lstTask_SelectedValueChanged(object sender, EventArgs e)
@@ -97,6 +121,57 @@ namespace SwarmClientVS
 
             txtTaskTitle.Text = ((SessionListBoxItemModel)lstTask.SelectedItem).Name;
             txtTaskDescription.Text = ((SessionListBoxItemModel)lstTask.SelectedItem).Description;
+        }
+
+        private void txtProjectTitle_TextChanged(object sender, EventArgs e)
+        {
+            if (CanExecuteEventTextChange == false)
+                return;
+
+            SessionListBoxItemModel existentProjectItem = SessionInputModel.Project.FirstOrDefault(p => p.Name.Equals(txtProjectTitle.Text));
+
+            if (existentProjectItem != null)
+            {
+                if (existentProjectItem != NewProject)
+                {
+                    if (NewProject != null)
+                    {
+                        SessionInputModel.Project.Remove(NewProject);
+                        NewProject = null;
+                    }
+
+                    SessionInputModel.SelectedProject = existentProjectItem;
+                }
+            }
+            else
+            {
+                if (NewProject == null)
+                {
+                    NewProject = new SessionListBoxItemModel { Name = txtProjectTitle.Text };
+                    SessionInputModel.Project.Add(NewProject);
+                    SessionInputModel.SelectedProject = SessionInputModel.Project.Last();
+                }
+
+                NewProject.Name = txtProjectTitle.Text;
+            }
+
+            UpdateProjectListBox();
+            ChangeSelectedProject();
+        }
+
+        private void UpdateProjectListBox()
+        {
+            CanExecuteEventSelectedChange = false;
+            CanExecuteEventTextChange = false;
+
+            lstProject.DataSource = null;
+            lstProject.DataSource = SessionInputModel.Project;
+            lstProject.DisplayMember = "Name";
+            lstProject.ClearSelected();
+            lstProject.SelectedItem = SessionInputModel.SelectedProject;
+
+            CanExecuteEventSelectedChange = true;
+            CanExecuteEventTextChange = true;
         }
     }
 }
