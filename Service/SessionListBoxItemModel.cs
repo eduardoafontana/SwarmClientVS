@@ -11,7 +11,6 @@ namespace SwarmClientVS.Domain.Service
     {
         public string Name { get; set; }
         public string Description { get; set; }
-        public bool IsSelected { get; set; }
         public List<SessionListBoxItemModel> Task { get; set; } = new List<SessionListBoxItemModel>();        
     }
 }

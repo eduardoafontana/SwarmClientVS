@@ -13,10 +13,12 @@ namespace SwarmClientVS.Domain.Service
     public class SessionInputService
     {
         private IRepository<IData> Repository { get; set; }
+        private string OpenedSolutionName;
 
-        public SessionInputService(IRepository<IData> repository)
+        public SessionInputService(IRepository<IData> repository, string solutionName)
         {
             Repository = repository;
+            OpenedSolutionName = solutionName;
         }
 
         public SessionInputModel GetInputDataState()
@@ -29,7 +31,7 @@ namespace SwarmClientVS.Domain.Service
             if (inputData.Developer == null)
                 inputData.Developer = new DeveloperData { };
 
-            return new SessionInputModel
+            SessionInputModel sessionInputModel = new SessionInputModel
             {
                 Project = inputData.ProjectInput.Select(x => new SessionListBoxItemModel
                 {
@@ -43,6 +45,11 @@ namespace SwarmClientVS.Domain.Service
                 }).ToList(),
                 Developer = String.IsNullOrWhiteSpace(inputData.Developer.Name) ? WindowsIdentity.GetCurrent().Name : inputData.Developer.Name
             };
+
+            sessionInputModel.SelectedProject = sessionInputModel.Project.Where(p => p.Name.Equals(OpenedSolutionName)).FirstOrDefault() ?? new SessionListBoxItemModel { Name = OpenedSolutionName };
+            sessionInputModel.SelectedTask = sessionInputModel.SelectedProject.Task.LastOrDefault() ?? new SessionListBoxItemModel { };
+
+            return sessionInputModel;
         }
 
         public void PersistInputDataState(SessionModel sessionModel)

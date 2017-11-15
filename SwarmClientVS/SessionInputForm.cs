@@ -17,51 +17,38 @@ namespace SwarmClientVS
     {
         private SessionService SessionService;
         private SessionInputService SessionInputService;
-        private string OpenedSolutionName;
 
         public SessionInputForm(SessionService sessionService, string solutionName)
         {
             InitializeComponent();
 
             SessionService = sessionService;
-            OpenedSolutionName = solutionName;
-            SessionInputService = new SessionInputService(new RepositoryLog());
+            SessionInputService = new SessionInputService(new RepositoryLog(), solutionName);
 
             LoadInputData();
         }
 
         private void LoadInputData()
         {
-            SessionInputModel sessionModel = SessionInputService.GetInputDataState();
+            SessionInputModel sessionInputModel = SessionInputService.GetInputDataState();
 
-            lstProject.DataSource = sessionModel.Project;
+            lstProject.DataSource = sessionInputModel.Project;
             lstProject.DisplayMember = "Name";
             lstProject.ClearSelected();
+            lstProject.SelectedItem = sessionInputModel.SelectedProject;
 
-            SessionListBoxItemModel openedSolutionBoxItem = sessionModel.Project.Where(p => p.Name.Equals(OpenedSolutionName)).FirstOrDefault();
+            lstTask.DataSource = sessionInputModel.SelectedProject.Task;
+            lstTask.DisplayMember = "Name";
+            lstTask.ClearSelected();
+            lstTask.SelectedItem = sessionInputModel.SelectedTask;
 
-            if (openedSolutionBoxItem != null)
-            {
-                lstProject.SelectedItem = openedSolutionBoxItem;
-                PopulateProjectFields(openedSolutionBoxItem);
-            }
-            else
-            {
-                PopulateProjectFields(new SessionListBoxItemModel { Name = OpenedSolutionName });
-            }
+            txtProjectTitle.Text = sessionInputModel.SelectedProject.Name;
+            txtProjectDescription.Text = sessionInputModel.SelectedProject.Description;
 
-            //txtTaskTitle.Text = sessionModel.Task;
-            //txtTaskDescription.Text = sessionModel.TaskDescription;
-            txtDeveloper.Text = sessionModel.Developer;
-        }
+            txtTaskTitle.Text = sessionInputModel.SelectedTask.Name;
+            txtTaskDescription.Text = sessionInputModel.SelectedTask.Description;
 
-        private void PopulateProjectFields(SessionListBoxItemModel sessionListBoxItemModel)
-        {
-            if (sessionListBoxItemModel == null)
-                return;
-
-            txtProjectTitle.Text = sessionListBoxItemModel.Name;
-            txtProjectDescription.Text = sessionListBoxItemModel.Description;
+            txtDeveloper.Text = sessionInputModel.Developer;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
