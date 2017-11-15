@@ -123,6 +123,7 @@
             this.txtTaskTitle.Name = "txtTaskTitle";
             this.txtTaskTitle.Size = new System.Drawing.Size(503, 20);
             this.txtTaskTitle.TabIndex = 4;
+            this.txtTaskTitle.TextChanged += new System.EventHandler(this.txtTaskTitle_TextChanged);
             // 
             // groupBox3
             // 

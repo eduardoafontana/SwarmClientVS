@@ -18,10 +18,13 @@ namespace SwarmClientVS
         private SessionService SessionService;
         private SessionInputService SessionInputService;
         private SessionListBoxItemModel NewProject;
+        private SessionListBoxItemModel NewTask;
         private SessionInputModel SessionInputModel;
+        private bool CEElstProject = false;
         private bool CEEtxtProjectTitle = false;
         private bool CEEtxtProjectDescription = false;
-        private bool CEElstProject = false;
+        private bool CEElstTask = false;
+        private bool CEEtxtTaskTitle = false;
         private bool CEEtxtTaskDescription = false;
         //CEE - can execute event - flag to blog events triggers by backend, allowing only trigger by user
 
@@ -75,20 +78,33 @@ namespace SwarmClientVS
             EnableEvents();
         }
 
-        private void ChangeSelectedProject()
+        private void ChangeSelectedProject(bool getLastTask = true)
         {
             DisableEvents();
 
             txtProjectTitle.Text = SessionInputModel.SelectedProject.Name;
             txtProjectDescription.Text = SessionInputModel.SelectedProject.Description;
 
-            txtTaskTitle.Text = String.Empty;
-            txtTaskDescription.Text = String.Empty;
+            if(getLastTask)
+                SessionInputModel.SelectedTask = SessionInputModel.SelectedProject.Task.LastOrDefault() ?? new SessionListBoxItemModel { };
 
+            lstTask.DataSource = null;
             lstTask.DataSource = SessionInputModel.SelectedProject.Task;
             lstTask.DisplayMember = "Name";
             lstTask.ClearSelected();
-            lstTask.SelectedItem = SessionInputModel.SelectedProject.Task.LastOrDefault() ?? new SessionListBoxItemModel { };
+            lstTask.SelectedItem = SessionInputModel.SelectedTask;
+
+            ChangeSelectedTask();
+
+            EnableEvents();
+        }
+
+        private void ChangeSelectedTask()
+        {
+            DisableEvents();
+
+            txtTaskTitle.Text = SessionInputModel.SelectedTask.Name;
+            txtTaskDescription.Text = SessionInputModel.SelectedTask.Description;
 
             EnableEvents();
         }
@@ -98,6 +114,8 @@ namespace SwarmClientVS
             CEElstProject = true;
             CEEtxtProjectTitle = true;
             CEEtxtProjectDescription = true;
+            CEElstTask = true;
+            CEEtxtTaskTitle = true;
             CEEtxtTaskDescription = true;
         }
 
@@ -106,6 +124,8 @@ namespace SwarmClientVS
             CEElstProject = false;
             CEEtxtProjectTitle = false;
             CEEtxtProjectDescription = false;
+            CEElstTask = false;
+            CEEtxtTaskTitle = false;
             CEEtxtTaskDescription = false;
         }
 
@@ -119,16 +139,48 @@ namespace SwarmClientVS
 
             SessionInputModel.SelectedProject = (SessionListBoxItemModel)lstProject.SelectedItem;
 
+            if (NewTask != null)
+            {
+                SessionListBoxItemModel existentProjectItem = SessionInputModel.Project.FirstOrDefault(p => p.Name.Equals(txtProjectTitle.Text));
+
+                if (existentProjectItem != null)
+                    existentProjectItem.Task.Remove(NewTask);
+
+                NewTask = null;
+            }
+
+            if (NewProject != null && NewProject != SessionInputModel.SelectedProject)
+            {
+                SessionInputModel.Project.Remove(NewProject);
+                NewProject = null;
+            }
+
+            UpdateProjectListBox();
             ChangeSelectedProject();
         }
 
         private void lstTask_SelectedValueChanged(object sender, EventArgs e)
         {
+            if (CEElstTask == false)
+                return;
+
             if (lstTask.SelectedItem == null)
                 return;
 
-            txtTaskTitle.Text = ((SessionListBoxItemModel)lstTask.SelectedItem).Name;
-            txtTaskDescription.Text = ((SessionListBoxItemModel)lstTask.SelectedItem).Description;
+            SessionInputModel.SelectedTask = (SessionListBoxItemModel)lstTask.SelectedItem;
+
+            if(NewTask != null && NewTask != SessionInputModel.SelectedTask)
+            {
+                SessionListBoxItemModel existentProjectItem = SessionInputModel.Project.FirstOrDefault(p => p.Name.Equals(txtProjectTitle.Text));
+
+                if (existentProjectItem != null)
+                    existentProjectItem.Task.Remove(NewTask);
+                
+                NewTask = null;
+            }
+
+            UpdateProjectListBox();
+            ChangeSelectedProject(false);
         }
 
         private void txtProjectTitle_TextChanged(object sender, EventArgs e)
@@ -167,10 +219,53 @@ namespace SwarmClientVS
             ChangeSelectedProject();
         }
 
+        private void txtTaskTitle_TextChanged(object sender, EventArgs e)
+        {
+            if (CEEtxtTaskTitle == false)
+                return;
+
+            SessionListBoxItemModel existentProjectItem = SessionInputModel.Project.FirstOrDefault(p => p.Name.Equals(txtProjectTitle.Text));
+
+            if (existentProjectItem == null)
+                return;
+
+            SessionListBoxItemModel existentTaskItem = existentProjectItem.Task.FirstOrDefault(t => t.Name.Equals(txtTaskTitle.Text));
+
+            if (existentTaskItem != null)
+            {
+                if (existentTaskItem != NewTask)
+                {
+                    if (NewTask != null)
+                    {
+                        existentProjectItem.Task.Remove(NewTask);
+                        NewTask = null;
+                    }
+
+                    SessionInputModel.SelectedTask = existentTaskItem;
+                }
+            }
+            else
+            {
+                if (NewTask == null)
+                {
+                    NewTask = new SessionListBoxItemModel { Name = txtTaskTitle.Text };
+                    existentProjectItem.Task.Add(NewTask);
+                    SessionInputModel.SelectedTask = existentProjectItem.Task.Last();
+                }
+
+                NewTask.Name = txtTaskTitle.Text;
+            }
+
+            UpdateProjectListBox();
+            ChangeSelectedProject();
+        }
+
         private void txtProjectDescription_TextChanged(object sender, EventArgs e)
         {
             if (CEEtxtProjectDescription == false)
                 return;
+
+            SessionInputModel.SelectedProject.Description = txtProjectDescription.Text;
 
             SessionListBoxItemModel existentProjectItem = SessionInputModel.Project.FirstOrDefault(p => p.Name.Equals(txtProjectTitle.Text));
 
@@ -184,6 +279,8 @@ namespace SwarmClientVS
         {
             if (CEEtxtTaskDescription == false)
                 return;
+
+            SessionInputModel.SelectedTask.Description = txtTaskDescription.Text;
 
             SessionListBoxItemModel existentProjectItem = SessionInputModel.Project.FirstOrDefault(p => p.Name.Equals(txtProjectTitle.Text));
 
