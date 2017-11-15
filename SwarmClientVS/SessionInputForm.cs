@@ -36,12 +36,22 @@ namespace SwarmClientVS
 
             lstProject.DataSource = sessionModel.Project;
             lstProject.DisplayMember = "Name";
+            //lstProject.SetSelected(sessionModel.Project.Count - 1, true);
 
-            //txtProjectTitle.Text = sessionModel.Project;
-            //txtProjectDescription.Text = sessionModel.ProjectDescription;
+            PopulateProjectFields(sessionModel.Project.LastOrDefault());
+
             //txtTaskTitle.Text = sessionModel.Task;
             //txtTaskDescription.Text = sessionModel.TaskDescription;
             txtDeveloper.Text = sessionModel.Developer;
+        }
+
+        private void PopulateProjectFields(SessionListBoxItemModel sessionListBoxItemModel)
+        {
+            if (sessionListBoxItemModel == null)
+                return;
+
+            txtProjectTitle.Text = sessionListBoxItemModel.Name;
+            txtProjectDescription.Text = sessionListBoxItemModel.Description;
         }
 
         private void btnStart_Click(object sender, EventArgs e)
