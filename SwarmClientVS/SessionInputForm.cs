@@ -78,7 +78,15 @@ namespace SwarmClientVS
 
             txtProjectTitle.Text = ((SessionListBoxItemModel)lstProject.SelectedItem).Name;
             txtProjectDescription.Text = ((SessionListBoxItemModel)lstProject.SelectedItem).Description;
+        }
 
+        private void lstTask_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (lstTask.SelectedItem == null)
+                return;
+
+            txtTaskTitle.Text = ((SessionListBoxItemModel)lstTask.SelectedItem).Name;
+            txtTaskDescription.Text = ((SessionListBoxItemModel)lstTask.SelectedItem).Description;
         }
     }
 }

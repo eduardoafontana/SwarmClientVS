@@ -102,6 +102,7 @@
             this.lstTask.Name = "lstTask";
             this.lstTask.Size = new System.Drawing.Size(502, 69);
             this.lstTask.TabIndex = 3;
+            this.lstTask.SelectedValueChanged += new System.EventHandler(this.lstTask_SelectedValueChanged);
             // 
             // txtTaskDescription
             // 
