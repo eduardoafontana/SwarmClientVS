@@ -37,13 +37,13 @@ namespace SwarmClientVS
             lstProject.ClearSelected();
             lstProject.SelectedItem = sessionInputModel.SelectedProject;
 
+            txtProjectTitle.Text = sessionInputModel.SelectedProject.Name;
+            txtProjectDescription.Text = sessionInputModel.SelectedProject.Description;
+
             lstTask.DataSource = sessionInputModel.SelectedProject.Task;
             lstTask.DisplayMember = "Name";
             lstTask.ClearSelected();
             lstTask.SelectedItem = sessionInputModel.SelectedTask;
-
-            txtProjectTitle.Text = sessionInputModel.SelectedProject.Name;
-            txtProjectDescription.Text = sessionInputModel.SelectedProject.Description;
 
             txtTaskTitle.Text = sessionInputModel.SelectedTask.Name;
             txtTaskDescription.Text = sessionInputModel.SelectedTask.Description;
@@ -69,6 +69,16 @@ namespace SwarmClientVS
             });
 
             Close();
+        }
+
+        private void lstProject_SelectedValueChanged(object sender, EventArgs e)
+        {
+            if (lstProject.SelectedItem == null)
+                return;
+
+            txtProjectTitle.Text = ((SessionListBoxItemModel)lstProject.SelectedItem).Name;
+            txtProjectDescription.Text = ((SessionListBoxItemModel)lstProject.SelectedItem).Description;
+
         }
     }
 }

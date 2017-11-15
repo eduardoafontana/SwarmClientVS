@@ -33,13 +33,13 @@
             this.txtProjectDescription = new System.Windows.Forms.TextBox();
             this.txtProjectTitle = new System.Windows.Forms.TextBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.lstTask = new System.Windows.Forms.ListBox();
             this.txtTaskDescription = new System.Windows.Forms.TextBox();
             this.txtTaskTitle = new System.Windows.Forms.TextBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtDeveloper = new System.Windows.Forms.TextBox();
             this.btnStart = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
-            this.lstTask = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -64,6 +64,7 @@
             this.lstProject.Name = "lstProject";
             this.lstProject.Size = new System.Drawing.Size(502, 69);
             this.lstProject.TabIndex = 0;
+            this.lstProject.SelectedValueChanged += new System.EventHandler(this.lstProject_SelectedValueChanged);
             // 
             // txtProjectDescription
             // 
@@ -93,6 +94,14 @@
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Task";
+            // 
+            // lstTask
+            // 
+            this.lstTask.FormattingEnabled = true;
+            this.lstTask.Location = new System.Drawing.Point(7, 20);
+            this.lstTask.Name = "lstTask";
+            this.lstTask.Size = new System.Drawing.Size(502, 69);
+            this.lstTask.TabIndex = 3;
             // 
             // txtTaskDescription
             // 
@@ -146,14 +155,6 @@
             this.statusStrip1.Size = new System.Drawing.Size(541, 22);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
-            // 
-            // lstTask
-            // 
-            this.lstTask.FormattingEnabled = true;
-            this.lstTask.Location = new System.Drawing.Point(7, 20);
-            this.lstTask.Name = "lstTask";
-            this.lstTask.Size = new System.Drawing.Size(502, 69);
-            this.lstTask.TabIndex = 3;
             // 
             // SessionInputForm
             // 
