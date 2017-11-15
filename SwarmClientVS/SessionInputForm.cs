@@ -76,8 +76,18 @@ namespace SwarmClientVS
             if (lstProject.SelectedItem == null)
                 return;
 
-            txtProjectTitle.Text = ((SessionListBoxItemModel)lstProject.SelectedItem).Name;
-            txtProjectDescription.Text = ((SessionListBoxItemModel)lstProject.SelectedItem).Description;
+            SessionListBoxItemModel selectedProject = (SessionListBoxItemModel)lstProject.SelectedItem;
+
+            txtProjectTitle.Text = selectedProject.Name;
+            txtProjectDescription.Text = selectedProject.Description;
+
+            txtTaskTitle.Text = String.Empty;
+            txtTaskDescription.Text = String.Empty;
+
+            lstTask.DataSource = selectedProject.Task;
+            lstTask.DisplayMember = "Name";
+            lstTask.ClearSelected();
+            lstTask.SelectedItem = selectedProject.Task.LastOrDefault() ?? new SessionListBoxItemModel { };
         }
 
         private void lstTask_SelectedValueChanged(object sender, EventArgs e)
