@@ -36,9 +36,19 @@ namespace SwarmClientVS
 
             lstProject.DataSource = sessionModel.Project;
             lstProject.DisplayMember = "Name";
-            //lstProject.SetSelected(sessionModel.Project.Count - 1, true);
+            lstProject.ClearSelected();
 
-            PopulateProjectFields(sessionModel.Project.LastOrDefault());
+            SessionListBoxItemModel lastProjectBoxItem = sessionModel.Project.LastOrDefault() ?? new SessionListBoxItemModel();
+
+            if (OpenedSolutionName.Equals(lastProjectBoxItem.Name))
+            {
+                PopulateProjectFields(lastProjectBoxItem);
+                lstProject.SelectedItem = lastProjectBoxItem;
+            }
+            else
+            {
+                PopulateProjectFields(new SessionListBoxItemModel { Name = OpenedSolutionName });
+            }
 
             //txtTaskTitle.Text = sessionModel.Task;
             //txtTaskDescription.Text = sessionModel.TaskDescription;
