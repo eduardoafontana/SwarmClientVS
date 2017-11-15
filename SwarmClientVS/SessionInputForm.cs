@@ -38,12 +38,12 @@ namespace SwarmClientVS
             lstProject.DisplayMember = "Name";
             lstProject.ClearSelected();
 
-            SessionListBoxItemModel lastProjectBoxItem = sessionModel.Project.LastOrDefault() ?? new SessionListBoxItemModel();
+            SessionListBoxItemModel openedSolutionBoxItem = sessionModel.Project.Where(p => p.Name.Equals(OpenedSolutionName)).FirstOrDefault();
 
-            if (OpenedSolutionName.Equals(lastProjectBoxItem.Name))
+            if (openedSolutionBoxItem != null)
             {
-                PopulateProjectFields(lastProjectBoxItem);
-                lstProject.SelectedItem = lastProjectBoxItem;
+                lstProject.SelectedItem = openedSolutionBoxItem;
+                PopulateProjectFields(openedSolutionBoxItem);
             }
             else
             {
