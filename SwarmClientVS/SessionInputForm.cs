@@ -62,12 +62,9 @@ namespace SwarmClientVS
                 Developer = txtDeveloper.Text
             });
 
-            SessionInputService.PersistInputDataState(new SessionModel
+            SessionInputService.PersistInputDataState(new SessionInputModel
             {
-                Project = txtProjectTitle.Text,
-                ProjectDescription = txtProjectDescription.Text,
-                Task = txtTaskTitle.Text,
-                TaskDescription = txtTaskDescription.Text,
+                Project = lstProject.Items.Cast<SessionListBoxItemModel>().ToList(),
                 Developer = txtDeveloper.Text
             });
 

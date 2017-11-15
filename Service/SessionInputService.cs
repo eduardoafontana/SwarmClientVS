@@ -52,20 +52,21 @@ namespace SwarmClientVS.Domain.Service
             return sessionInputModel;
         }
 
-        public void PersistInputDataState(SessionModel sessionModel)
+        public void PersistInputDataState(SessionInputModel sessionInputModel)
         {
-
             Repository.Save(new SessionInputData
             {
-                ProjectInput = new List<ProjectInputData>() { new ProjectInputData
+                ProjectInput = sessionInputModel.Project.Select(p => new ProjectInputData
                 {
-                    Name = sessionModel.Project,
-                    Description = sessionModel.ProjectDescription,
-                    Task =  new List<TaskData>() { new TaskData { Name = sessionModel.Task, Description = sessionModel.TaskDescription } }
-                }},
+                    Name = p.Name, Description = p.Description, Task = p.Task.Select(t => new TaskData
+                    {
+                        Name = t.Name,
+                        Description = t.Description
+                    }).ToList()
+                }).ToList(),
                 Developer = new DeveloperData
                 {
-                    Name = sessionModel.Developer
+                    Name = sessionInputModel.Developer
                 }
             });
         }
