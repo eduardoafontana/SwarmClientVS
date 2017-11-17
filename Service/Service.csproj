@@ -61,6 +61,10 @@
       <Project>{c5132f7e-359f-43bf-81ad-ab71958e982f}</Project>
       <Name>DataModel</Name>
     </ProjectReference>
+    <ProjectReference Include="..\FileLog\FileLog.csproj">
+      <Project>{6732f6f6-7a75-47e5-b353-eaea83c64001}</Project>
+      <Name>FileLog</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IRepository\IRepository.csproj">
       <Project>{47f8bfac-f8d0-4a52-9605-e44f73ff2c36}</Project>
       <Name>IRepository</Name>

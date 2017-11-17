@@ -15,7 +15,6 @@ namespace SwarmClientVS
 {
     public partial class SessionInputForm : Form
     {
-        private SessionService SessionService;
         private SessionInputService SessionInputService;
         private SessionListBoxItemModel NewProject;
         private SessionListBoxItemModel NewTask;
@@ -28,11 +27,10 @@ namespace SwarmClientVS
         private bool CEEtxtTaskDescription = false;
         //CEE - can execute event - flag to blog events triggers by backend, allowing only trigger by user
 
-        public SessionInputForm(SessionService sessionService, string solutionName)
+        public SessionInputForm(string solutionName)
         {
             InitializeComponent();
 
-            SessionService = sessionService;
             SessionInputService = new SessionInputService(new RepositoryLog(), solutionName);
 
             LoadInputData();

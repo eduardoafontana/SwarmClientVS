@@ -5,6 +5,8 @@ using Microsoft.VisualStudio.Shell;
 using Microsoft.VisualStudio.Shell.Interop;
 using EnvDTE80;
 using EnvDTE;
+using SwarmClientVS.Domain.Service;
+using System.IO;
 
 namespace SwarmClientVS
 {
@@ -89,8 +91,11 @@ namespace SwarmClientVS
         /// <param name="e">Event args.</param>
         private void MenuItemCallback(object sender, EventArgs e)
         {
-            string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
-            string title = "Command";
+            //string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
+            //string title = "Command";
+
+            SessionInputForm window = new SessionInputForm(GetSolutionName((DTE2)ServiceProvider.GetService(typeof(DTE))));
+            window.ShowDialog();
 
             // Show a message box to prove we were here
             //VsShellUtilities.ShowMessageBox(
@@ -100,10 +105,18 @@ namespace SwarmClientVS
             //    OLEMSGICON.OLEMSGICON_INFO,
             //    OLEMSGBUTTON.OLEMSGBUTTON_OK,
             //    OLEMSGDEFBUTTON.OLEMSGDEFBUTTON_FIRST);
-
-            //TODO implement later
-            //SessionInput window = new SessionInput();
-            //window.Show();
         }
+
+        private string GetSolutionName(DTE2 dte)
+        {
+            if (dte.Solution == null)
+                return "Fail to get solution name. Solution null.";
+
+            if (String.IsNullOrEmpty(dte.Solution.FileName))
+                return "Fail to get solution name. FileName empty.";
+
+            return Path.GetFileName(dte.Solution.FileName);
+        }
+
     }
 }

@@ -53,7 +53,6 @@ namespace SwarmClientVS
         private DebuggerEvents debugEvents;
         private CommandEvents commandEvents;
         private SolutionEvents solutionEvents;
-        private SessionService sessionService;
         private CurrentCommandStep currentCommandStep;
 
         /// <summary>
@@ -106,7 +105,7 @@ namespace SwarmClientVS
             DTE2 dte = (DTE2)GetService(typeof(DTE));
 
             if (reason == dbgEventReason.dbgEventReasonBreakpoint)//Breakpoint is hitted
-                sessionService.RegisterHitted(
+                SessionService.RegisterHitted(
                     new StepModel
                     {
                         CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName,
@@ -116,7 +115,7 @@ namespace SwarmClientVS
                );
 
             if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
-                sessionService.RegisterStep(
+                SessionService.RegisterStep(
                     new StepModel
                     {
                         CurrentCommandStep = currentCommandStep,
@@ -128,12 +127,11 @@ namespace SwarmClientVS
 
         private void SolutionEvents_Opened()
         {
-            sessionService = new SessionService(new RepositoryLog());
-            sessionService.RegisterNewSession();
+            SessionService.RegisterNewSession();
 
             VerifyBreakpointAlreadyAdded(applicationObject);
 
-            SessionInputForm window = new SessionInputForm(sessionService, GetSolutionName(applicationObject));
+            SessionInputForm window = new SessionInputForm(GetSolutionName(applicationObject));
             window.ShowDialog();
         }
 
@@ -156,7 +154,7 @@ namespace SwarmClientVS
             if (dte.Debugger.Breakpoints == null)
                 return;
 
-            sessionService.RegisterAlreadyAddedBreakpoints(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x =>
+            SessionService.RegisterAlreadyAddedBreakpoints(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x =>
                 new BreakpointModel
                 {
                     Name = x.Name,
@@ -195,7 +193,7 @@ namespace SwarmClientVS
                 return;
 
             if (ID == 769)//The event code for breakpoint add
-                sessionService.VerifyBreakpointAddedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x =>
+                SessionService.VerifyBreakpointAddedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x =>
                     new BreakpointModel
                     {
                         Name = x.Name,
@@ -206,7 +204,7 @@ namespace SwarmClientVS
                     }
                 ).ToList());
             else//The other event code that can represent a removed breakpoint. There is no especific event code for breakpoint remotion.
-                sessionService.VerifyBreakpointRemovedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => 
+                SessionService.VerifyBreakpointRemovedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => 
                     new BreakpointModel
                     {
                         Name = x.Name,

@@ -6,23 +6,19 @@ using System.Threading.Tasks;
 using System.IO;
 using SwarmClientVS.Domain.IRepository;
 using SwarmClientVS.Domain.DataModel;
+using SwarmClientVS.DataLog.FileLog;
 
 namespace SwarmClientVS.Domain.Service
 {
-    public class SessionService
+    public static class SessionService
     {
-        private IRepository<IData> Repository { get; set; }
-        private ISessionData CurrentSession { get; set; }
+        private static IRepository<IData> Repository = new RepositoryLog();
+        private static ISessionData CurrentSession { get; set; }
 
-        public SessionService(IRepository<IData> repository)
-        {
-            Repository = repository;
-        }
+        private static List<BreakpointModel> currentBreakpointsList = new List<BreakpointModel>();
+        private static List<BreakpointModel> dataBreakpointsList = new List<BreakpointModel>();
 
-        private List<BreakpointModel> currentBreakpointsList = new List<BreakpointModel>();
-        private List<BreakpointModel> dataBreakpointsList = new List<BreakpointModel>();
-
-        public void RegisterSessionInformation(SessionModel sessionModel)
+        public static void RegisterSessionInformation(SessionModel sessionModel)
         {
             CurrentSession.Task = new TaskData
             {
@@ -43,7 +39,7 @@ namespace SwarmClientVS.Domain.Service
             Repository.Save(CurrentSession);
         }
 
-        public void RegisterAlreadyAddedBreakpoints(List<BreakpointModel> breakpoints)
+        public static void RegisterAlreadyAddedBreakpoints(List<BreakpointModel> breakpoints)
         {
             foreach (BreakpointModel item in breakpoints)
             {
@@ -83,7 +79,7 @@ namespace SwarmClientVS.Domain.Service
             }
         }
 
-        public void VerifyBreakpointAddedOne(List<BreakpointModel> breakpoints)
+        public static void VerifyBreakpointAddedOne(List<BreakpointModel> breakpoints)
         {
             List<BreakpointModel> newBreakpointsList = breakpoints.Where(n => !currentBreakpointsList.Any(o => o.Name == n.Name)).ToList();
 
@@ -133,7 +129,7 @@ namespace SwarmClientVS.Domain.Service
             }
         }
 
-        public void VerifyBreakpointRemovedOne(List<BreakpointModel> breakpoints)
+        public static void VerifyBreakpointRemovedOne(List<BreakpointModel> breakpoints)
         {
             List<BreakpointModel> newBreakpointsList = currentBreakpointsList.Where(n => !breakpoints.Any(o => o.Name == n.Name)).ToList();
 
@@ -163,7 +159,7 @@ namespace SwarmClientVS.Domain.Service
             }
         }
 
-        public void RegisterHitted(StepModel sessionModel)
+        public static void RegisterHitted(StepModel sessionModel)
         {
             IEventData eventData = new EventData
             {
@@ -186,7 +182,7 @@ namespace SwarmClientVS.Domain.Service
             Repository.Save(CurrentSession);
         }
 
-        public void RegisterStep(StepModel sessionModel)
+        public static void RegisterStep(StepModel sessionModel)
         {
             IEventData eventData = new EventData
             {
@@ -209,7 +205,7 @@ namespace SwarmClientVS.Domain.Service
             Repository.Save(CurrentSession);
         }
 
-        public void RegisterNewSession()
+        public static void RegisterNewSession()
         {
             CurrentSession = new SessionData
             {
