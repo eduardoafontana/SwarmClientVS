@@ -203,6 +203,19 @@ namespace SwarmClientVS.Domain.Service
 
             CurrentSession.Event.Add(eventData);
             Repository.Save(CurrentSession);
+
+            if (!(CurrentSession.PathNode.LastOrDefault() ?? new PathNodeData { Method = String.Empty }).Method.Equals(sessionModel.CurrentStackFrameFunctionName))
+            {
+                CurrentSession.PathNode.Add(new PathNodeData
+                {
+                    Method = sessionModel.CurrentStackFrameFunctionName,
+                    Created = DateTime.Now,
+                    Namespace = sessionModel.CurrentDocument.Namespace,
+                    Type = "TODO"
+                });
+
+                Repository.Save(CurrentSession);
+            }
         }
 
         public static void RegisterNewSession()
