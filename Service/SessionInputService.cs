@@ -46,8 +46,12 @@ namespace SwarmClientVS.Domain.Service
                 Developer = String.IsNullOrWhiteSpace(inputData.Developer.Name) ? WindowsIdentity.GetCurrent().Name : inputData.Developer.Name
             };
 
-            sessionInputModel.SelectedProject = sessionInputModel.Project.Where(p => p.Name.Equals(OpenedSolutionName)).FirstOrDefault() ?? new SessionListBoxItemModel { Name = OpenedSolutionName };
-            sessionInputModel.SelectedTask = sessionInputModel.SelectedProject.Task.LastOrDefault() ?? new SessionListBoxItemModel { };
+            sessionInputModel.SelectedProject = sessionInputModel.Project.Where(p => p.Name.Equals(inputData.SelectedProject.Name)).FirstOrDefault() 
+                ?? sessionInputModel.Project.Where(p => p.Name.Equals(OpenedSolutionName)).FirstOrDefault() 
+                ?? new SessionListBoxItemModel { Name = OpenedSolutionName };
+
+            sessionInputModel.SelectedTask = sessionInputModel.SelectedProject.Task.Where(p => p.Name.Equals(inputData.SelectedTask.Name)).FirstOrDefault()
+                ?? sessionInputModel.SelectedProject.Task.LastOrDefault() ?? new SessionListBoxItemModel { };
 
             return sessionInputModel;
         }
@@ -64,6 +68,16 @@ namespace SwarmClientVS.Domain.Service
                         Description = t.Description
                     }).ToList()
                 }).ToList(),
+                SelectedProject = new ProjectData
+                {
+                    Name = sessionInputModel.SelectedProject.Name,
+                    Description = sessionInputModel.SelectedProject.Description
+                },
+                SelectedTask = new TaskData
+                {
+                    Name = sessionInputModel.SelectedTask.Name,
+                    Description = sessionInputModel.SelectedTask.Description
+                },
                 Developer = new DeveloperData
                 {
                     Name = sessionInputModel.Developer
