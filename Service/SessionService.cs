@@ -73,8 +73,8 @@ namespace SwarmClientVS.Domain.Service
                     Created = DateTime.Now
                 };
 
-                CurrentSession.Event.Add(eventData);
-                CurrentSession.Breakpoint.Add(breakpointData);
+                CurrentSession.Events.Add(eventData);
+                CurrentSession.Breakpoints.Add(breakpointData);
                 Repository.Save(CurrentSession);
             }
         }
@@ -104,7 +104,7 @@ namespace SwarmClientVS.Domain.Service
                     Created = DateTime.Now
                 };
 
-                CurrentSession.Event.Add(eventData);
+                CurrentSession.Events.Add(eventData);
                 Repository.Save(CurrentSession);
             }
 
@@ -124,7 +124,7 @@ namespace SwarmClientVS.Domain.Service
                     Created = DateTime.Now
                 };
 
-                CurrentSession.Breakpoint.Add(breakpointData);
+                CurrentSession.Breakpoints.Add(breakpointData);
                 Repository.Save(CurrentSession);
             }
         }
@@ -154,7 +154,7 @@ namespace SwarmClientVS.Domain.Service
                     Created = DateTime.Now
                 };
 
-                CurrentSession.Event.Add(eventData);
+                CurrentSession.Events.Add(eventData);
                 Repository.Save(CurrentSession);
             }
         }
@@ -178,7 +178,7 @@ namespace SwarmClientVS.Domain.Service
                 Created = DateTime.Now
             };
 
-            CurrentSession.Event.Add(eventData);
+            CurrentSession.Events.Add(eventData);
             Repository.Save(CurrentSession);
         }
 
@@ -201,12 +201,12 @@ namespace SwarmClientVS.Domain.Service
                 Created = DateTime.Now
             };
 
-            CurrentSession.Event.Add(eventData);
+            CurrentSession.Events.Add(eventData);
             Repository.Save(CurrentSession);
 
-            if (!(CurrentSession.PathNode.LastOrDefault() ?? new PathNodeData { Method = String.Empty }).Method.Equals(sessionModel.CurrentStackFrameFunctionName))
+            if (!(CurrentSession.PathNodes.LastOrDefault() ?? new PathNodeData { Method = String.Empty }).Method.Equals(sessionModel.CurrentStackFrameFunctionName))
             {
-                CurrentSession.PathNode.Add(new PathNodeData
+                CurrentSession.PathNodes.Add(new PathNodeData
                 {
                     Method = sessionModel.CurrentStackFrameFunctionName,
                     Created = DateTime.Now,

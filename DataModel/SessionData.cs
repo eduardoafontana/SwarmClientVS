@@ -15,9 +15,9 @@ namespace SwarmClientVS.Domain.DataModel
         public DateTime Started { get; set; }
         public DateTime Finished { get; set; }
 
-        public List<IBreakpointData> Breakpoint { get; set; } = new List<IBreakpointData>();
-        public List<IEventData> Event { get; set; } = new List<IEventData>();
-        public List<IPathNodeData> PathNode { get; set; } = new List<IPathNodeData>();
+        public List<IBreakpointData> Breakpoints { get; set; } = new List<IBreakpointData>();
+        public List<IEventData> Events { get; set; } = new List<IEventData>();
+        public List<IPathNodeData> PathNodes { get; set; } = new List<IPathNodeData>();
         public ITaskData Task { get; set; }
         public IDeveloperData Developer { get; set; }
     }
