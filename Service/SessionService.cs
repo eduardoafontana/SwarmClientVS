@@ -222,13 +222,20 @@ namespace SwarmClientVS.Domain.Service
         {
             CurrentSession = new SessionData
             {
-                Description = "Description...",
-                Label = "Fixed session, not implemented yet.",
-                Purpose = "Purpose",
+                Description = "TODO",
+                Label = "TODO",
+                Purpose = "TODO",
                 Started = DateTime.Now
             };
 
             Repository.GenerateIdentifier();
+            Repository.Save(CurrentSession);
+        }
+
+        public static void EndCurrentSession()
+        {
+            CurrentSession.Finished = DateTime.Now;
+
             Repository.Save(CurrentSession);
         }
     }

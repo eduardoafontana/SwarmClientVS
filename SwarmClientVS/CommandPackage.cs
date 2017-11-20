@@ -84,6 +84,7 @@ namespace SwarmClientVS
             currentCommandStep = CurrentCommandStep.StepInto;
 
             solutionEvents.Opened += SolutionEvents_Opened;
+            solutionEvents.AfterClosing += SolutionEvents_AfterClosing;
             debugEvents.OnEnterBreakMode += DebugEvents_OnEnterBreakMode;
             commandEvents.AfterExecute += CommandEvents_AfterExecute;
         }
@@ -133,6 +134,11 @@ namespace SwarmClientVS
 
             SessionInputForm window = new SessionInputForm(GetSolutionName(applicationObject));
             window.ShowDialog();
+        }
+
+        private void SolutionEvents_AfterClosing()
+        {
+            SessionService.EndCurrentSession();
         }
 
         private string GetSolutionName(DTE2 dte)
