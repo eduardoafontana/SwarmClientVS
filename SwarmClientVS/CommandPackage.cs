@@ -106,6 +106,7 @@ namespace SwarmClientVS
             DTE2 dte = (DTE2)GetService(typeof(DTE));
 
             if (reason == dbgEventReason.dbgEventReasonBreakpoint)//Breakpoint is hitted
+            {
                 SessionService.RegisterHitted(
                     new StepModel
                     {
@@ -113,17 +114,23 @@ namespace SwarmClientVS
                         BreakpointLastHitName = dte.Debugger.BreakpointLastHit.Name,
                         CurrentDocument = DocumentModelBuilder.Build(dte.ActiveDocument)
                     }
-               );
+                );
+
+                SessionService.ResetPathNode();
+            }
 
             if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
-                SessionService.RegisterStep(
-                    new StepModel
-                    {
-                        CurrentCommandStep = currentCommandStep,
-                        CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName,
-                        CurrentDocument = DocumentModelBuilder.Build(dte.ActiveDocument)
-                    }
-               );
+            {
+                StepModel stepModel = new StepModel
+                {
+                    CurrentCommandStep = currentCommandStep,
+                    CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName,
+                    CurrentDocument = DocumentModelBuilder.Build(dte.ActiveDocument)
+                };
+
+                SessionService.RegisterStep(stepModel);
+                SessionService.RegisterPathNode(stepModel);
+            }
         }
 
         private void SolutionEvents_Opened()
@@ -210,7 +217,7 @@ namespace SwarmClientVS
                     }
                 ).ToList());
             else//The other event code that can represent a removed breakpoint. There is no especific event code for breakpoint remotion.
-                SessionService.VerifyBreakpointRemovedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x => 
+                SessionService.VerifyBreakpointRemovedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x =>
                     new BreakpointModel
                     {
                         Name = x.Name,

@@ -11,6 +11,7 @@ namespace SwarmClientVS.Domain.IRepository
         string Namespace { get; set; }
         string Type { get; set; }
         string Method { get; set; }
+        string Parent { get; set; }
         DateTime Created { get; set; }
     }
 }
