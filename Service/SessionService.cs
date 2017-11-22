@@ -18,30 +18,13 @@ namespace SwarmClientVS.Domain.Service
         private static List<BreakpointModel> currentBreakpointsList = new List<BreakpointModel>();
         private static List<BreakpointModel> dataBreakpointsList = new List<BreakpointModel>();
         private static List<PathNodeData> currentPathNode = new List<PathNodeData>();
-
-        public static void RegisterSessionInformation(SessionModel sessionModel)
-        {
-            CurrentSession.Task = new TaskData
-            {
-                Name = sessionModel.Task,
-                Description = sessionModel.TaskDescription,
-                Project = new ProjectData
-                {
-                    Name = sessionModel.Project,
-                    Description = sessionModel.ProjectDescription
-                }
-            };
-
-            CurrentSession.Developer = new DeveloperData
-            {
-                Name = sessionModel.Developer
-            };
-
-            Repository.Save(CurrentSession);
-        }
+        private static bool added = false;
 
         public static void RegisterAlreadyAddedBreakpoints(List<BreakpointModel> breakpoints)
         {
+            if (added)
+                return;
+
             foreach (BreakpointModel item in breakpoints)
             {
                 currentBreakpointsList.Add(item);
@@ -77,6 +60,8 @@ namespace SwarmClientVS.Domain.Service
                 CurrentSession.Events.Add(eventData);
                 CurrentSession.Breakpoints.Add(breakpointData);
                 Repository.Save(CurrentSession);
+
+                added = true;
             }
         }
 
@@ -246,6 +231,9 @@ namespace SwarmClientVS.Domain.Service
 
         public static void RegisterNewSession()
         {
+            if (CurrentSession != null)
+                return;
+
             CurrentSession = new SessionData
             {
                 Description = "TODO",
@@ -256,6 +244,31 @@ namespace SwarmClientVS.Domain.Service
 
             Repository.GenerateIdentifier();
             Repository.Save(CurrentSession);
+
+            SessionInputService sessionInputService = new SessionInputService(new RepositoryLog(), String.Empty);
+            SessionInputModel sessionInputModel = sessionInputService.GetInputDataState();
+
+            CurrentSession.Task = new TaskData
+            {
+                Name = sessionInputModel.SelectedTask.Name,
+                Description = sessionInputModel.SelectedTask.Description,
+                Project = new ProjectData
+                {
+                    Name = sessionInputModel.SelectedProject.Name,
+                    Description = sessionInputModel.SelectedProject.Description
+                }
+            };
+
+            Repository.Save(CurrentSession);
+
+            CurrentSession.Developer = new DeveloperData
+            {
+                Name = sessionInputModel.Developer
+            };
+
+            Repository.Save(CurrentSession);
+
+            added = false;
         }
 
         public static void EndCurrentSession()
@@ -263,6 +276,9 @@ namespace SwarmClientVS.Domain.Service
             CurrentSession.Finished = DateTime.Now;
 
             Repository.Save(CurrentSession);
+
+            CurrentSession = null;
+            added = false;
         }
     }
 }

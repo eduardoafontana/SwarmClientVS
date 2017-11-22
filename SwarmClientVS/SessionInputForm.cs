@@ -295,15 +295,6 @@ namespace SwarmClientVS
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            SessionService.RegisterSessionInformation(new SessionModel
-            {
-                Project = txtProjectTitle.Text,
-                ProjectDescription = txtProjectDescription.Text,
-                Task = txtTaskTitle.Text,
-                TaskDescription = txtTaskDescription.Text,
-                Developer = txtDeveloper.Text
-            });
-
             SessionInputModel.Developer = txtDeveloper.Text;
 
             SessionInputService.PersistInputDataState(SessionInputModel);

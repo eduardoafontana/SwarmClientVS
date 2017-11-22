@@ -84,8 +84,9 @@ namespace SwarmClientVS
             currentCommandStep = CurrentCommandStep.StepInto;
 
             solutionEvents.Opened += SolutionEvents_Opened;
-            solutionEvents.AfterClosing += SolutionEvents_AfterClosing;
             debugEvents.OnEnterBreakMode += DebugEvents_OnEnterBreakMode;
+            debugEvents.OnEnterDesignMode += DebugEvents_OnEnterDesignMode;
+            debugEvents.OnEnterRunMode += DebugEvents_OnEnterRunMode;
             commandEvents.AfterExecute += CommandEvents_AfterExecute;
         }
 
@@ -99,6 +100,18 @@ namespace SwarmClientVS
 
             //API explorer code.
             //CommandEventsAfterBeforeMonitoring("After", Guid, ID, CustomIn, CustomOut);
+        }
+
+        private void DebugEvents_OnEnterRunMode(dbgEventReason Reason)
+        {
+            SessionService.RegisterNewSession();
+
+            VerifyBreakpointAlreadyAdded(applicationObject);
+        }
+
+        private void DebugEvents_OnEnterDesignMode(dbgEventReason Reason)
+        {
+            SessionService.EndCurrentSession();
         }
 
         private void DebugEvents_OnEnterBreakMode(dbgEventReason reason, ref dbgExecutionAction action)
@@ -121,6 +134,13 @@ namespace SwarmClientVS
 
             if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
             {
+                //String stackTrace = String.Empty;
+
+                //foreach (EnvDTE.StackFrame frame in dte.Debugger.CurrentThread.StackFrames)
+                //{
+                //    stackTrace += String.Format("{0} | ", frame.FunctionName);
+                //}
+
                 StepModel stepModel = new StepModel
                 {
                     CurrentCommandStep = currentCommandStep,
@@ -135,17 +155,8 @@ namespace SwarmClientVS
 
         private void SolutionEvents_Opened()
         {
-            SessionService.RegisterNewSession();
-
-            VerifyBreakpointAlreadyAdded(applicationObject);
-
             SessionInputForm window = new SessionInputForm(GetSolutionName(applicationObject));
             window.ShowDialog();
-        }
-
-        private void SolutionEvents_AfterClosing()
-        {
-            SessionService.EndCurrentSession();
         }
 
         private string GetSolutionName(DTE2 dte)

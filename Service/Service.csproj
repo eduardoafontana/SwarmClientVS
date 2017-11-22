@@ -49,7 +49,6 @@
     <Compile Include="BreakpointModel.cs" />
     <Compile Include="SessionListBoxItemModel.cs" />
     <Compile Include="SessionInputModel.cs" />
-    <Compile Include="SessionModel.cs" />
     <Compile Include="DocumentModel.cs" />
     <Compile Include="SessionInputService.cs" />
     <Compile Include="SessionService.cs" />
