@@ -129,27 +129,26 @@ namespace SwarmClientVS
                     }
                 );
 
-                SessionService.ResetPathNode();
+                SessionService.RegisterStartPathNode(new PathNodeModel
+                {
+                    StackTrace = dte.Debugger.CurrentThread.StackFrames.Cast<EnvDTE.StackFrame>().Reverse().Select(x => x.FunctionName).ToList()
+                });
             }
 
             if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
             {
-                //String stackTrace = String.Empty;
-
-                //foreach (EnvDTE.StackFrame frame in dte.Debugger.CurrentThread.StackFrames)
-                //{
-                //    stackTrace += String.Format("{0} | ", frame.FunctionName);
-                //}
-
-                StepModel stepModel = new StepModel
+                SessionService.RegisterStep(new StepModel
                 {
                     CurrentCommandStep = currentCommandStep,
                     CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName,
                     CurrentDocument = DocumentModelBuilder.Build(dte.ActiveDocument)
-                };
+                });
 
-                SessionService.RegisterStep(stepModel);
-                SessionService.RegisterPathNode(stepModel);
+                SessionService.RegisterPathNode(new PathNodeModel
+                {
+                    CurrentCommandStep = currentCommandStep,
+                    StackTrace = dte.Debugger.CurrentThread.StackFrames.Cast<EnvDTE.StackFrame>().Reverse().Select(x => x.FunctionName).ToList()
+                });
             }
         }
 

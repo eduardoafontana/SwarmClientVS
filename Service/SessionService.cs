@@ -17,12 +17,13 @@ namespace SwarmClientVS.Domain.Service
 
         private static List<BreakpointModel> currentBreakpointsList = new List<BreakpointModel>();
         private static List<BreakpointModel> dataBreakpointsList = new List<BreakpointModel>();
-        private static List<PathNodeData> currentPathNode = new List<PathNodeData>();
-        private static bool added = false;
+        private static bool addedBreakpoints = false;
+        private static bool addedPathNode = false;
+
 
         public static void RegisterAlreadyAddedBreakpoints(List<BreakpointModel> breakpoints)
         {
-            if (added)
+            if (addedBreakpoints)
                 return;
 
             foreach (BreakpointModel item in breakpoints)
@@ -61,12 +62,15 @@ namespace SwarmClientVS.Domain.Service
                 CurrentSession.Breakpoints.Add(breakpointData);
                 Repository.Save(CurrentSession);
 
-                added = true;
+                addedBreakpoints = true;
             }
         }
 
         public static void VerifyBreakpointAddedOne(List<BreakpointModel> breakpoints)
         {
+            if (CurrentSession == null)
+                return;
+
             List<BreakpointModel> newBreakpointsList = breakpoints.Where(n => !currentBreakpointsList.Any(o => o.Name == n.Name)).ToList();
 
             foreach (BreakpointModel item in newBreakpointsList)
@@ -117,6 +121,9 @@ namespace SwarmClientVS.Domain.Service
 
         public static void VerifyBreakpointRemovedOne(List<BreakpointModel> breakpoints)
         {
+            if (CurrentSession == null)
+                return;
+
             List<BreakpointModel> newBreakpointsList = currentBreakpointsList.Where(n => !breakpoints.Any(o => o.Name == n.Name)).ToList();
 
             foreach (BreakpointModel item in newBreakpointsList)
@@ -191,42 +198,73 @@ namespace SwarmClientVS.Domain.Service
             Repository.Save(CurrentSession);
         }
 
-        public static void ResetPathNode()
+        public static void RegisterStartPathNode(PathNodeModel pathNodeModel)
         {
-            currentPathNode = new List<PathNodeData>();
-        }
-
-        public static void RegisterPathNode(StepModel sessionModel)
-        {
-            if (sessionModel.CurrentCommandStep != CurrentCommandStep.StepInto)
+            if (addedPathNode)
                 return;
 
-            if (currentPathNode.FirstOrDefault(p => p.Method.Equals(sessionModel.CurrentStackFrameFunctionName)) != null)
-                currentPathNode = new List<PathNodeData>();
-
-            //se existe na lista de parent e for o primeiro, então reinicia a currentPathNode, parrent = null
-            //se existe na lista e estiver no meio, então adiciona normal, mas pathnode é o logo anterior na lista
-            //se existe na lista e for o último, pode ser uma chamada de metodo irmão logo na sequencia - que tem valor, ou pode ser 
-            //um stepinto dentro do metodo já acionado pelo stepinto, que não tem valor e não precisa registrar.
-            //  se caso 1, registrar chamada com parent igual ao irmão já acionado.
-            //  se caso 2, não registrar, pois informação não tem valor
-
-            //if (!(CurrentSession.PathNodes.LastOrDefault() ?? new PathNodeData { Method = String.Empty }).Method.Equals(sessionModel.CurrentStackFrameFunctionName))
-            //{
-            PathNodeData pathNodeData = new PathNodeData
+            for (int i = 0; i < pathNodeModel.StackTrace.Count; i++)
             {
-                Method = sessionModel.CurrentStackFrameFunctionName,
-                Created = DateTime.Now,
-                Namespace = sessionModel.CurrentDocument.Namespace,
-                Parent = currentPathNode.LastOrDefault() == null ? null : currentPathNode.Last().Method,
-                Type = "TODO"
-            };
+                CurrentSession.PathNodes.Add(new PathNodeData
+                {
+                    Method = pathNodeModel.StackTrace[i],
+                    Created = DateTime.Now,
+                    Namespace = "TODO",
+                    Parent = i == 0 ? null : pathNodeModel.StackTrace[i - 1],
+                    Type = "TODO"
+                });
 
-            CurrentSession.PathNodes.Add(pathNodeData);
-            Repository.Save(CurrentSession);
+                Repository.Save(CurrentSession);
+            }
 
-            currentPathNode.Add(pathNodeData);
-            //}
+            addedPathNode = true;
+        }
+
+        public static void RegisterPathNode(PathNodeModel pathNodeModel)
+        {
+            if (pathNodeModel.CurrentCommandStep != CurrentCommandStep.StepInto)
+                return;
+
+            for (int i = 0; i < pathNodeModel.StackTrace.Count; i++)
+            {
+                CurrentSession.PathNodes.Add(new PathNodeData
+                {
+                    Method = pathNodeModel.StackTrace[i],
+                    Created = DateTime.Now,
+                    Namespace = "TODO",
+                    Parent = i == 0 ? null : pathNodeModel.StackTrace[i - 1],
+                    Type = "TODO"
+                });
+
+                Repository.Save(CurrentSession);
+            }
+
+            //if (currentPathNode.FirstOrDefault(p => p.Method.Equals(sessionModel.CurrentStackFrameFunctionName)) != null)
+            //    currentPathNode = new List<PathNodeData>();
+
+            ////se existe na lista de parent e for o primeiro, então reinicia a currentPathNode, parrent = null
+            ////se existe na lista e estiver no meio, então adiciona normal, mas pathnode é o logo anterior na lista
+            ////se existe na lista e for o último, pode ser uma chamada de metodo irmão logo na sequencia - que tem valor, ou pode ser 
+            ////um stepinto dentro do metodo já acionado pelo stepinto, que não tem valor e não precisa registrar.
+            ////  se caso 1, registrar chamada com parent igual ao irmão já acionado.
+            ////  se caso 2, não registrar, pois informação não tem valor
+
+            ////if (!(CurrentSession.PathNodes.LastOrDefault() ?? new PathNodeData { Method = String.Empty }).Method.Equals(sessionModel.CurrentStackFrameFunctionName))
+            ////{
+            //PathNodeData pathNodeData = new PathNodeData
+            //{
+            //    Method = sessionModel.CurrentStackFrameFunctionName,
+            //    Created = DateTime.Now,
+            //    Namespace = sessionModel.CurrentDocument.Namespace,
+            //    Parent = currentPathNode.LastOrDefault() == null ? null : currentPathNode.Last().Method,
+            //    Type = "TODO"
+            //};
+
+            //CurrentSession.PathNodes.Add(pathNodeData);
+            //Repository.Save(CurrentSession);
+
+            //currentPathNode.Add(pathNodeData);
+            ////}
         }
 
         public static void RegisterNewSession()
@@ -268,7 +306,8 @@ namespace SwarmClientVS.Domain.Service
 
             Repository.Save(CurrentSession);
 
-            added = false;
+            addedBreakpoints = false;
+            addedPathNode = false;
         }
 
         public static void EndCurrentSession()
@@ -278,7 +317,8 @@ namespace SwarmClientVS.Domain.Service
             Repository.Save(CurrentSession);
 
             CurrentSession = null;
-            added = false;
+            addedBreakpoints = false;
+            addedPathNode = false;
         }
     }
 }
