@@ -203,7 +203,7 @@ namespace SwarmClientVS.Domain.Service
             if (addedPathNode)
                 return;
 
-            AddNodeAsOf(0, pathNodeModel.StackTrace);
+            AddNodeAsOf(0, pathNodeModel.StackTrace, PathNodeOrigin.Breakpoint);
 
             addedPathNode = true;
         }
@@ -217,18 +217,23 @@ namespace SwarmClientVS.Domain.Service
             {
                 if (i >= CurrentSession.PathNodes.Count)
                 {
-                    AddNodeAsOf(i, pathNodeModel.StackTrace);
+                    AddNodeAsOf(i, pathNodeModel.StackTrace, PathNodeOrigin.StepInto);
                     break;
                 }
                 else if (!pathNodeModel.StackTrace[i].Equals(CurrentSession.PathNodes[i].GetStackTrace()))
                 {
-                    AddNodeAsOf(i, pathNodeModel.StackTrace);
+                    AddNodeAsOf(i, pathNodeModel.StackTrace, PathNodeOrigin.StepInto);
                     break;
                 }
+                //else if (i == pathNodeModel.StackTrace.Count - 1)
+                //{
+                //    AddNodeAsOf(i, pathNodeModel.StackTrace, PathNodeOrigin.StepInto);
+                //    break;
+                //}
             }
         }
 
-        private static void AddNodeAsOf(int start, List<string> stackTrace)
+        private static void AddNodeAsOf(int start, List<string> stackTrace, PathNodeOrigin pathNodeOrigin)
         {
             for (int i = start; i < stackTrace.Count; i++)
             {
@@ -238,7 +243,8 @@ namespace SwarmClientVS.Domain.Service
                     Created = DateTime.Now,
                     Namespace = PathNodeModel.GeNamespaceName(stackTrace[i]),
                     Parent = i == 0 ? null : PathNodeModel.GetMethodName(stackTrace[i - 1]),
-                    Type = PathNodeModel.GeTypeName(stackTrace[i])
+                    Type = PathNodeModel.GeTypeName(stackTrace[i]),
+                    Origin = i == stackTrace.Count - 1 ? pathNodeOrigin.ToString() : PathNodeOrigin.Trace.ToString()
                 });
 
                 Repository.Save(CurrentSession);

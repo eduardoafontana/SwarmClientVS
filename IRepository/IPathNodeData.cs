@@ -12,6 +12,7 @@ namespace SwarmClientVS.Domain.IRepository
         string Type { get; set; }
         string Method { get; set; }
         string Parent { get; set; }
+        string Origin { get; set; }
         DateTime Created { get; set; }
 
         string GetStackTrace();
