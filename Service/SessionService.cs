@@ -220,7 +220,7 @@ namespace SwarmClientVS.Domain.Service
                     AddNodeAsOf(i, pathNodeModel.StackTrace);
                     break;
                 }
-                else if (!pathNodeModel.StackTrace[i].Equals(CurrentSession.PathNodes[i].Method))
+                else if (!pathNodeModel.StackTrace[i].Equals(CurrentSession.PathNodes[i].GetStackTrace()))
                 {
                     AddNodeAsOf(i, pathNodeModel.StackTrace);
                     break;
@@ -234,11 +234,11 @@ namespace SwarmClientVS.Domain.Service
             {
                 CurrentSession.PathNodes.Add(new PathNodeData
                 {
-                    Method = stackTrace[i],
+                    Method = PathNodeModel.GetMethodName(stackTrace[i]),
                     Created = DateTime.Now,
-                    Namespace = "TODO",
-                    Parent = i == 0 ? null : stackTrace[i - 1],
-                    Type = "TODO"
+                    Namespace = PathNodeModel.GeNamespaceName(stackTrace[i]),
+                    Parent = i == 0 ? null : PathNodeModel.GetMethodName(stackTrace[i - 1]),
+                    Type = PathNodeModel.GeTypeName(stackTrace[i])
                 });
 
                 Repository.Save(CurrentSession);

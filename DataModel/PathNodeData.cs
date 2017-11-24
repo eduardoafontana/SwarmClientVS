@@ -14,5 +14,10 @@ namespace SwarmClientVS.Domain.DataModel
         public string Method { get; set; }
         public string Parent { get; set; }
         public DateTime Created { get; set; }
+
+        public string GetStackTrace()
+        {
+            return String.Format("{0}.{1}.{2}", Namespace, Type, Method);
+        }
     }
 }
