@@ -11,10 +11,10 @@ namespace SwarmClientVS.DataLog.FileLog
     public class RepositoryLog : IRepository<IData>
     {
         private string Identifier { get; set; }
-        private string DirectoryPath { get { return @".\SwarmData"; } }
+        private string DirectoryPath { get { return @"C:\SwarmData"; } }
 
-        private string DefaultFilePath { get { return String.Format(@".\{0}\swarm-input-data.txt", DirectoryPath); } }
-        private string IdentifierFilePath { get { return String.Format(@".\{0}\session-{1}.txt", DirectoryPath, Identifier); } }
+        private string DefaultFilePath { get { return String.Format(@"{0}\swarm-input-data.txt", DirectoryPath); } }
+        private string IdentifierFilePath { get { return String.Format(@"{0}\session-{1}.txt", DirectoryPath, Identifier); } }
 
         private string FileName
         {
