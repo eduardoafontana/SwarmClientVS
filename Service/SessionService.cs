@@ -225,11 +225,11 @@ namespace SwarmClientVS.Domain.Service
                     AddNodeAsOf(i, pathNodeModel.StackTrace, PathNodeOrigin.StepInto);
                     break;
                 }
-                //else if (i == pathNodeModel.StackTrace.Count - 1)
-                //{
-                //    AddNodeAsOf(i, pathNodeModel.StackTrace, PathNodeOrigin.StepInto);
-                //    break;
-                //}
+                else if (i == pathNodeModel.StackTrace.Count - 1)
+                {
+                    AddNodeAsOf(i, pathNodeModel.StackTrace, PathNodeOrigin.StepInto);
+                    break;
+                }
             }
         }
 
