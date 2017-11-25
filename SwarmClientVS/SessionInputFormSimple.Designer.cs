@@ -92,8 +92,7 @@
             this.dgTask.Size = new System.Drawing.Size(546, 250);
             this.dgTask.TabIndex = 0;
             this.dgTask.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgTask_CellClick);
-            this.dgTask.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgTask_RowsAdded);
-            this.dgTask.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgTask_RowsRemoved);
+            this.dgTask.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgTask_CellValueChanged);
             // 
             // TaskAction
             // 

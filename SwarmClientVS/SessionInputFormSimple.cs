@@ -66,8 +66,6 @@ namespace SwarmClientVS
             dgTask.DataSource = SessionInputModelSimple.Task;
 
             lblProject.Text = SessionInputModelSimple.Project;
-
-            ValidateStart();
         }
 
         private void dgTask_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -88,30 +86,45 @@ namespace SwarmClientVS
 
         private void btnStart_Click(object sender, EventArgs e)
         {
+            if (!NooneTaskTitleEmpty())
+                return;
+
             SessionInputService.PersistInputDataStateSimple(SessionInputModelSimple);
 
             Close();
         }
 
-        private void dgTask_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        private bool NooneTaskTitleEmpty()
         {
-            ValidateStart();
+            if (dgTask.Rows.Count == 1)
+                return false;
+
+            MarkTaskTitleEmpty();
+
+            return dgTask.Rows.Cast<DataGridViewRow>().Where(x => String.IsNullOrWhiteSpace(Convert.ToString(x.Cells["TaskTitle"].Value))).Count() == 1; ;
         }
 
-        private void dgTask_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        private void MarkTaskTitleEmpty()
         {
-            ValidateStart();
+            foreach (DataGridViewRow item in dgTask.Rows)
+            {
+                if (dgTask.Rows.Count > 1 && item.IsNewRow)
+                    continue;
+
+                if(String.IsNullOrWhiteSpace(Convert.ToString(item.Cells["TaskTitle"].Value)))
+                    item.Cells["TaskTitle"].Style.BackColor = Color.Tomato;
+            }
         }
 
-        private void ValidateStart()
+        private void dgTask_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            btnStart.Enabled = true;
-
-            if (dgTask.Rows.Count != 1)
+            if (e.RowIndex < 0)
                 return;
 
-            if (String.IsNullOrWhiteSpace(Convert.ToString(dgTask.Rows[0].Cells["TaskTitle"].Value)))
-                btnStart.Enabled = false;
+            if (String.IsNullOrWhiteSpace(Convert.ToString(dgTask.Rows[e.RowIndex].Cells["TaskTitle"].Value)))
+                dgTask.Rows[e.RowIndex].Cells["TaskTitle"].Style.BackColor = Color.Tomato;
+            else
+                dgTask.Rows[e.RowIndex].Cells["TaskTitle"].Style.BackColor = Color.White;
         }
     }
 }
