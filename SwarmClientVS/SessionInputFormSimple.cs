@@ -18,12 +18,6 @@ namespace SwarmClientVS
         private SessionInputService SessionInputService;
         private SessionInputModelSimple SessionInputModelSimple;
 
-        //public enum TaskActionOption
-        //{
-        //    SearchingBug,
-        //    ResolvingBug
-        //}
-
         public SessionInputFormSimple(string solutionName)
         {
             InitializeComponent();
@@ -49,6 +43,22 @@ namespace SwarmClientVS
                 MaxInputLength = 75,
                 Width = 150,
                 DisplayIndex = 0,
+            });
+
+            dgTask.Columns.Add(new DataGridViewComboBoxColumn()
+            {
+                CellTemplate = new DataGridViewComboBoxCell(),
+
+                DataSource = Enum.GetValues(typeof(TaskAction)),
+                ValueType = typeof(TaskAction),
+
+                Name = "TaskAction",
+                HeaderText = "Task Action",
+                DataPropertyName = "Action",
+                Resizable = DataGridViewTriState.False,
+                SortMode = DataGridViewColumnSortMode.NotSortable,
+                Width = 100,
+                DisplayIndex = 1
             });
 
             dgTask.Columns.Add(new DataGridViewTextBoxColumn()
@@ -111,7 +121,7 @@ namespace SwarmClientVS
                 if (dgTask.Rows.Count > 1 && item.IsNewRow)
                     continue;
 
-                if(String.IsNullOrWhiteSpace(Convert.ToString(item.Cells["TaskTitle"].Value)))
+                if (String.IsNullOrWhiteSpace(Convert.ToString(item.Cells["TaskTitle"].Value)))
                     item.Cells["TaskTitle"].Style.BackColor = Color.Tomato;
             }
         }

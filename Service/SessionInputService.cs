@@ -11,6 +11,12 @@ using System.ComponentModel;
 
 namespace SwarmClientVS.Domain.Service
 {
+    public enum TaskAction
+    {
+        SearchingBug,
+        ResolvingBug
+    }
+
     public class SessionInputService
     {
         private IRepository<IData> Repository { get; set; }
@@ -69,7 +75,8 @@ namespace SwarmClientVS.Domain.Service
                 Task = new BindingList<SessionGridViewItemModel>(inputData.Task.Select(x => new SessionGridViewItemModel
                 {
                     Title = x.Name,
-                    Description = x.Description
+                    Description = x.Description,
+                    Action = (TaskAction)Enum.Parse(typeof(TaskAction), x.Action)
                 }).ToList()),
                 Project = OpenedSolutionName
             };
@@ -94,7 +101,8 @@ namespace SwarmClientVS.Domain.Service
                 Task = sessionInputModel.Task.Select(t => new TaskData
                 {
                     Name = t.Title,
-                    Description = t.Description
+                    Description = t.Description,
+                    Action = t.Action.ToString()
                 }).ToList(),
                 Project = sessionInputModel.Project,
                 Developer = WindowsIdentity.GetCurrent().Name

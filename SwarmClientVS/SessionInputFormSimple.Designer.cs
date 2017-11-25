@@ -33,10 +33,9 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.gbTask = new System.Windows.Forms.GroupBox();
             this.dgTask = new System.Windows.Forms.DataGridView();
-            this.TaskAction = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.TaskDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.lblProject = new System.Windows.Forms.Label();
+            this.TaskDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.statusStrip1.SuspendLayout();
             this.gbTask.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTask)).BeginInit();
@@ -82,7 +81,6 @@
             // 
             this.dgTask.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgTask.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.TaskAction,
             this.TaskDelete});
             this.dgTask.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgTask.Location = new System.Drawing.Point(7, 20);
@@ -94,23 +92,6 @@
             this.dgTask.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgTask_CellClick);
             this.dgTask.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgTask_CellValueChanged);
             this.dgTask.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgTask_DataBindingComplete);
-            // 
-            // TaskAction
-            // 
-            this.TaskAction.HeaderText = "Task Action";
-            this.TaskAction.Items.AddRange(new object[] {
-            "Searching Bug",
-            "Resolving Bug"});
-            this.TaskAction.Name = "TaskAction";
-            this.TaskAction.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // TaskDelete
-            // 
-            this.TaskDelete.HeaderText = "Delete";
-            this.TaskDelete.Name = "TaskDelete";
-            this.TaskDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.TaskDelete.Text = "X";
-            this.TaskDelete.Width = 25;
             // 
             // label1
             // 
@@ -129,6 +110,14 @@
             this.lblProject.Size = new System.Drawing.Size(10, 13);
             this.lblProject.TabIndex = 7;
             this.lblProject.Text = "-";
+            // 
+            // TaskDelete
+            // 
+            this.TaskDelete.HeaderText = "Delete";
+            this.TaskDelete.Name = "TaskDelete";
+            this.TaskDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.TaskDelete.Text = "X";
+            this.TaskDelete.Width = 25;
             // 
             // SessionInputFormSimple
             // 
@@ -164,8 +153,7 @@
         private System.Windows.Forms.DataGridView dgTask;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblProject;
-        private System.Windows.Forms.DataGridViewComboBoxColumn TaskAction;
-        private System.Windows.Forms.DataGridViewButtonColumn TaskDelete;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
+        private System.Windows.Forms.DataGridViewButtonColumn TaskDelete;
     }
 }
