@@ -301,5 +301,26 @@ namespace SwarmClientVS
 
             //Close();
         }
+
+        private void dgTask_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex == dgTask.NewRowIndex || e.RowIndex < 0)
+                return;
+
+            if (e.ColumnIndex == dgTask.Columns["TaskDelete"].Index)
+            {
+                DialogResult dialogResult = MessageBox.Show("Do you really want to delete this task row?", "Delete Task", MessageBoxButtons.YesNo);
+
+                if (dialogResult == DialogResult.No)
+                    return;
+
+
+
+                ////Put some logic here, for example to remove row from your binding list.
+                //yourBindingList.RemoveAt(e.RowIndex);
+                //bindingSource.RemoveCurrent();
+
+            }
+        }
     }
 }

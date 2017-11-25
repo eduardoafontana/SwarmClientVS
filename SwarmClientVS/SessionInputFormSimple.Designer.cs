@@ -31,7 +31,7 @@
             this.btnStart = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.gbTask = new System.Windows.Forms.GroupBox();
-            this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.dgTask = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.lblProject = new System.Windows.Forms.Label();
             this.TaskName = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -39,7 +39,7 @@
             this.TaskDescripion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TaskDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.gbTask.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgTask)).BeginInit();
             this.SuspendLayout();
             // 
             // btnStart
@@ -62,7 +62,7 @@
             // 
             // gbTask
             // 
-            this.gbTask.Controls.Add(this.dataGridView1);
+            this.gbTask.Controls.Add(this.dgTask);
             this.gbTask.Location = new System.Drawing.Point(12, 49);
             this.gbTask.Name = "gbTask";
             this.gbTask.Size = new System.Drawing.Size(559, 279);
@@ -70,20 +70,21 @@
             this.gbTask.TabStop = false;
             this.gbTask.Text = "Task";
             // 
-            // dataGridView1
+            // dgTask
             // 
-            this.dataGridView1.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dataGridView1.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.dgTask.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgTask.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.TaskName,
             this.TaskAction,
             this.TaskDescripion,
             this.TaskDelete});
-            this.dataGridView1.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
-            this.dataGridView1.Location = new System.Drawing.Point(7, 20);
-            this.dataGridView1.Name = "dataGridView1";
-            this.dataGridView1.RowHeadersWidth = 15;
-            this.dataGridView1.Size = new System.Drawing.Size(546, 250);
-            this.dataGridView1.TabIndex = 0;
+            this.dgTask.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
+            this.dgTask.Location = new System.Drawing.Point(7, 20);
+            this.dgTask.Name = "dgTask";
+            this.dgTask.RowHeadersWidth = 15;
+            this.dgTask.Size = new System.Drawing.Size(546, 250);
+            this.dgTask.TabIndex = 0;
+            this.dgTask.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgTask_CellClick);
             // 
             // label1
             // 
@@ -153,7 +154,7 @@
             this.Text = "Visual Studio Swarm Debugger Monitor Client";
             this.TopMost = true;
             this.gbTask.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgTask)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -163,7 +164,7 @@
         private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.GroupBox gbTask;
-        private System.Windows.Forms.DataGridView dataGridView1;
+        private System.Windows.Forms.DataGridView dgTask;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblProject;
         private System.Windows.Forms.DataGridViewTextBoxColumn TaskName;
