@@ -96,10 +96,10 @@ namespace SwarmClientVS
 
         private bool NooneTaskTitleEmpty()
         {
+            MarkTaskTitleEmpty();
+
             if (dgTask.Rows.Count == 1)
                 return false;
-
-            MarkTaskTitleEmpty();
 
             return dgTask.Rows.Cast<DataGridViewRow>().Where(x => String.IsNullOrWhiteSpace(Convert.ToString(x.Cells["TaskTitle"].Value))).Count() == 1; ;
         }
