@@ -30,12 +30,14 @@
         {
             this.btnStart = new System.Windows.Forms.Button();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.gbTask = new System.Windows.Forms.GroupBox();
             this.dgTask = new System.Windows.Forms.DataGridView();
-            this.label1 = new System.Windows.Forms.Label();
-            this.lblProject = new System.Windows.Forms.Label();
             this.TaskAction = new System.Windows.Forms.DataGridViewComboBoxColumn();
             this.TaskDelete = new System.Windows.Forms.DataGridViewButtonColumn();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblProject = new System.Windows.Forms.Label();
+            this.statusStrip1.SuspendLayout();
             this.gbTask.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTask)).BeginInit();
             this.SuspendLayout();
@@ -52,11 +54,19 @@
             // 
             // statusStrip1
             // 
+            this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripStatusLabel1});
             this.statusStrip1.Location = new System.Drawing.Point(0, 364);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(584, 22);
             this.statusStrip1.TabIndex = 4;
             this.statusStrip1.Text = "statusStrip1";
+            // 
+            // toolStripStatusLabel1
+            // 
+            this.toolStripStatusLabel1.Name = "toolStripStatusLabel1";
+            this.toolStripStatusLabel1.Size = new System.Drawing.Size(118, 17);
+            this.toolStripStatusLabel1.Text = "toolStripStatusLabel1";
             // 
             // gbTask
             // 
@@ -82,6 +92,25 @@
             this.dgTask.Size = new System.Drawing.Size(546, 250);
             this.dgTask.TabIndex = 0;
             this.dgTask.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgTask_CellClick);
+            this.dgTask.RowsAdded += new System.Windows.Forms.DataGridViewRowsAddedEventHandler(this.dgTask_RowsAdded);
+            this.dgTask.RowsRemoved += new System.Windows.Forms.DataGridViewRowsRemovedEventHandler(this.dgTask_RowsRemoved);
+            // 
+            // TaskAction
+            // 
+            this.TaskAction.HeaderText = "Task Action";
+            this.TaskAction.Items.AddRange(new object[] {
+            "Searching Bug",
+            "Resolving Bug"});
+            this.TaskAction.Name = "TaskAction";
+            this.TaskAction.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            // 
+            // TaskDelete
+            // 
+            this.TaskDelete.HeaderText = "Delete";
+            this.TaskDelete.Name = "TaskDelete";
+            this.TaskDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.TaskDelete.Text = "X";
+            this.TaskDelete.Width = 25;
             // 
             // label1
             // 
@@ -101,23 +130,6 @@
             this.lblProject.TabIndex = 7;
             this.lblProject.Text = "-";
             // 
-            // TaskAction
-            // 
-            this.TaskAction.HeaderText = "Task Action";
-            this.TaskAction.Items.AddRange(new object[] {
-            "Searching Bug",
-            "Resolving Bug"});
-            this.TaskAction.Name = "TaskAction";
-            this.TaskAction.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            // 
-            // TaskDelete
-            // 
-            this.TaskDelete.HeaderText = "Delete";
-            this.TaskDelete.Name = "TaskDelete";
-            this.TaskDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.TaskDelete.Text = "X";
-            this.TaskDelete.Width = 25;
-            // 
             // SessionInputFormSimple
             // 
             this.AcceptButton = this.btnStart;
@@ -136,6 +148,8 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Visual Studio Swarm Debugger Monitor Client";
             this.TopMost = true;
+            this.statusStrip1.ResumeLayout(false);
+            this.statusStrip1.PerformLayout();
             this.gbTask.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dgTask)).EndInit();
             this.ResumeLayout(false);
@@ -152,5 +166,6 @@
         private System.Windows.Forms.Label lblProject;
         private System.Windows.Forms.DataGridViewComboBoxColumn TaskAction;
         private System.Windows.Forms.DataGridViewButtonColumn TaskDelete;
+        private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
     }
 }

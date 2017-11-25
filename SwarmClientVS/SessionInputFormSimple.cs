@@ -66,6 +66,8 @@ namespace SwarmClientVS
             dgTask.DataSource = SessionInputModelSimple.Task;
 
             lblProject.Text = SessionInputModelSimple.Project;
+
+            ValidateStart();
         }
 
         private void dgTask_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -89,6 +91,27 @@ namespace SwarmClientVS
             SessionInputService.PersistInputDataStateSimple(SessionInputModelSimple);
 
             Close();
+        }
+
+        private void dgTask_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
+        {
+            ValidateStart();
+        }
+
+        private void dgTask_RowsRemoved(object sender, DataGridViewRowsRemovedEventArgs e)
+        {
+            ValidateStart();
+        }
+
+        private void ValidateStart()
+        {
+            btnStart.Enabled = true;
+
+            if (dgTask.Rows.Count != 1)
+                return;
+
+            if (String.IsNullOrWhiteSpace(Convert.ToString(dgTask.Rows[0].Cells["TaskTitle"].Value)))
+                btnStart.Enabled = false;
         }
     }
 }
