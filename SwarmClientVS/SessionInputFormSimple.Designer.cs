@@ -78,6 +78,7 @@
             this.dgTask.Location = new System.Drawing.Point(7, 20);
             this.dgTask.Name = "dgTask";
             this.dgTask.RowHeadersWidth = 15;
+            this.dgTask.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgTask.Size = new System.Drawing.Size(546, 250);
             this.dgTask.TabIndex = 0;
             this.dgTask.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgTask_CellClick);
@@ -107,11 +108,13 @@
             "Searching Bug",
             "Resolving Bug"});
             this.TaskAction.Name = "TaskAction";
+            this.TaskAction.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             // 
             // TaskDelete
             // 
             this.TaskDelete.HeaderText = "Delete";
             this.TaskDelete.Name = "TaskDelete";
+            this.TaskDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.TaskDelete.Text = "X";
             this.TaskDelete.Width = 25;
             // 
