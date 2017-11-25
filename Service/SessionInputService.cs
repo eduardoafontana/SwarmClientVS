@@ -77,7 +77,19 @@ namespace SwarmClientVS.Domain.Service
             return sessionInputModel;
         }
 
-        //On persist, get developer and selectedTask=last
+        public void PersistInputDataStateSimple(SessionInputModelSimple sessionInputModel)
+        {
+            Repository.Save(new SessionInputDataSimple
+            {
+                Task = sessionInputModel.Task.Select(t => new TaskData
+                {
+                    Name = t.Title,
+                    Description = t.Description
+                }).ToList(),
+                Project = sessionInputModel.Project,
+                Developer = WindowsIdentity.GetCurrent().Name
+            });
+        }
 
         public void PersistInputDataState(SessionInputModel sessionInputModel)
         {

@@ -18,19 +18,10 @@ namespace SwarmClientVS
         private SessionInputService SessionInputService;
         private SessionInputModelSimple SessionInputModelSimple;
 
-        //BindingList<TaskGridItem> listData = new BindingList<TaskGridItem>();
-
-        public enum TaskActionOption
-        {
-            SearchingBug,
-            ResolvingBug
-        }
-
-        //public class TaskGridItem
+        //public enum TaskActionOption
         //{
-        //    public string TaskName { get; set; }
-        //    public TaskActionOption TaskAction { get; set; }
-        //    public string TaskDescription { get; set; }
+        //    SearchingBug,
+        //    ResolvingBug
         //}
 
         public SessionInputFormSimple(string solutionName)
@@ -38,8 +29,6 @@ namespace SwarmClientVS
             InitializeComponent();
 
             SessionInputService = new SessionInputService(new RepositoryLog(), solutionName);
-
-            //listData.Add(new TaskGridItem { TaskName = "Task 1", TaskAction = TaskActionOption.SearchingBug, TaskDescription = "Task 1 Description" });
 
             LoadInputData();
         }
@@ -97,11 +86,9 @@ namespace SwarmClientVS
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            //SessionInputModel.Developer = txtDeveloper.Text;
+            SessionInputService.PersistInputDataStateSimple(SessionInputModelSimple);
 
-            //SessionInputService.PersistInputDataState(SessionInputModel);
-
-            //Close();
+            Close();
         }
     }
 }
