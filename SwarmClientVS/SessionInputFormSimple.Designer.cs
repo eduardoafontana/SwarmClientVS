@@ -34,9 +34,7 @@
             this.dgTask = new System.Windows.Forms.DataGridView();
             this.label1 = new System.Windows.Forms.Label();
             this.lblProject = new System.Windows.Forms.Label();
-            this.TaskName = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TaskAction = new System.Windows.Forms.DataGridViewComboBoxColumn();
-            this.TaskDescripion = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.TaskDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.gbTask.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTask)).BeginInit();
@@ -74,9 +72,7 @@
             // 
             this.dgTask.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgTask.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.TaskName,
             this.TaskAction,
-            this.TaskDescripion,
             this.TaskDelete});
             this.dgTask.EditMode = System.Windows.Forms.DataGridViewEditMode.EditOnEnter;
             this.dgTask.Location = new System.Drawing.Point(7, 20);
@@ -104,14 +100,6 @@
             this.lblProject.TabIndex = 7;
             this.lblProject.Text = "-";
             // 
-            // TaskName
-            // 
-            this.TaskName.HeaderText = "Task Name";
-            this.TaskName.MaxInputLength = 75;
-            this.TaskName.Name = "TaskName";
-            this.TaskName.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.TaskName.Width = 150;
-            // 
             // TaskAction
             // 
             this.TaskAction.HeaderText = "Task Action";
@@ -119,14 +107,6 @@
             "Searching Bug",
             "Resolving Bug"});
             this.TaskAction.Name = "TaskAction";
-            // 
-            // TaskDescripion
-            // 
-            this.TaskDescripion.HeaderText = "Task Description";
-            this.TaskDescripion.MaxInputLength = 100;
-            this.TaskDescripion.Name = "TaskDescripion";
-            this.TaskDescripion.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
-            this.TaskDescripion.Width = 225;
             // 
             // TaskDelete
             // 
@@ -167,9 +147,7 @@
         private System.Windows.Forms.DataGridView dgTask;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label lblProject;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TaskName;
         private System.Windows.Forms.DataGridViewComboBoxColumn TaskAction;
-        private System.Windows.Forms.DataGridViewTextBoxColumn TaskDescripion;
         private System.Windows.Forms.DataGridViewButtonColumn TaskDelete;
     }
 }

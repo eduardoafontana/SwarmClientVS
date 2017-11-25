@@ -7,6 +7,7 @@ using System.IO;
 using SwarmClientVS.Domain.IRepository;
 using SwarmClientVS.Domain.DataModel;
 using System.Security.Principal;
+using System.ComponentModel;
 
 namespace SwarmClientVS.Domain.Service
 {
@@ -55,6 +56,28 @@ namespace SwarmClientVS.Domain.Service
 
             return sessionInputModel;
         }
+
+        public SessionInputModelSimple GetInputDataStateSimple()
+        {
+            SessionInputDataSimple inputData = Repository.Get<SessionInputDataSimple>();
+
+            if (inputData == null)
+                inputData = new SessionInputDataSimple { };
+
+            SessionInputModelSimple sessionInputModel = new SessionInputModelSimple
+            {
+                Task = new BindingList<SessionGridViewItemModel>(inputData.Task.Select(x => new SessionGridViewItemModel
+                {
+                    Title = x.Name,
+                    Description = x.Description
+                }).ToList()),
+                Project = OpenedSolutionName
+            };
+
+            return sessionInputModel;
+        }
+
+        //On persist, get developer and selectedTask=last
 
         public void PersistInputDataState(SessionInputModel sessionInputModel)
         {
