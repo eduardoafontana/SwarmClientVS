@@ -268,16 +268,16 @@ namespace SwarmClientVS.Domain.Service
             Repository.Save(CurrentSession);
 
             SessionInputService sessionInputService = new SessionInputService(new RepositoryLog(), String.Empty);
-            SessionInputModel sessionInputModel = sessionInputService.GetInputDataState();
+            SessionInputDataSimple sessionInputDataSimple = sessionInputService.GetInputData();
 
             CurrentSession.Task = new TaskData
             {
-                Name = sessionInputModel.SelectedTask.Name,
-                Description = sessionInputModel.SelectedTask.Description,
+                Name = (sessionInputDataSimple.Task.LastOrDefault() ?? new TaskData { Name = String.Empty }).Name,
+                Description = (sessionInputDataSimple.Task.LastOrDefault() ?? new TaskData { Description = String.Empty }).Description,
                 Project = new ProjectData
                 {
-                    Name = sessionInputModel.SelectedProject.Name,
-                    Description = sessionInputModel.SelectedProject.Description
+                    Name = sessionInputDataSimple.Project,
+                    Description = String.Empty
                 }
             };
 
@@ -285,7 +285,7 @@ namespace SwarmClientVS.Domain.Service
 
             CurrentSession.Developer = new DeveloperData
             {
-                Name = sessionInputModel.Developer
+                Name = sessionInputDataSimple.Developer
             };
 
             Repository.Save(CurrentSession);

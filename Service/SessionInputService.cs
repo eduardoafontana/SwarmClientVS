@@ -77,6 +77,16 @@ namespace SwarmClientVS.Domain.Service
             return sessionInputModel;
         }
 
+        public SessionInputDataSimple GetInputData()
+        {
+            SessionInputDataSimple inputData = Repository.Get<SessionInputDataSimple>();
+
+            if (inputData == null)
+                inputData = new SessionInputDataSimple { };
+
+            return inputData;
+        }
+
         public void PersistInputDataStateSimple(SessionInputModelSimple sessionInputModel)
         {
             Repository.Save(new SessionInputDataSimple
