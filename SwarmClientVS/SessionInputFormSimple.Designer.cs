@@ -93,6 +93,7 @@
             this.dgTask.TabIndex = 0;
             this.dgTask.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgTask_CellClick);
             this.dgTask.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgTask_CellValueChanged);
+            this.dgTask.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgTask_DataBindingComplete);
             // 
             // TaskAction
             // 

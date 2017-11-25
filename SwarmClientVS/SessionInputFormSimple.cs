@@ -126,5 +126,11 @@ namespace SwarmClientVS
             else
                 dgTask.Rows[e.RowIndex].Cells["TaskTitle"].Style.BackColor = Color.White;
         }
+
+        private void dgTask_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            //TODO: review later. Try to disable delete button on newrow
+            //dgTask.Rows[dgTask.NewRowIndex].Cells["TaskDelete"].ReadOnly = true;
+        }
     }
 }
