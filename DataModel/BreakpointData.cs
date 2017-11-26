@@ -14,6 +14,12 @@ namespace SwarmClientVS.Domain.DataModel
         Exception
     };
 
+    public enum BreakpointOrigin
+    {
+        AddedBeforeDebug,
+        AddedDuringDebug
+    };
+
     public class BreakpointData : IBreakpointData
     {
         public string BreakpointKind { get; set; }
@@ -21,6 +27,7 @@ namespace SwarmClientVS.Domain.DataModel
         public string Type { get; set; }
         public int LineNumber { get; set; }
         public string LineOfCode { get; set; }
+        public string Origin { get; set; }
         public DateTime Created { get; set; }
     }
 }

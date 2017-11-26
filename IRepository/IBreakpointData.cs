@@ -13,6 +13,7 @@ namespace SwarmClientVS.Domain.IRepository
         string Type { get; set; }
         int LineNumber { get; set; }
         string LineOfCode { get; set; }
+        string Origin { get; set; }
         DateTime Created { get; set; }
     }
 }

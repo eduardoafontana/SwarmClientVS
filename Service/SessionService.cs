@@ -52,9 +52,10 @@ namespace SwarmClientVS.Domain.Service
                 {
                     BreakpointKind = BreakpointKind.Line.ToString(),
                     Namespace = PathNodeModel.GeNamespaceName(item.FunctionName),
-                    Type = "AlreadyAdded",
+                    Type = PathNodeModel.GeTypeName(item.FunctionName),
                     LineNumber = item.FileLine,
                     LineOfCode = item.DocumentModel.CurrentLine,
+                    Origin = BreakpointOrigin.AddedBeforeDebug.ToString(),
                     Created = DateTime.Now
                 };
 
@@ -108,9 +109,10 @@ namespace SwarmClientVS.Domain.Service
                 {
                     BreakpointKind = BreakpointKind.Line.ToString(),
                     Namespace = PathNodeModel.GeNamespaceName(item.FunctionName),
-                    Type = "Added",
+                    Type = PathNodeModel.GeTypeName(item.FunctionName),
                     LineNumber = item.FileLine,
                     LineOfCode = item.DocumentModel.CurrentLine,
+                    Origin = BreakpointOrigin.AddedDuringDebug.ToString(),
                     Created = DateTime.Now
                 };
 
