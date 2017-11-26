@@ -13,6 +13,7 @@ namespace SwarmClientVS.Domain.DataModel
         public string Name { get; set; }
         public string Description { get; set; }
         public string Action { get; set; }
+        public DateTime Created { get; set; }
 
         [JsonConverter(typeof(ConcreteConverter<ProjectData>))]
         public IProjectData Project { get; set; }

@@ -76,7 +76,8 @@ namespace SwarmClientVS.Domain.Service
                 {
                     Title = x.Name,
                     Description = x.Description,
-                    Action = (TaskAction)Enum.Parse(typeof(TaskAction), x.Action)
+                    Action = (TaskAction)Enum.Parse(typeof(TaskAction), x.Action),
+                    Created = x.Created
                 }).ToList()),
                 Project = OpenedSolutionName
             };
@@ -102,7 +103,8 @@ namespace SwarmClientVS.Domain.Service
                 {
                     Name = t.Title,
                     Description = t.Description,
-                    Action = t.Action.ToString()
+                    Action = t.Action.ToString(),
+                    Created = t.Created == DateTime.MinValue ? DateTime.Now : t.Created
                 }).ToList(),
                 Project = sessionInputModel.Project,
                 Developer = WindowsIdentity.GetCurrent().Name

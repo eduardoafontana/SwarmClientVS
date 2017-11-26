@@ -13,5 +13,6 @@ namespace SwarmClientVS.Domain.Service
         public string Title { get; set; }
         public string Description { get; set; }
         public TaskAction Action { get; set; }
+        public DateTime Created { get; set; }
     }
 }

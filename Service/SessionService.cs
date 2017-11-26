@@ -277,6 +277,7 @@ namespace SwarmClientVS.Domain.Service
                 Name = (sessionInputDataSimple.Task.LastOrDefault() ?? new TaskData { Name = String.Empty }).Name,
                 Description = (sessionInputDataSimple.Task.LastOrDefault() ?? new TaskData { Description = String.Empty }).Description,
                 Action = (sessionInputDataSimple.Task.LastOrDefault() ?? new TaskData { Action = TaskAction.ResolvingBug.ToString() }).Action,
+                Created = (sessionInputDataSimple.Task.LastOrDefault() ?? new TaskData { Created = DateTime.Now }).Created,
                 Project = new ProjectData
                 {
                     Name = sessionInputDataSimple.Project,
