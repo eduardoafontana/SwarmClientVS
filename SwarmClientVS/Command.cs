@@ -7,6 +7,7 @@ using EnvDTE80;
 using EnvDTE;
 using SwarmClientVS.Domain.Service;
 using System.IO;
+using System.Windows.Forms;
 
 namespace SwarmClientVS
 {
@@ -97,8 +98,17 @@ namespace SwarmClientVS
             //SessionInputForm window = new SessionInputForm(GetSolutionName((DTE2)ServiceProvider.GetService(typeof(DTE))));
             //window.ShowDialog();
 
-            SessionInputFormSimple window = new SessionInputFormSimple(GetSolutionName((DTE2)ServiceProvider.GetService(typeof(DTE))));
-            window.ShowDialog();
+            DTE2 dte = (DTE2)ServiceProvider.GetService(typeof(DTE));
+
+            if (dte.Debugger == null || dte.Debugger.CurrentStackFrame == null)
+            {
+                SessionInputFormSimple window = new SessionInputFormSimple(GetSolutionName(dte));
+                window.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Swarm Debugger configuration cannot open when the debug is running! Please, stop the run debug mode and try again.", "Cannot open");
+            }
 
             // Show a message box to prove we were here
             //VsShellUtilities.ShowMessageBox(
