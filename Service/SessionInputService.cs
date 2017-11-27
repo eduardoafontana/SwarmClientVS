@@ -14,7 +14,10 @@ namespace SwarmClientVS.Domain.Service
     public enum TaskAction
     {
         SearchingBug,
-        ResolvingBug
+        ResolvingBug,
+        AnalyzingCode,
+        NewFeature,
+        Refactoring
     }
 
     public class SessionInputService
