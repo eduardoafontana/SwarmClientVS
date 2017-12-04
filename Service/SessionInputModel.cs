@@ -8,7 +8,7 @@ using SwarmClientVS.Domain.IRepository;
 
 namespace SwarmClientVS.Domain.Service
 {
-    public class SessionInputModelSimple
+    public class SessionInputModel
     {
         public BindingList<SessionGridViewItemModel> Task { get; set; } = new BindingList<SessionGridViewItemModel>();
         public string Project { get; set; }

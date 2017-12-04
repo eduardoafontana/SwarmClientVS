@@ -47,7 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BreakpointModel.cs" />
-    <Compile Include="SessionInputModelSimple.cs" />
+    <Compile Include="SessionInputModel.cs" />
     <Compile Include="SessionGridViewItemModel.cs" />
     <Compile Include="DocumentModel.cs" />
     <Compile Include="SessionInputService.cs" />

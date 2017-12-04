@@ -31,14 +31,14 @@ namespace SwarmClientVS.Domain.Service
             OpenedSolutionName = solutionName;
         }
 
-        public SessionInputModelSimple GetInputDataStateSimple()
+        public SessionInputModel GetInputDataStateSimple()
         {
             SessionInputData inputData = Repository.Get<SessionInputData>();
 
             if (inputData == null)
                 inputData = new SessionInputData { };
 
-            SessionInputModelSimple sessionInputModel = new SessionInputModelSimple
+            SessionInputModel sessionInputModel = new SessionInputModel
             {
                 Task = new BindingList<SessionGridViewItemModel>(inputData.Task.Select(x => new SessionGridViewItemModel
                 {
@@ -63,7 +63,7 @@ namespace SwarmClientVS.Domain.Service
             return inputData;
         }
 
-        public void PersistInputDataStateSimple(SessionInputModelSimple sessionInputModel)
+        public void PersistInputDataStateSimple(SessionInputModel sessionInputModel)
         {
             Repository.Save(new SessionInputData
             {

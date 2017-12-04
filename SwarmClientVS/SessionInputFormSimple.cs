@@ -16,7 +16,7 @@ namespace SwarmClientVS
     public partial class SessionInputFormSimple : Form
     {
         private SessionInputService SessionInputService;
-        private SessionInputModelSimple SessionInputModelSimple;
+        private SessionInputModel SessionInputModelSimple;
 
         public SessionInputFormSimple(string solutionName)
         {
