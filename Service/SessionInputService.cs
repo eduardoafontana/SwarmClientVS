@@ -31,7 +31,7 @@ namespace SwarmClientVS.Domain.Service
             OpenedSolutionName = solutionName;
         }
 
-        public SessionInputModel GetInputDataStateSimple()
+        public SessionInputModel GetInputDataState()
         {
             SessionInputData inputData = Repository.Get<SessionInputData>();
 
@@ -63,7 +63,7 @@ namespace SwarmClientVS.Domain.Service
             return inputData;
         }
 
-        public void PersistInputDataStateSimple(SessionInputModel sessionInputModel)
+        public void PersistInputDataState(SessionInputModel sessionInputModel)
         {
             Repository.Save(new SessionInputData
             {

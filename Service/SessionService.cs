@@ -270,17 +270,17 @@ namespace SwarmClientVS.Domain.Service
             Repository.Save(CurrentSession);
 
             SessionInputService sessionInputService = new SessionInputService(new RepositoryLog(), String.Empty);
-            SessionInputData sessionInputDataSimple = sessionInputService.GetInputData();
+            SessionInputData sessionInputData = sessionInputService.GetInputData();
 
             CurrentSession.Task = new TaskData
             {
-                Name = (sessionInputDataSimple.Task.LastOrDefault() ?? new TaskData { Name = String.Empty }).Name,
-                Description = (sessionInputDataSimple.Task.LastOrDefault() ?? new TaskData { Description = String.Empty }).Description,
-                Action = (sessionInputDataSimple.Task.LastOrDefault() ?? new TaskData { Action = TaskAction.ResolvingBug.ToString() }).Action,
-                Created = (sessionInputDataSimple.Task.LastOrDefault() ?? new TaskData { Created = DateTime.Now }).Created,
+                Name = (sessionInputData.Task.LastOrDefault() ?? new TaskData { Name = String.Empty }).Name,
+                Description = (sessionInputData.Task.LastOrDefault() ?? new TaskData { Description = String.Empty }).Description,
+                Action = (sessionInputData.Task.LastOrDefault() ?? new TaskData { Action = TaskAction.ResolvingBug.ToString() }).Action,
+                Created = (sessionInputData.Task.LastOrDefault() ?? new TaskData { Created = DateTime.Now }).Created,
                 Project = new ProjectData
                 {
-                    Name = sessionInputDataSimple.Project,
+                    Name = sessionInputData.Project,
                     Description = String.Empty
                 }
             };
@@ -289,7 +289,7 @@ namespace SwarmClientVS.Domain.Service
 
             CurrentSession.Developer = new DeveloperData
             {
-                Name = sessionInputDataSimple.Developer
+                Name = sessionInputData.Developer
             };
 
             Repository.Save(CurrentSession);

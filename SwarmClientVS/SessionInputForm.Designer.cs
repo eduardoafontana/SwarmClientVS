@@ -119,7 +119,7 @@
             this.TaskDelete.Text = "X";
             this.TaskDelete.Width = 25;
             // 
-            // SessionInputFormSimple
+            // SessionInputForm
             // 
             this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -133,7 +133,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "SessionInputFormSimple";
+            this.Name = "SessionInputForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Visual Studio Swarm Debugger Monitor Client";
             this.TopMost = true;

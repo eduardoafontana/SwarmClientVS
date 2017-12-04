@@ -29,7 +29,7 @@ namespace SwarmClientVS
 
         private void LoadInputData()
         {
-            SessionInputModel = SessionInputService.GetInputDataStateSimple();
+            SessionInputModel = SessionInputService.GetInputDataState();
 
             dgTask.AutoGenerateColumns = false;
 
@@ -99,7 +99,7 @@ namespace SwarmClientVS
             if (!NooneTaskTitleEmpty())
                 return;
 
-            SessionInputService.PersistInputDataStateSimple(SessionInputModel);
+            SessionInputService.PersistInputDataState(SessionInputModel);
 
             Close();
         }
