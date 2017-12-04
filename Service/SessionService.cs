@@ -13,7 +13,7 @@ namespace SwarmClientVS.Domain.Service
     public static class SessionService
     {
         private static IRepository<IData> Repository = new RepositoryLog();
-        private static ISessionData CurrentSession { get; set; }
+        private static SessionData CurrentSession { get; set; }
 
         private static List<BreakpointModel> currentBreakpointsList = new List<BreakpointModel>();
         private static List<BreakpointModel> dataBreakpointsList = new List<BreakpointModel>();
@@ -31,7 +31,7 @@ namespace SwarmClientVS.Domain.Service
                 currentBreakpointsList.Add(item);
                 dataBreakpointsList.Add(item);
 
-                IEventData eventData = new EventData
+                EventData eventData = new EventData
                 {
                     EventKind = EventKind.BreakpointAdd.ToString(),
                     Detail = item.Name,
@@ -78,7 +78,7 @@ namespace SwarmClientVS.Domain.Service
             {
                 currentBreakpointsList.Add(item);
 
-                IEventData eventData = new EventData
+                EventData eventData = new EventData
                 {
                     EventKind = EventKind.BreakpointAdd.ToString(),
                     Detail = item.Name,
@@ -132,7 +132,7 @@ namespace SwarmClientVS.Domain.Service
             {
                 currentBreakpointsList.Remove(item);
 
-                IEventData eventData = new EventData
+                EventData eventData = new EventData
                 {
                     EventKind = EventKind.BreakpointRemove.ToString(),
                     Detail = item.Name,
@@ -156,7 +156,7 @@ namespace SwarmClientVS.Domain.Service
 
         public static void RegisterHitted(StepModel sessionModel)
         {
-            IEventData eventData = new EventData
+            EventData eventData = new EventData
             {
                 EventKind = EventKind.BreakpointHitted.ToString(),
                 Detail = sessionModel.BreakpointLastHitName,
@@ -179,7 +179,7 @@ namespace SwarmClientVS.Domain.Service
 
         public static void RegisterStep(StepModel sessionModel)
         {
-            IEventData eventData = new EventData
+            EventData eventData = new EventData
             {
                 EventKind = ((EventKind)sessionModel.CurrentCommandStep).ToString(),
                 Detail = "TODO",

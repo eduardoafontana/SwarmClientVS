@@ -46,13 +46,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IDeveloperData.cs" />
-    <Compile Include="ITaskData.cs" />
-    <Compile Include="IProjectData.cs" />
-    <Compile Include="ISessionData.cs" />
-    <Compile Include="IEventData.cs" />
-    <Compile Include="IPathNodeData.cs" />
-    <Compile Include="IBreakpointData.cs" />
     <Compile Include="IData.cs" />
     <Compile Include="IRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

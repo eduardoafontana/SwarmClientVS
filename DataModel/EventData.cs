@@ -24,7 +24,7 @@ namespace SwarmClientVS.Domain.DataModel
         BreakpointHitted
     };
 
-    public class EventData : IEventData
+    public class EventData : IData
     {
         public string EventKind { get; set; }
         public string Detail { get; set; }

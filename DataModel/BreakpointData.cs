@@ -20,7 +20,7 @@ namespace SwarmClientVS.Domain.DataModel
         AddedDuringDebug
     };
 
-    public class BreakpointData : IBreakpointData
+    public class BreakpointData : IData
     {
         public string BreakpointKind { get; set; }
         public string Namespace { get; set; }

@@ -7,7 +7,7 @@ using SwarmClientVS.Domain.IRepository;
 
 namespace SwarmClientVS.Domain.DataModel
 {
-    public class ProjectData : IProjectData
+    public class ProjectData : IData
     {
         public string Name { get; set; }
         public string Description { get; set; }

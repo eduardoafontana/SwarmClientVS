@@ -7,7 +7,7 @@ using SwarmClientVS.Domain.IRepository;
 
 namespace SwarmClientVS.Domain.DataModel
 {
-    public class SessionData : ISessionData
+    public class SessionData : IData
     {
         public string Label { get; set; }
         public string Description { get; set; }
@@ -15,10 +15,10 @@ namespace SwarmClientVS.Domain.DataModel
         public DateTime Started { get; set; }
         public DateTime Finished { get; set; }
 
-        public List<IBreakpointData> Breakpoints { get; set; } = new List<IBreakpointData>();
-        public List<IEventData> Events { get; set; } = new List<IEventData>();
-        public List<IPathNodeData> PathNodes { get; set; } = new List<IPathNodeData>();
-        public ITaskData Task { get; set; }
-        public IDeveloperData Developer { get; set; }
+        public List<BreakpointData> Breakpoints { get; set; } = new List<BreakpointData>();
+        public List<EventData> Events { get; set; } = new List<EventData>();
+        public List<PathNodeData> PathNodes { get; set; } = new List<PathNodeData>();
+        public TaskData Task { get; set; }
+        public DeveloperData Developer { get; set; }
     }
 }

@@ -14,7 +14,7 @@ namespace SwarmClientVS.Domain.DataModel
         StepInto
     };
 
-    public class PathNodeData : IPathNodeData
+    public class PathNodeData : IData
     {
         public string Namespace { get; set; }
         public string Type { get; set; }
