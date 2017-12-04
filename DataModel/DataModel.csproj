@@ -51,10 +51,8 @@
   <ItemGroup>
     <Compile Include="ConcreteConverter.cs" />
     <Compile Include="DeveloperData.cs" />
-    <Compile Include="ProjectInputData.cs" />
     <Compile Include="ProjectData.cs" />
     <Compile Include="SessionInputDataSimple.cs" />
-    <Compile Include="SessionInputData.cs" />
     <Compile Include="TaskData.cs" />
     <Compile Include="SessionData.cs" />
     <Compile Include="PathNodeData.cs" />

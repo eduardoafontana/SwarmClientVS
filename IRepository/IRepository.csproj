@@ -47,8 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="IDeveloperData.cs" />
-    <Compile Include="IProjectInputData.cs" />
-    <Compile Include="ISessionInputData.cs" />
     <Compile Include="ITaskData.cs" />
     <Compile Include="IProjectData.cs" />
     <Compile Include="ISessionData.cs" />
