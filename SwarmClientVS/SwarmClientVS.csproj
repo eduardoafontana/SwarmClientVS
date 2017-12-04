@@ -64,12 +64,6 @@
     <Compile Include="SessionInputFormSimple.Designer.cs">
       <DependentUpon>SessionInputFormSimple.cs</DependentUpon>
     </Compile>
-    <Compile Include="SessionInputForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="SessionInputForm.Designer.cs">
-      <DependentUpon>SessionInputForm.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
@@ -210,9 +204,6 @@
   <ItemGroup>
     <EmbeddedResource Include="SessionInputFormSimple.resx">
       <DependentUpon>SessionInputFormSimple.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="SessionInputForm.resx">
-      <DependentUpon>SessionInputForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="VSPackage.resx">
       <MergeWithCTO>true</MergeWithCTO>

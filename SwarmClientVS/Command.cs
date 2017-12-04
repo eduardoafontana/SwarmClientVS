@@ -95,9 +95,6 @@ namespace SwarmClientVS
             //string message = string.Format(CultureInfo.CurrentCulture, "Inside {0}.MenuItemCallback()", this.GetType().FullName);
             //string title = "Command";
 
-            //SessionInputForm window = new SessionInputForm(GetSolutionName((DTE2)ServiceProvider.GetService(typeof(DTE))));
-            //window.ShowDialog();
-
             DTE2 dte = (DTE2)ServiceProvider.GetService(typeof(DTE));
 
             if (dte.Debugger == null || dte.Debugger.CurrentStackFrame == null)
