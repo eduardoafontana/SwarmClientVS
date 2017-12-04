@@ -154,7 +154,7 @@ namespace SwarmClientVS
 
         private void SolutionEvents_Opened()
         {
-            SessionInputFormSimple window = new SessionInputFormSimple(GetSolutionName(applicationObject));
+            SessionInputForm window = new SessionInputForm(GetSolutionName(applicationObject));
             window.ShowDialog();
         }
 

@@ -99,7 +99,7 @@ namespace SwarmClientVS
 
             if (dte.Debugger == null || dte.Debugger.CurrentStackFrame == null)
             {
-                SessionInputFormSimple window = new SessionInputFormSimple(GetSolutionName(dte));
+                SessionInputForm window = new SessionInputForm(GetSolutionName(dte));
                 window.ShowDialog();
             }
             else

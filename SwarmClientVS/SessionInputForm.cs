@@ -13,12 +13,12 @@ using SwarmClientVS.Domain.Service;
 
 namespace SwarmClientVS
 {
-    public partial class SessionInputFormSimple : Form
+    public partial class SessionInputForm : Form
     {
         private SessionInputService SessionInputService;
-        private SessionInputModel SessionInputModelSimple;
+        private SessionInputModel SessionInputModel;
 
-        public SessionInputFormSimple(string solutionName)
+        public SessionInputForm(string solutionName)
         {
             InitializeComponent();
 
@@ -29,7 +29,7 @@ namespace SwarmClientVS
 
         private void LoadInputData()
         {
-            SessionInputModelSimple = SessionInputService.GetInputDataStateSimple();
+            SessionInputModel = SessionInputService.GetInputDataStateSimple();
 
             dgTask.AutoGenerateColumns = false;
 
@@ -73,9 +73,9 @@ namespace SwarmClientVS
                 DisplayIndex = 2
             });
 
-            dgTask.DataSource = SessionInputModelSimple.Task;
+            dgTask.DataSource = SessionInputModel.Task;
 
-            lblProject.Text = SessionInputModelSimple.Project;
+            lblProject.Text = SessionInputModel.Project;
         }
 
         private void dgTask_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -90,7 +90,7 @@ namespace SwarmClientVS
                 if (dialogResult == DialogResult.No)
                     return;
 
-                SessionInputModelSimple.Task.RemoveAt(e.RowIndex);
+                SessionInputModel.Task.RemoveAt(e.RowIndex);
             }
         }
 
@@ -99,7 +99,7 @@ namespace SwarmClientVS
             if (!NooneTaskTitleEmpty())
                 return;
 
-            SessionInputService.PersistInputDataStateSimple(SessionInputModelSimple);
+            SessionInputService.PersistInputDataStateSimple(SessionInputModel);
 
             Close();
         }
