@@ -9,7 +9,7 @@ using SwarmClientVS.Domain.IRepository;
 
 namespace SwarmClientVS.Domain.DataModel
 {
-    public class SessionInputDataSimple : IData
+    public class SessionInputData : IData
     {
         public List<TaskData> Task { get; set; } = new List<TaskData>();
         public string Project { get; set; }

@@ -270,7 +270,7 @@ namespace SwarmClientVS.Domain.Service
             Repository.Save(CurrentSession);
 
             SessionInputService sessionInputService = new SessionInputService(new RepositoryLog(), String.Empty);
-            SessionInputDataSimple sessionInputDataSimple = sessionInputService.GetInputData();
+            SessionInputData sessionInputDataSimple = sessionInputService.GetInputData();
 
             CurrentSession.Task = new TaskData
             {
