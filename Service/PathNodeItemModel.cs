@@ -62,5 +62,21 @@ namespace SwarmClientVS.Domain.Service
 
             return String.Empty;
         }
+
+        public static string GetTypeAndMethodName(string stackTracePath)
+        {
+            string[] pieces = stackTracePath.Split('.');
+
+            if (pieces.Length == 0)
+                return String.Empty;
+
+            if (pieces.Length == 1)
+                return stackTracePath;
+
+            if (pieces.Length > 1)
+                return String.Format("{0}.{1}", pieces[pieces.Length - 2], pieces.Last());//type.method
+
+            return String.Empty;
+        }
     }
 }

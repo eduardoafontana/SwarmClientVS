@@ -244,7 +244,7 @@ namespace SwarmClientVS.Domain.Service
                     Method = PathNodeItemModel.GetMethodName(stackTrace[i].StackName),
                     Created = DateTime.Now,
                     Namespace = PathNodeItemModel.GeNamespaceName(stackTrace[i].StackName),
-                    Parent = i == 0 ? null : PathNodeItemModel.GetMethodName(stackTrace[i - 1].StackName),
+                    Parent = i == 0 ? null : PathNodeItemModel.GetTypeAndMethodName(stackTrace[i - 1].StackName),
                     Type = PathNodeItemModel.GeTypeName(stackTrace[i].StackName),
                     ReturnType = stackTrace[i].ReturnType,
                     Parameters = stackTrace[i].Parameters.Select(x => new PathNodeParameterData
