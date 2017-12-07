@@ -10,6 +10,7 @@ namespace SwarmClientVS.Domain.Service
     {
         public string StackName { get; set; }
         public string ReturnType { get; set; }
+        public List<PathNodeItemParameterModel> Parameters { get; set; } = new List<PathNodeItemParameterModel>();
 
         public static string GetMethodName(string stackTracePath)
         {

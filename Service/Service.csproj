@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BreakpointModel.cs" />
+    <Compile Include="PathNodeItemParameterModel.cs" />
     <Compile Include="PathNodeItemModel.cs" />
     <Compile Include="SessionInputModel.cs" />
     <Compile Include="SessionGridViewItemModel.cs" />

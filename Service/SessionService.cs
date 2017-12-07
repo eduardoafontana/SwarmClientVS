@@ -222,7 +222,7 @@ namespace SwarmClientVS.Domain.Service
                     AddNodeAsOf(i, pathNodeModel.StackTraceItems, PathNodeOrigin.StepInto);
                     break;
                 }
-                else if (!pathNodeModel.StackTraceItems[i].Equals(CurrentSession.PathNodes[i].GetStackTrace()))
+                else if (!pathNodeModel.StackTraceItems[i].StackName.Equals(CurrentSession.PathNodes[i].GetStackTrace()))
                 {
                     AddNodeAsOf(i, pathNodeModel.StackTraceItems, PathNodeOrigin.StepInto);
                     break;
@@ -247,6 +247,12 @@ namespace SwarmClientVS.Domain.Service
                     Parent = i == 0 ? null : PathNodeItemModel.GetMethodName(stackTrace[i - 1].StackName),
                     Type = PathNodeItemModel.GeTypeName(stackTrace[i].StackName),
                     ReturnType = stackTrace[i].ReturnType,
+                    Parameters = stackTrace[i].Parameters.Select(x => new PathNodeParameterData
+                    {
+                        Type = x.Type,
+                        Name = x.Name,
+                        Value = x.Value
+                    }).ToList(),
                     Origin = i == stackTrace.Count - 1 ? pathNodeOrigin.ToString() : PathNodeOrigin.Trace.ToString()
                 });
 

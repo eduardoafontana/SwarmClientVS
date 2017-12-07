@@ -131,7 +131,17 @@ namespace SwarmClientVS
 
                 SessionService.RegisterStartPathNode(new PathNodeModel
                 {
-                    StackTraceItems = dte.Debugger.CurrentThread.StackFrames.Cast<EnvDTE.StackFrame>().Reverse().Select(x => new PathNodeItemModel { StackName = x.FunctionName, ReturnType = x.ReturnType } ).ToList()
+                    StackTraceItems = dte.Debugger.CurrentThread.StackFrames.Cast<EnvDTE.StackFrame>().Reverse().Select(x => new PathNodeItemModel
+                    {
+                        StackName = x.FunctionName,
+                        ReturnType = x.ReturnType,
+                        Parameters = x.Locals.Cast<Expression>().Select(p => new PathNodeItemParameterModel
+                        {
+                            Type = p.Type,
+                            Name = p.Name,
+                            Value = p.Value
+                        } ).ToList()
+                    } ).ToList()
                 });
             }
 
@@ -147,7 +157,17 @@ namespace SwarmClientVS
                 SessionService.RegisterPathNode(new PathNodeModel
                 {
                     CurrentCommandStep = currentCommandStep,
-                    StackTraceItems = dte.Debugger.CurrentThread.StackFrames.Cast<EnvDTE.StackFrame>().Reverse().Select(x => new PathNodeItemModel { StackName = x.FunctionName, ReturnType = x.ReturnType } ).ToList(),
+                    StackTraceItems = dte.Debugger.CurrentThread.StackFrames.Cast<EnvDTE.StackFrame>().Reverse().Select(x => new PathNodeItemModel
+                    {
+                        StackName = x.FunctionName,
+                        ReturnType = x.ReturnType,
+                        Parameters = x.Locals.Cast<Expression>().Select(p => new PathNodeItemParameterModel
+                        {
+                            Type = p.Type,
+                            Name = p.Name,
+                            Value = p.Value
+                        }).ToList()
+                    } ).ToList(),
                 });
             }
         }

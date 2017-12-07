@@ -22,6 +22,7 @@ namespace SwarmClientVS.Domain.DataModel
         public string Parent { get; set; }
         public string Origin { get; set; }
         public string ReturnType { get; set; }
+        public List<PathNodeParameterData> Parameters { get; set; } = new List<PathNodeParameterData>();
         public DateTime Created { get; set; }
 
         public string GetStackTrace()
