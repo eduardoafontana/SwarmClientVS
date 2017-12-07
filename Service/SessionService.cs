@@ -35,10 +35,10 @@ namespace SwarmClientVS.Domain.Service
                 {
                     EventKind = EventKind.BreakpointAdd.ToString(),
                     Detail = item.Name,
-                    Namespace = PathNodeModel.GeNamespaceName(item.FunctionName),
-                    Type = PathNodeModel.GeTypeName(item.FunctionName),
+                    Namespace = PathNodeItemModel.GeNamespaceName(item.FunctionName),
+                    Type = PathNodeItemModel.GeTypeName(item.FunctionName),
                     TypeFullPath = "TODO",
-                    Method = PathNodeModel.GetMethodName(item.FunctionName),
+                    Method = PathNodeItemModel.GetMethodName(item.FunctionName),
                     MethodKey = String.Empty,
                     MethodSignature = item.FunctionName,
                     CharStart = item.StartLineText,
@@ -51,8 +51,8 @@ namespace SwarmClientVS.Domain.Service
                 BreakpointData breakpointData = new BreakpointData
                 {
                     BreakpointKind = BreakpointKind.Line.ToString(),
-                    Namespace = PathNodeModel.GeNamespaceName(item.FunctionName),
-                    Type = PathNodeModel.GeTypeName(item.FunctionName),
+                    Namespace = PathNodeItemModel.GeNamespaceName(item.FunctionName),
+                    Type = PathNodeItemModel.GeTypeName(item.FunctionName),
                     LineNumber = item.FileLine,
                     LineOfCode = item.DocumentModel.CurrentLine,
                     Origin = BreakpointOrigin.AddedBeforeDebug.ToString(),
@@ -82,10 +82,10 @@ namespace SwarmClientVS.Domain.Service
                 {
                     EventKind = EventKind.BreakpointAdd.ToString(),
                     Detail = item.Name,
-                    Namespace = PathNodeModel.GeNamespaceName(item.FunctionName),
-                    Type = PathNodeModel.GeTypeName(item.FunctionName),
+                    Namespace = PathNodeItemModel.GeNamespaceName(item.FunctionName),
+                    Type = PathNodeItemModel.GeTypeName(item.FunctionName),
                     TypeFullPath = "TODO",
-                    Method = PathNodeModel.GetMethodName(item.FunctionName),
+                    Method = PathNodeItemModel.GetMethodName(item.FunctionName),
                     MethodKey = String.Empty,
                     MethodSignature = item.FunctionName,
                     CharStart = item.StartLineText,
@@ -108,8 +108,8 @@ namespace SwarmClientVS.Domain.Service
                 BreakpointData breakpointData = new BreakpointData
                 {
                     BreakpointKind = BreakpointKind.Line.ToString(),
-                    Namespace = PathNodeModel.GeNamespaceName(item.FunctionName),
-                    Type = PathNodeModel.GeTypeName(item.FunctionName),
+                    Namespace = PathNodeItemModel.GeNamespaceName(item.FunctionName),
+                    Type = PathNodeItemModel.GeTypeName(item.FunctionName),
                     LineNumber = item.FileLine,
                     LineOfCode = item.DocumentModel.CurrentLine,
                     Origin = BreakpointOrigin.AddedDuringDebug.ToString(),
@@ -136,10 +136,10 @@ namespace SwarmClientVS.Domain.Service
                 {
                     EventKind = EventKind.BreakpointRemove.ToString(),
                     Detail = item.Name,
-                    Namespace = PathNodeModel.GeNamespaceName(item.FunctionName),
-                    Type = PathNodeModel.GeTypeName(item.FunctionName),
+                    Namespace = PathNodeItemModel.GeNamespaceName(item.FunctionName),
+                    Type = PathNodeItemModel.GeTypeName(item.FunctionName),
                     TypeFullPath = "TODO",
-                    Method = PathNodeModel.GetMethodName(item.FunctionName),
+                    Method = PathNodeItemModel.GetMethodName(item.FunctionName),
                     MethodKey = String.Empty,
                     MethodSignature = item.FunctionName,
                     CharStart = item.StartLineText,
@@ -160,10 +160,10 @@ namespace SwarmClientVS.Domain.Service
             {
                 EventKind = EventKind.BreakpointHitted.ToString(),
                 Detail = sessionModel.BreakpointLastHitName,
-                Namespace = PathNodeModel.GeNamespaceName(sessionModel.CurrentStackFrameFunctionName),
-                Type = PathNodeModel.GeTypeName(sessionModel.CurrentStackFrameFunctionName),
+                Namespace = PathNodeItemModel.GeNamespaceName(sessionModel.CurrentStackFrameFunctionName),
+                Type = PathNodeItemModel.GeTypeName(sessionModel.CurrentStackFrameFunctionName),
                 TypeFullPath = "TODO",
-                Method = PathNodeModel.GetMethodName(sessionModel.CurrentStackFrameFunctionName),
+                Method = PathNodeItemModel.GetMethodName(sessionModel.CurrentStackFrameFunctionName),
                 MethodKey = String.Empty,
                 MethodSignature = sessionModel.CurrentStackFrameFunctionName,
                 CharStart = sessionModel.CurrentDocument.StartLineText,
@@ -183,10 +183,10 @@ namespace SwarmClientVS.Domain.Service
             {
                 EventKind = ((EventKind)sessionModel.CurrentCommandStep).ToString(),
                 Detail = "TODO",
-                Namespace = PathNodeModel.GeNamespaceName(sessionModel.CurrentStackFrameFunctionName),
-                Type = PathNodeModel.GeTypeName(sessionModel.CurrentStackFrameFunctionName),
+                Namespace = PathNodeItemModel.GeNamespaceName(sessionModel.CurrentStackFrameFunctionName),
+                Type = PathNodeItemModel.GeTypeName(sessionModel.CurrentStackFrameFunctionName),
                 TypeFullPath = "TODO",
-                Method = PathNodeModel.GetMethodName(sessionModel.CurrentStackFrameFunctionName),
+                Method = PathNodeItemModel.GetMethodName(sessionModel.CurrentStackFrameFunctionName),
                 MethodKey = String.Empty,
                 MethodSignature = sessionModel.CurrentStackFrameFunctionName,
                 CharStart = sessionModel.CurrentDocument.StartLineText,
@@ -241,11 +241,11 @@ namespace SwarmClientVS.Domain.Service
             {
                 CurrentSession.PathNodes.Add(new PathNodeData
                 {
-                    Method = PathNodeModel.GetMethodName(stackTrace[i].StackName),
+                    Method = PathNodeItemModel.GetMethodName(stackTrace[i].StackName),
                     Created = DateTime.Now,
-                    Namespace = PathNodeModel.GeNamespaceName(stackTrace[i].StackName),
-                    Parent = i == 0 ? null : PathNodeModel.GetMethodName(stackTrace[i - 1].StackName),
-                    Type = PathNodeModel.GeTypeName(stackTrace[i].StackName),
+                    Namespace = PathNodeItemModel.GeNamespaceName(stackTrace[i].StackName),
+                    Parent = i == 0 ? null : PathNodeItemModel.GetMethodName(stackTrace[i - 1].StackName),
+                    Type = PathNodeItemModel.GeTypeName(stackTrace[i].StackName),
                     ReturnType = stackTrace[i].ReturnType,
                     Origin = i == stackTrace.Count - 1 ? pathNodeOrigin.ToString() : PathNodeOrigin.Trace.ToString()
                 });
