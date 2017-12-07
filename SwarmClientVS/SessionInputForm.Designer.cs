@@ -33,9 +33,9 @@
             this.toolStripStatusLabel1 = new System.Windows.Forms.ToolStripStatusLabel();
             this.gbTask = new System.Windows.Forms.GroupBox();
             this.dgTask = new System.Windows.Forms.DataGridView();
+            this.TaskDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.lblProject = new System.Windows.Forms.Label();
-            this.TaskDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.statusStrip1.SuspendLayout();
             this.gbTask.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTask)).BeginInit();
@@ -93,6 +93,14 @@
             this.dgTask.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgTask_CellValueChanged);
             this.dgTask.DataBindingComplete += new System.Windows.Forms.DataGridViewBindingCompleteEventHandler(this.dgTask_DataBindingComplete);
             // 
+            // TaskDelete
+            // 
+            this.TaskDelete.HeaderText = "Delete";
+            this.TaskDelete.Name = "TaskDelete";
+            this.TaskDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.TaskDelete.Text = "X";
+            this.TaskDelete.Width = 25;
+            // 
             // label1
             // 
             this.label1.AutoSize = true;
@@ -111,14 +119,6 @@
             this.lblProject.TabIndex = 7;
             this.lblProject.Text = "-";
             // 
-            // TaskDelete
-            // 
-            this.TaskDelete.HeaderText = "Delete";
-            this.TaskDelete.Name = "TaskDelete";
-            this.TaskDelete.Resizable = System.Windows.Forms.DataGridViewTriState.False;
-            this.TaskDelete.Text = "X";
-            this.TaskDelete.Width = 25;
-            // 
             // SessionInputForm
             // 
             this.AcceptButton = this.btnStart;
@@ -135,7 +135,7 @@
             this.MinimizeBox = false;
             this.Name = "SessionInputForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Visual Studio Swarm Debugger Monitor Client";
+            this.Text = "Visual Studio Swarm Debugger Monitor Client  - v1.3";
             this.TopMost = true;
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
