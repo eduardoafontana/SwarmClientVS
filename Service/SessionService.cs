@@ -205,7 +205,7 @@ namespace SwarmClientVS.Domain.Service
             if (addedPathNode)
                 return;
 
-            AddNodeAsOf(0, pathNodeModel.StackTrace, PathNodeOrigin.Breakpoint);
+            AddNodeAsOf(0, pathNodeModel.StackTraceItems, PathNodeOrigin.Breakpoint);
 
             addedPathNode = true;
         }
@@ -215,37 +215,38 @@ namespace SwarmClientVS.Domain.Service
             if (pathNodeModel.CurrentCommandStep != CurrentCommandStep.StepInto)
                 return;
 
-            for (int i = 0; i < pathNodeModel.StackTrace.Count; i++)
+            for (int i = 0; i < pathNodeModel.StackTraceItems.Count; i++)
             {
                 if (i >= CurrentSession.PathNodes.Count)
                 {
-                    AddNodeAsOf(i, pathNodeModel.StackTrace, PathNodeOrigin.StepInto);
+                    AddNodeAsOf(i, pathNodeModel.StackTraceItems, PathNodeOrigin.StepInto);
                     break;
                 }
-                else if (!pathNodeModel.StackTrace[i].Equals(CurrentSession.PathNodes[i].GetStackTrace()))
+                else if (!pathNodeModel.StackTraceItems[i].Equals(CurrentSession.PathNodes[i].GetStackTrace()))
                 {
-                    AddNodeAsOf(i, pathNodeModel.StackTrace, PathNodeOrigin.StepInto);
+                    AddNodeAsOf(i, pathNodeModel.StackTraceItems, PathNodeOrigin.StepInto);
                     break;
                 }
-                else if (i == pathNodeModel.StackTrace.Count - 1)
+                else if (i == pathNodeModel.StackTraceItems.Count - 1)
                 {
-                    AddNodeAsOf(i, pathNodeModel.StackTrace, PathNodeOrigin.StepInto);
+                    AddNodeAsOf(i, pathNodeModel.StackTraceItems, PathNodeOrigin.StepInto);
                     break;
                 }
             }
         }
 
-        private static void AddNodeAsOf(int start, List<string> stackTrace, PathNodeOrigin pathNodeOrigin)
+        private static void AddNodeAsOf(int start, List<PathNodeItemModel> stackTrace, PathNodeOrigin pathNodeOrigin)
         {
             for (int i = start; i < stackTrace.Count; i++)
             {
                 CurrentSession.PathNodes.Add(new PathNodeData
                 {
-                    Method = PathNodeModel.GetMethodName(stackTrace[i]),
+                    Method = PathNodeModel.GetMethodName(stackTrace[i].StackName),
                     Created = DateTime.Now,
-                    Namespace = PathNodeModel.GeNamespaceName(stackTrace[i]),
-                    Parent = i == 0 ? null : PathNodeModel.GetMethodName(stackTrace[i - 1]),
-                    Type = PathNodeModel.GeTypeName(stackTrace[i]),
+                    Namespace = PathNodeModel.GeNamespaceName(stackTrace[i].StackName),
+                    Parent = i == 0 ? null : PathNodeModel.GetMethodName(stackTrace[i - 1].StackName),
+                    Type = PathNodeModel.GeTypeName(stackTrace[i].StackName),
+                    ReturnType = stackTrace[i].ReturnType,
                     Origin = i == stackTrace.Count - 1 ? pathNodeOrigin.ToString() : PathNodeOrigin.Trace.ToString()
                 });
 

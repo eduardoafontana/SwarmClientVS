@@ -21,6 +21,7 @@ namespace SwarmClientVS.Domain.DataModel
         public string Method { get; set; }
         public string Parent { get; set; }
         public string Origin { get; set; }
+        public string ReturnType { get; set; }
         public DateTime Created { get; set; }
 
         public string GetStackTrace()
