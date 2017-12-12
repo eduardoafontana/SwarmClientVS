@@ -61,6 +61,7 @@
     <Compile Include="SCLogTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReadOds.cs" />
+    <Compile Include="ConsolidateMetrics.cs" />
     <Compile Include="TasksTime.cs" />
   </ItemGroup>
   <ItemGroup>
