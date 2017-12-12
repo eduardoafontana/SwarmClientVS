@@ -3,7 +3,12 @@
     <Metadata>
         <Identity Id="SwarmClientVS.31f3ee37-0349-4853-a136-b3601b51f890" Version="1.0" Language="en-US" Publisher="Company" />
         <DisplayName>SwarmClientVS</DisplayName>
-        <Description xml:space="preserve">Empty VSIX Project.</Description>
+        <Description xml:space="preserve">This is a Visual Studio version of the Swarm Debugger client.
+A project to contribute for the improvement tecnics of debugging software by coletive knowledgement.
+Code:
+https://github.com/eduardoafontana/SwarmClientVS
+Cientific Research:
+http://www.lume.ufrgs.br/handle/10183/150176</Description>
     </Metadata>
     <Installation>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[14.0,16.0)" />
