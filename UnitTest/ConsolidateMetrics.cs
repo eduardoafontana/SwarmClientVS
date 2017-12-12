@@ -89,8 +89,7 @@ namespace UnitTest
 
         public class CodeMetric
         {
-            public string Scope { get; set; }
-            public string Member { get; set; }
+            public string Hash { get; set; }
             public string MaintainabilityIndex { get; set; }
             public string CyclomaticComplexity { get; set; }
             public string ClassCoupling { get; set; }
@@ -130,7 +129,7 @@ namespace UnitTest
 
             //-------- Read code metrics
 
-            string fileCodeMetrics = @"C:\Users\EduardoAFontana\Downloads\Coleta\Consolidado-2\CodeMetrics\PromoveCodeMetrics.txt";
+            string fileCodeMetrics = @"C:\Users\EduardoAFontana\Downloads\Coleta\Consolidado-2\CodeMetrics\FastCodeMetrics.txt";
 
             string objJsonDataCodeMetrics = String.Empty;
 

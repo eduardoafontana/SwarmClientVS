@@ -40,8 +40,7 @@ namespace UnitTest
 
         public class CodeMetric
         {
-            public string Scope { get; set; }
-            public string Member { get; set; }
+            public string Hash { get; set; }
             public string MaintainabilityIndex { get; set; }
             public string CyclomaticComplexity { get; set; }
             public string ClassCoupling { get; set; }
@@ -75,7 +74,7 @@ namespace UnitTest
         [TestMethod]
         public void TestMethod1()
         {
-            string filePath = @"C:\Users\EduardoAFontana\Downloads\Coleta\Systems Code Metrics\PROMOVE.ods";
+            string filePath = @"C:\Users\EduardoAFontana\Downloads\Coleta\Systems Code Metrics\FAST.ods";
 
             using (FileStream fileStream = File.Open(filePath, FileMode.Open))
             {
@@ -89,13 +88,12 @@ namespace UnitTest
                 {
                     try
                     {
-                        if (!rows[i].Elements().ToList()[0].Value.Equals("Member"))
+                        if (!rows[i].Elements().ToList()[0].Value.Equals("Member"))//scope
                             continue;
 
                         CodeMetrics.Add(new CodeMetric
                         {
-                            Scope = rows[i].Elements().ToList()[0].Value,
-                            Member = rows[i].Elements().ToList()[4].Value,
+                            Hash = GetHash(rows[i]),
                             MaintainabilityIndex = rows[i].Elements().ToList()[5].Value,
                             CyclomaticComplexity = rows[i].Elements().ToList()[6].Value,
                             ClassCoupling = rows[i].Elements().ToList()[8].Value,
@@ -109,7 +107,7 @@ namespace UnitTest
                 }
             }
 
-            string fileJsonOut = @"C:\Users\EduardoAFontana\Downloads\Coleta\Systems Code Metrics\PromoveCodeMetrics.txt";
+            string fileJsonOut = @"C:\Users\EduardoAFontana\Downloads\Coleta\Systems Code Metrics\FastCodeMetrics.txt";
 
             string objJsonDataSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(CodeMetrics, Newtonsoft.Json.Formatting.Indented);
 
@@ -117,6 +115,22 @@ namespace UnitTest
             {
                 file.Write(objJsonDataSerialized);
             }
+        }
+
+        private string GetHash(XElement row)
+        {
+            return String.Format("{0}.{1}.{2}.{3}", "FAST", row.Elements().ToList()[2].Value, row.Elements().ToList()[3].Value, CleanMethodName(row.Elements().ToList()[4].Value));
+            //project.namespace.type.method
+        }
+
+        private string CleanMethodName(string value)
+        {
+            string[] pieces = value.Split('(');
+
+            if (pieces.Length > 1)
+                return pieces[0];
+
+            return value;
         }
 
         private static string GetContentXml(Stream fileStream)
