@@ -90,6 +90,7 @@ namespace UnitTest
             public string ReturnType { get; set; }
             public List<PathNodeParameterData> Parameters { get; set; } = new List<PathNodeParameterData>();
             public DateTime Created { get; set; }
+            public CodeMetric MethodCodeMetric { get; set; }
         }
 
         public class Session
@@ -112,7 +113,6 @@ namespace UnitTest
             public string LineOfCode { get; set; }
         }
 
-        public List<Session> Sessions { get; set; } = new List<Session>();
         public List<CodeMetric> CodeMetrics { get; set; } = new List<CodeMetric>();
 
         [TestMethod]
@@ -155,7 +155,15 @@ namespace UnitTest
 
                 Session session = Newtonsoft.Json.JsonConvert.DeserializeObject<Session>(objJsonData);
 
-                Sessions.Add(session);
+
+                //----- Out put new session data
+
+                string objJsonDataSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(session, Newtonsoft.Json.Formatting.Indented);
+
+                using (StreamWriter file = new StreamWriter(@"C:\Users\EduardoAFontana\Downloads\Coleta\Consolidado-2\CodeMetrics\" + Path.GetFileName(fileName), false, Encoding.UTF8))
+                {
+                    file.Write(objJsonDataSerialized);
+                }
             }
 
 
