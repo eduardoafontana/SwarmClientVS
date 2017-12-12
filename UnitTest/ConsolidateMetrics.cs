@@ -82,6 +82,8 @@ namespace UnitTest
 
         public class PathNodeData
         {
+            public string Hash { get; set; }
+
             public string Namespace { get; set; }
             public string Type { get; set; }
             public string Method { get; set; }
@@ -155,6 +157,17 @@ namespace UnitTest
 
                 Session session = Newtonsoft.Json.JsonConvert.DeserializeObject<Session>(objJsonData);
 
+                //----- Pass entire pathnode, search respective code metric and add
+
+                foreach(PathNodeData node in session.PathNodes)
+                {
+                    node.Hash = GetHash(session.Task.Project.Name.Replace(".sln", ""), node.Namespace, node.Type, node.Method);
+                    
+                    CodeMetric codeMetric = codeMetrics.FirstOrDefault(x => x.Hash.ToLower().Equals(node.Hash.ToLower()));
+
+                    if (codeMetric != null)
+                        node.MethodCodeMetric = codeMetric;
+                }
 
                 //----- Out put new session data
 
@@ -165,29 +178,11 @@ namespace UnitTest
                     file.Write(objJsonDataSerialized);
                 }
             }
+        }
 
-
-            //foreach (Task task in Tasks)
-            //{
-            //    List<Session> taskSessions = Sessions.Where(x => x.Task.Name.Equals(task.Name)).ToList();
-
-            //    double totalMiliTask = 0;
-
-            //    foreach (Session session in taskSessions)
-            //    {
-            //        TimeSpan diff = session.Finished - session.Started;
-            //        totalMiliTask += diff.TotalMilliseconds;
-            //    }
-
-            //    task.Total = TimeSpan.FromMilliseconds(totalMiliTask);
-            //}
-
-            //string objJsonDataSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(Tasks, Newtonsoft.Json.Formatting.Indented);
-
-            //using (StreamWriter file = new StreamWriter(@"C:\Users\EduardoAFontana\Downloads\Coleta\Consolidado\total-tasks-time.txt", false, Encoding.UTF8))
-            //{
-            //    file.Write(objJsonDataSerialized);
-            //}
+        private string GetHash(string project, string pNamespace, string pType, string method)
+        {
+            return String.Format("{0}.{1}.{2}.{3}", project, pNamespace, pType, method);
         }
     }
 }
