@@ -11,5 +11,10 @@ namespace SwarmClientVS.Domain.DataModel
     {
         public string Name { get; set; }
         public string Description { get; set; }
+
+        public string GetCleanName()
+        {
+            return Name.Replace(".sln", "");
+        }
     }
 }

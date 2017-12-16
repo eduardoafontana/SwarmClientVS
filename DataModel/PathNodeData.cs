@@ -16,6 +16,7 @@ namespace SwarmClientVS.Domain.DataModel
 
     public class PathNodeData : IData
     {
+        public string Hash { get; set; }
         public string Namespace { get; set; }
         public string Type { get; set; }
         public string Method { get; set; }
@@ -24,6 +25,7 @@ namespace SwarmClientVS.Domain.DataModel
         public string ReturnType { get; set; }
         public List<PathNodeParameterData> Parameters { get; set; } = new List<PathNodeParameterData>();
         public DateTime Created { get; set; }
+        public CodeMetricData MethodCodeMetric { get; set; }
 
         public string GetStackTrace()
         {

@@ -241,6 +241,7 @@ namespace SwarmClientVS.Domain.Service
             {
                 CurrentSession.PathNodes.Add(new PathNodeData
                 {
+                    Hash = PathNodeItemModel.GetHash(CurrentSession.Task.Project.GetCleanName(), stackTrace[i].StackName),
                     Method = PathNodeItemModel.GetMethodName(stackTrace[i].StackName),
                     Created = DateTime.Now,
                     Namespace = PathNodeItemModel.GeNamespaceName(stackTrace[i].StackName),

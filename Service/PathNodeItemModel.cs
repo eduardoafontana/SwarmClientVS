@@ -78,5 +78,15 @@ namespace SwarmClientVS.Domain.Service
 
             return String.Empty;
         }
+
+        public static string GetHash(string project, string stackTracePath)
+        {
+            return String.Format("{0}.{1}", project, stackTracePath);
+        }
+
+        public static string GetHash(string project, string pNamespace, string pType, string method)
+        {
+            return String.Format("{0}.{1}.{2}.{3}", project, pNamespace, pType, method);
+        }
     }
 }
