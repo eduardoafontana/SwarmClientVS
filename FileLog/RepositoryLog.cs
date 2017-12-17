@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using SwarmClientVS.Domain.IRepository;
 using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
 
 namespace SwarmClientVS.DataLog.FileLog
 {
@@ -15,6 +17,8 @@ namespace SwarmClientVS.DataLog.FileLog
 
         private string DefaultFilePath { get { return String.Format(@"{0}\swarm-input-data.txt", DirectoryPath); } }
         private string IdentifierFilePath { get { return String.Format(@"{0}\session-{1}.txt", DirectoryPath, Identifier); } }
+
+        private static readonly HttpClient httpClient = new HttpClient();
 
         private string FileName
         {
@@ -42,6 +46,40 @@ namespace SwarmClientVS.DataLog.FileLog
             using (StreamWriter file = new StreamWriter(FileName, false, Encoding.UTF8))
             {
                 file.Write(objJsonData);
+            }
+
+            SaveOnServer(dataModel);
+        }
+
+        private async Task SaveOnServer(IData dataModel)
+        {
+            try
+            {
+                string objJsonDataSerialized = Newtonsoft.Json.JsonConvert.SerializeObject(dataModel, Newtonsoft.Json.Formatting.None);
+
+                var buffer = Encoding.UTF8.GetBytes(objJsonDataSerialized);
+                var byteContent = new ByteArrayContent(buffer);
+                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                var response = await httpClient.PostAsync("http://swarmserver.azurewebsites.net/api/session", byteContent);
+
+                var responseString = await response.Content.ReadAsStringAsync();
+
+                if (!responseString.Equals("\"Object created or updated!\""))
+                    throw new Exception(responseString);
+            }
+            catch(Exception ex)
+            {
+                if (!Directory.Exists(DirectoryPath))
+                    Directory.CreateDirectory(DirectoryPath);
+
+                if (!Directory.Exists(String.Format(@"{0}\ServerExceptions", DirectoryPath)))
+                    Directory.CreateDirectory(String.Format(@"{0}\ServerExceptions", DirectoryPath));
+
+                using (StreamWriter file = new StreamWriter(String.Format(@"{0}\ServerExceptions\ex-session-{1}.txt", DirectoryPath, Identifier), true, Encoding.UTF8))
+                {
+                    file.Write(Environment.NewLine + Environment.NewLine + DateTime.Now.ToString("yyyy-MM-dd-HH-mm-ss-fff") + Environment.NewLine + ex.ToString());
+                }
             }
         }
 
