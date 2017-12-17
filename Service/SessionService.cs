@@ -268,6 +268,7 @@ namespace SwarmClientVS.Domain.Service
 
             CurrentSession = new SessionData
             {
+                Identifier = Guid.NewGuid(),
                 Description = "TODO",
                 Label = "TODO",
                 Purpose = "TODO",

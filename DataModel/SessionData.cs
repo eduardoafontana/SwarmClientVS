@@ -9,6 +9,7 @@ namespace SwarmClientVS.Domain.DataModel
 {
     public class SessionData : IData
     {
+        public Guid Identifier { get; set; }
         public string Label { get; set; }
         public string Description { get; set; }
         public string Purpose { get; set; }
