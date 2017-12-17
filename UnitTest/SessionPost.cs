@@ -70,7 +70,7 @@ namespace UnitTest
         public async Task TestMethod1()
         {
             //Mount session object from file
-            string fileSession = @"C:\SwarmData\session-20171216082740801.txt";
+            string fileSession = @"C:\SwarmData\session-20171217154019374.txt";
 
             string objJsonDataSession = String.Empty;
 
@@ -92,7 +92,7 @@ namespace UnitTest
 
             var responseString = await response.Content.ReadAsStringAsync();
 
-            Assert.Equals(responseString, "");
+            Assert.Equals(responseString, "Object created!");
         }
     }
 }
