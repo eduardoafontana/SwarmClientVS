@@ -67,7 +67,7 @@ namespace UnitTest
         private static readonly HttpClient client = new HttpClient();
 
         [TestMethod]
-        public async Task TestMethod1()
+        public async Task TestPost()
         {
             //Mount session object from file
             string fileSession = @"C:\SwarmData\session-20171217154019374.txt";
@@ -92,7 +92,13 @@ namespace UnitTest
 
             var responseString = await response.Content.ReadAsStringAsync();
 
-            Assert.Equals(responseString, "Object created!");
+            Assert.AreEqual(responseString, "\"Object created or updated!\"");
+        }
+
+        [TestMethod]
+        public async Task TestGet()
+        {
+            var responseString = await client.GetStringAsync("http://swarmserver.azurewebsites.net/api/session");
         }
     }
 }
