@@ -135,7 +135,7 @@
             this.MinimizeBox = false;
             this.Name = "SessionInputForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Visual Studio Swarm Debugger Monitor Client  - v1.3";
+            this.Text = "Visual Studio Swarm Debugger Monitor Client ";
             this.TopMost = true;
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

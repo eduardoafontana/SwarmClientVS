@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using SwarmClientVS.DataLog.FileLog;
 using SwarmClientVS.Domain.IRepository;
 using SwarmClientVS.Domain.Service;
@@ -22,9 +23,23 @@ namespace SwarmClientVS
         {
             InitializeComponent();
 
+            SetVersionOnWindowTitle();
+
             SessionInputService = new SessionInputService(new RepositoryLog(), solutionName);
 
             LoadInputData();
+        }
+
+        private void SetVersionOnWindowTitle()
+        {
+            var doc = new XmlDocument();
+            doc.Load("extension.vsixmanifest");
+
+            var metaData = doc.DocumentElement.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Metadata");
+            var identity = metaData.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Identity");
+            var version = identity.GetAttribute("Version");
+
+            Text += String.Format(" - {0}", version);
         }
 
         private void LoadInputData()
