@@ -23,7 +23,7 @@ namespace SwarmClientVS
         {
             InitializeComponent();
 
-            SetVersionOnWindowTitle();
+            //SetVersionOnWindowTitle();
 
             SessionInputService = new SessionInputService(new RepositoryLog(), solutionName);
 
