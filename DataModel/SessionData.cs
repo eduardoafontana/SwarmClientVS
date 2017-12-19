@@ -14,7 +14,7 @@ namespace SwarmClientVS.Domain.DataModel
         public string Description { get; set; }
         public string Purpose { get; set; }
         public DateTime Started { get; set; }
-        public DateTime Finished { get; set; }
+        public DateTime? Finished { get; set; }
 
         public List<BreakpointData> Breakpoints { get; set; } = new List<BreakpointData>();
         public List<EventData> Events { get; set; } = new List<EventData>();
