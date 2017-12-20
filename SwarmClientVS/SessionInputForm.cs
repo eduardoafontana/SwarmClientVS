@@ -23,25 +23,9 @@ namespace SwarmClientVS
         {
             InitializeComponent();
 
-            //TODO remove later
-            //SetVersionOnWindowTitle();
-
             SessionInputService = new SessionInputService(new RepositoryLog(), solutionName);
 
             LoadInputData();
-        }
-
-        //TODO remove later
-        private void SetVersionOnWindowTitle()
-        {
-            var doc = new XmlDocument();
-            doc.Load("extension.vsixmanifest");
-
-            var metaData = doc.DocumentElement.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Metadata");
-            var identity = metaData.ChildNodes.Cast<XmlElement>().First(x => x.Name == "Identity");
-            var version = identity.GetAttribute("Version");
-
-            Text += String.Format(" - {0}", version);
         }
 
         private void LoadInputData()
@@ -165,12 +149,6 @@ namespace SwarmClientVS
                 dgTask.Rows[e.RowIndex].Cells["TaskTitle"].Style.BackColor = Color.Tomato;
             else
                 dgTask.Rows[e.RowIndex].Cells["TaskTitle"].Style.BackColor = Color.White;
-        }
-
-        private void dgTask_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
-        {
-            //TODO: review later. Try to disable delete button on newrow
-            //dgTask.Rows[dgTask.NewRowIndex].Cells["TaskDelete"].ReadOnly = true;
         }
 
         private void txtDeveloperNickName_TextChanged(object sender, EventArgs e)

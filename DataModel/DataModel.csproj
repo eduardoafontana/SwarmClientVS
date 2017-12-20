@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CodeMetricData.cs" />
-    <Compile Include="ConcreteConverter.cs" />
     <Compile Include="DeveloperData.cs" />
     <Compile Include="PathNodeParameterData.cs" />
     <Compile Include="ProjectData.cs" />

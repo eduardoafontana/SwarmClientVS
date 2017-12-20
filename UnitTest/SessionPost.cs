@@ -63,7 +63,7 @@ namespace UnitTest
         //
         #endregion
 
-        //TODO: note: It is recommended to instantiate one HttpClient for your application's lifetime and share it.
+        //note: It is recommended to instantiate one HttpClient for your application's lifetime and share it.
         private static readonly HttpClient client = new HttpClient();
 
         [TestMethod]

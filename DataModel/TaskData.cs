@@ -15,9 +15,6 @@ namespace SwarmClientVS.Domain.DataModel
         public string Action { get; set; }
         public DateTime Created { get; set; }
 
-        //TODO: Remove later
-        //[JsonConverter(typeof(ConcreteConverter<ProjectData>))]
-
         public ProjectData Project { get; set; }
     }
 }
