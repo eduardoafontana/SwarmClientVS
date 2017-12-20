@@ -18,7 +18,7 @@ namespace SwarmClientVS.Domain.Service
         AnalyzingCode,
         NewFeature,
         Refactoring,
-        //Designing
+        Designing
     }
 
     public class SessionInputService
