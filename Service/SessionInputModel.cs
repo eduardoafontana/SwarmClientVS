@@ -12,5 +12,6 @@ namespace SwarmClientVS.Domain.Service
     {
         public BindingList<SessionGridViewItemModel> Task { get; set; } = new BindingList<SessionGridViewItemModel>();
         public string Project { get; set; }
+        public string Developer { get; set; }
     }
 }

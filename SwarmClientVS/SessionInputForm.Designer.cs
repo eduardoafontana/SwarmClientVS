@@ -36,6 +36,8 @@
             this.TaskDelete = new System.Windows.Forms.DataGridViewButtonColumn();
             this.label1 = new System.Windows.Forms.Label();
             this.lblProject = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.txtDeveloperNickName = new System.Windows.Forms.TextBox();
             this.statusStrip1.SuspendLayout();
             this.gbTask.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTask)).BeginInit();
@@ -43,7 +45,7 @@
             // 
             // btnStart
             // 
-            this.btnStart.Location = new System.Drawing.Point(497, 334);
+            this.btnStart.Location = new System.Drawing.Point(497, 339);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
             this.btnStart.TabIndex = 3;
@@ -55,7 +57,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.toolStripStatusLabel1});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 364);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 369);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(584, 22);
             this.statusStrip1.TabIndex = 4;
@@ -70,7 +72,7 @@
             // gbTask
             // 
             this.gbTask.Controls.Add(this.dgTask);
-            this.gbTask.Location = new System.Drawing.Point(12, 49);
+            this.gbTask.Location = new System.Drawing.Point(12, 54);
             this.gbTask.Name = "gbTask";
             this.gbTask.Size = new System.Drawing.Size(559, 279);
             this.gbTask.TabIndex = 5;
@@ -104,7 +106,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 20);
+            this.label1.Location = new System.Drawing.Point(19, 13);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(46, 13);
             this.label1.TabIndex = 6;
@@ -113,19 +115,39 @@
             // lblProject
             // 
             this.lblProject.AutoSize = true;
-            this.lblProject.Location = new System.Drawing.Point(72, 20);
+            this.lblProject.Location = new System.Drawing.Point(132, 13);
             this.lblProject.Name = "lblProject";
             this.lblProject.Size = new System.Drawing.Size(10, 13);
             this.lblProject.TabIndex = 7;
             this.lblProject.Text = "-";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(19, 35);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(110, 13);
+            this.label2.TabIndex = 8;
+            this.label2.Text = "Developer Nickname:";
+            // 
+            // txtDeveloperNickName
+            // 
+            this.txtDeveloperNickName.Location = new System.Drawing.Point(135, 32);
+            this.txtDeveloperNickName.MaxLength = 150;
+            this.txtDeveloperNickName.Name = "txtDeveloperNickName";
+            this.txtDeveloperNickName.Size = new System.Drawing.Size(430, 20);
+            this.txtDeveloperNickName.TabIndex = 9;
+            this.txtDeveloperNickName.TextChanged += new System.EventHandler(this.txtDeveloperNickName_TextChanged);
             // 
             // SessionInputForm
             // 
             this.AcceptButton = this.btnStart;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(584, 386);
+            this.ClientSize = new System.Drawing.Size(584, 391);
             this.ControlBox = false;
+            this.Controls.Add(this.txtDeveloperNickName);
+            this.Controls.Add(this.label2);
             this.Controls.Add(this.lblProject);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.gbTask);
@@ -156,5 +178,7 @@
         private System.Windows.Forms.Label lblProject;
         private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel1;
         private System.Windows.Forms.DataGridViewButtonColumn TaskDelete;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtDeveloperNickName;
     }
 }

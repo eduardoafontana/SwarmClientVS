@@ -47,7 +47,8 @@ namespace SwarmClientVS.Domain.Service
                     Action = (TaskAction)Enum.Parse(typeof(TaskAction), x.Action),
                     Created = x.Created
                 }).ToList()),
-                Project = OpenedSolutionName
+                Project = OpenedSolutionName,
+                Developer = inputData.Developer
             };
 
             return sessionInputModel;
@@ -75,7 +76,7 @@ namespace SwarmClientVS.Domain.Service
                     Created = t.Created == DateTime.MinValue ? DateTime.Now : t.Created
                 }).ToList(),
                 Project = sessionInputModel.Project,
-                Developer = WindowsIdentity.GetCurrent().Name
+                Developer = sessionInputModel.Developer
             });
         }
     }

@@ -23,6 +23,7 @@ namespace SwarmClientVS
         {
             InitializeComponent();
 
+            //TODO remove later
             //SetVersionOnWindowTitle();
 
             SessionInputService = new SessionInputService(new RepositoryLog(), solutionName);
@@ -30,6 +31,7 @@ namespace SwarmClientVS
             LoadInputData();
         }
 
+        //TODO remove later
         private void SetVersionOnWindowTitle()
         {
             var doc = new XmlDocument();
@@ -91,6 +93,7 @@ namespace SwarmClientVS
             dgTask.DataSource = SessionInputModel.Task;
 
             lblProject.Text = SessionInputModel.Project;
+            txtDeveloperNickName.Text = SessionInputModel.Developer;
         }
 
         private void dgTask_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -111,15 +114,27 @@ namespace SwarmClientVS
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (!NooneTaskTitleEmpty())
+            if (!NoneTaskTitleEmpty())
                 return;
+
+            if (!HasDeveloperNickName())
+                return;
+
+            SessionInputModel.Developer = txtDeveloperNickName.Text;
 
             SessionInputService.PersistInputDataState(SessionInputModel);
 
             Close();
         }
 
-        private bool NooneTaskTitleEmpty()
+        private bool HasDeveloperNickName()
+        {
+            MarkDeveloperNickNameEmpty();
+
+            return !String.IsNullOrWhiteSpace(txtDeveloperNickName.Text);
+        }
+
+        private bool NoneTaskTitleEmpty()
         {
             MarkTaskTitleEmpty();
 
@@ -156,6 +171,19 @@ namespace SwarmClientVS
         {
             //TODO: review later. Try to disable delete button on newrow
             //dgTask.Rows[dgTask.NewRowIndex].Cells["TaskDelete"].ReadOnly = true;
+        }
+
+        private void txtDeveloperNickName_TextChanged(object sender, EventArgs e)
+        {
+            MarkDeveloperNickNameEmpty();
+        }
+
+        private void MarkDeveloperNickNameEmpty()
+        {
+            if (String.IsNullOrWhiteSpace(txtDeveloperNickName.Text))
+                txtDeveloperNickName.BackColor = Color.Tomato;
+            else
+                txtDeveloperNickName.BackColor = Color.White;
         }
     }
 }
