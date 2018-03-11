@@ -9,6 +9,7 @@ namespace SwarmClientVS.Domain.DataModel
 {
     public class CodeMetricData : IData
     {
+        public Guid Id { get; set; }
         public string Hash { get; set; }
         public string MaintainabilityIndex { get; set; }
         public string CyclomaticComplexity { get; set; }

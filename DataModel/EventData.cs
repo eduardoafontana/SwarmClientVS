@@ -26,6 +26,7 @@ namespace SwarmClientVS.Domain.DataModel
 
     public class EventData : IData
     {
+        public Guid Id { get; set; }
         public string EventKind { get; set; }
         public string Detail { get; set; }
         public string Namespace { get; set; }

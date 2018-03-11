@@ -33,6 +33,7 @@ namespace SwarmClientVS.Domain.Service
 
                 EventData eventData = new EventData
                 {
+                    Id = Guid.NewGuid(),
                     EventKind = EventKind.BreakpointAdd.ToString(),
                     Detail = item.Name,
                     Namespace = PathNodeItemModel.GeNamespaceName(item.FunctionName),
@@ -50,6 +51,7 @@ namespace SwarmClientVS.Domain.Service
 
                 BreakpointData breakpointData = new BreakpointData
                 {
+                    Id = Guid.NewGuid(),
                     BreakpointKind = BreakpointKind.Line.ToString(),
                     Namespace = PathNodeItemModel.GeNamespaceName(item.FunctionName),
                     Type = PathNodeItemModel.GeTypeName(item.FunctionName),
@@ -80,6 +82,7 @@ namespace SwarmClientVS.Domain.Service
 
                 EventData eventData = new EventData
                 {
+                    Id = Guid.NewGuid(),
                     EventKind = EventKind.BreakpointAdd.ToString(),
                     Detail = item.Name,
                     Namespace = PathNodeItemModel.GeNamespaceName(item.FunctionName),
@@ -107,6 +110,7 @@ namespace SwarmClientVS.Domain.Service
 
                 BreakpointData breakpointData = new BreakpointData
                 {
+                    Id = Guid.NewGuid(),
                     BreakpointKind = BreakpointKind.Line.ToString(),
                     Namespace = PathNodeItemModel.GeNamespaceName(item.FunctionName),
                     Type = PathNodeItemModel.GeTypeName(item.FunctionName),
@@ -134,6 +138,7 @@ namespace SwarmClientVS.Domain.Service
 
                 EventData eventData = new EventData
                 {
+                    Id = Guid.NewGuid(),
                     EventKind = EventKind.BreakpointRemove.ToString(),
                     Detail = item.Name,
                     Namespace = PathNodeItemModel.GeNamespaceName(item.FunctionName),
@@ -158,6 +163,7 @@ namespace SwarmClientVS.Domain.Service
         {
             EventData eventData = new EventData
             {
+                Id = Guid.NewGuid(),
                 EventKind = EventKind.BreakpointHitted.ToString(),
                 Detail = sessionModel.BreakpointLastHitName,
                 Namespace = PathNodeItemModel.GeNamespaceName(sessionModel.CurrentStackFrameFunctionName),
@@ -181,6 +187,7 @@ namespace SwarmClientVS.Domain.Service
         {
             EventData eventData = new EventData
             {
+                Id = Guid.NewGuid(),
                 EventKind = ((EventKind)sessionModel.CurrentCommandStep).ToString(),
                 Detail = "TODO",
                 Namespace = PathNodeItemModel.GeNamespaceName(sessionModel.CurrentStackFrameFunctionName),
@@ -241,15 +248,18 @@ namespace SwarmClientVS.Domain.Service
             {
                 CurrentSession.PathNodes.Add(new PathNodeData
                 {
+                    Id = Guid.NewGuid(),
                     Hash = PathNodeItemModel.GetHash(CurrentSession.GetCleanProjectName(), stackTrace[i].StackName),
                     Method = PathNodeItemModel.GetMethodName(stackTrace[i].StackName),
                     Created = DateTime.Now,
                     Namespace = PathNodeItemModel.GeNamespaceName(stackTrace[i].StackName),
                     Parent = i == 0 ? null : PathNodeItemModel.GetTypeAndMethodName(stackTrace[i - 1].StackName),
+                    Parent_Id = i == 0 ? Guid.Empty : CurrentSession.PathNodes.Last().Id,
                     Type = PathNodeItemModel.GeTypeName(stackTrace[i].StackName),
                     ReturnType = stackTrace[i].ReturnType,
                     Parameters = stackTrace[i].Parameters.Select(x => new PathNodeParameterData
                     {
+                        Id = Guid.NewGuid(),
                         Type = x.Type,
                         Name = x.Name,
                         Value = x.Value

@@ -16,11 +16,13 @@ namespace SwarmClientVS.Domain.DataModel
 
     public class PathNodeData : IData
     {
+        public Guid Id { get; set; }
         public string Hash { get; set; }
         public string Namespace { get; set; }
         public string Type { get; set; }
         public string Method { get; set; }
         public string Parent { get; set; }
+        public Guid Parent_Id { get; set; }
         public string Origin { get; set; }
         public string ReturnType { get; set; }
         public List<PathNodeParameterData> Parameters { get; set; } = new List<PathNodeParameterData>();
