@@ -69,7 +69,7 @@ namespace SwarmClientVS.Domain.Service
         {
             Repository.Save(new SessionInputData
             {
-                Task = sessionInputModel.Task.Select(t => new TaskData
+                Task = sessionInputModel.Task.Select(t => new TaskInputData
                 {
                     Name = t.Title,
                     Description = t.Description,

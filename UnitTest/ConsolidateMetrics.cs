@@ -106,7 +106,7 @@ namespace UnitTest
 
                 foreach(PathNodeData node in session.PathNodes)
                 {
-                    node.Hash = PathNodeItemModel.GetHash(session.Task.Project.GetCleanName(), node.Namespace, node.Type, node.Method);
+                    node.Hash = PathNodeItemModel.GetHash(session.GetCleanProjectName(), node.Namespace, node.Type, node.Method);
                     
                     CodeMetricData codeMetric = codeMetrics.FirstOrDefault(x => x.Hash.ToLower().Equals(node.Hash.ToLower()));
 

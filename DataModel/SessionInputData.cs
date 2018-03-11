@@ -11,7 +11,7 @@ namespace SwarmClientVS.Domain.DataModel
 {
     public class SessionInputData : IData
     {
-        public List<TaskData> Task { get; set; } = new List<TaskData>();
+        public List<TaskInputData> Task { get; set; } = new List<TaskInputData>();
         public string Project { get; set; }
         public string Developer { get; set; }
     }

@@ -9,17 +9,28 @@ namespace SwarmClientVS.Domain.DataModel
 {
     public class SessionData : IData
     {
-        public Guid Identifier { get; set; }
-        public string Label { get; set; }
+        public Guid Id { get; set; }
         public string Description { get; set; }
-        public string Purpose { get; set; }
         public DateTime Started { get; set; }
         public DateTime? Finished { get; set; }
 
         public List<BreakpointData> Breakpoints { get; set; } = new List<BreakpointData>();
         public List<EventData> Events { get; set; } = new List<EventData>();
         public List<PathNodeData> PathNodes { get; set; } = new List<PathNodeData>();
-        public TaskData Task { get; set; }
-        public DeveloperData Developer { get; set; }
+
+        public string DeveloperName { get; set; }
+        public string TaskName { get; set; }
+        public string TaskAction { get; set; }
+        public string TaskDescription { get; set; }
+        public DateTime TaskCreated { get; set; }
+        public string ProjectName { get; set; }
+
+        public string GetCleanProjectName()
+        {
+            if (String.IsNullOrWhiteSpace(ProjectName))
+                return String.Empty;
+
+            return ProjectName.Replace(".sln", "");
+        }
     }
 }

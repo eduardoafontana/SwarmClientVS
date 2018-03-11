@@ -241,7 +241,7 @@ namespace SwarmClientVS.Domain.Service
             {
                 CurrentSession.PathNodes.Add(new PathNodeData
                 {
-                    Hash = PathNodeItemModel.GetHash(CurrentSession.Task.Project.GetCleanName(), stackTrace[i].StackName),
+                    Hash = PathNodeItemModel.GetHash(CurrentSession.GetCleanProjectName(), stackTrace[i].StackName),
                     Method = PathNodeItemModel.GetMethodName(stackTrace[i].StackName),
                     Created = DateTime.Now,
                     Namespace = PathNodeItemModel.GeNamespaceName(stackTrace[i].StackName),
@@ -268,10 +268,8 @@ namespace SwarmClientVS.Domain.Service
 
             CurrentSession = new SessionData
             {
-                Identifier = Guid.NewGuid(),
-                Description = "TODO",
-                Label = "TODO",
-                Purpose = "TODO",
+                Id = Guid.NewGuid(),
+                Description = String.Empty,
                 Started = DateTime.Now
             };
 
@@ -281,25 +279,12 @@ namespace SwarmClientVS.Domain.Service
             SessionInputService sessionInputService = new SessionInputService(new RepositoryLog(), String.Empty);
             SessionInputData sessionInputData = sessionInputService.GetInputData();
 
-            CurrentSession.Task = new TaskData
-            {
-                Name = (sessionInputData.Task.LastOrDefault() ?? new TaskData { Name = String.Empty }).Name,
-                Description = (sessionInputData.Task.LastOrDefault() ?? new TaskData { Description = String.Empty }).Description,
-                Action = (sessionInputData.Task.LastOrDefault() ?? new TaskData { Action = TaskAction.ResolvingBug.ToString() }).Action,
-                Created = (sessionInputData.Task.LastOrDefault() ?? new TaskData { Created = DateTime.Now }).Created,
-                Project = new ProjectData
-                {
-                    Name = sessionInputData.Project,
-                    Description = String.Empty
-                }
-            };
-
-            Repository.Save(CurrentSession);
-
-            CurrentSession.Developer = new DeveloperData
-            {
-                Name = sessionInputData.Developer
-            };
+            CurrentSession.TaskName = (sessionInputData.Task.LastOrDefault() ?? new TaskInputData { Name = String.Empty }).Name;
+            CurrentSession.TaskDescription = (sessionInputData.Task.LastOrDefault() ?? new TaskInputData { Description = String.Empty }).Description;
+            CurrentSession.TaskAction = (sessionInputData.Task.LastOrDefault() ?? new TaskInputData { Action = TaskAction.ResolvingBug.ToString() }).Action;
+            CurrentSession.TaskCreated = (sessionInputData.Task.LastOrDefault() ?? new TaskInputData { Created = DateTime.Now }).Created;
+            CurrentSession.ProjectName = sessionInputData.Project;
+            CurrentSession.DeveloperName = sessionInputData.Developer;
 
             Repository.Save(CurrentSession);
 
