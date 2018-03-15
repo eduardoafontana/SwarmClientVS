@@ -253,8 +253,8 @@ namespace SwarmClientVS.Domain.Service
                     Method = PathNodeItemModel.GetMethodName(stackTrace[i].StackName),
                     Created = DateTime.Now,
                     Namespace = PathNodeItemModel.GeNamespaceName(stackTrace[i].StackName),
-                    Parent = i == 0 ? null : PathNodeItemModel.GetTypeAndMethodName(stackTrace[i - 1].StackName),
-                    Parent_Id = i == 0 ? Guid.Empty : CurrentSession.PathNodes.Last().Id,
+                    Parent = i == 0 ? null : PathNodeItemModel.GetHash(CurrentSession.GetCleanProjectName(), stackTrace[i -  1].StackName),
+                    Parent_Id = i == 0 ? Guid.Empty : CurrentSession.PathNodes.Last(pn => pn.Hash == PathNodeItemModel.GetHash(CurrentSession.GetCleanProjectName(), stackTrace[i - 1].StackName)).Id,
                     Type = PathNodeItemModel.GeTypeName(stackTrace[i].StackName),
                     ReturnType = stackTrace[i].ReturnType,
                     Parameters = stackTrace[i].Parameters.Select(x => new PathNodeParameterData
