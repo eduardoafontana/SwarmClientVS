@@ -98,8 +98,7 @@ namespace SwarmClientVS
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if(ProcessCloseForm())
-                Close();
+            Close();
         }
 
         private bool HasDeveloperNickName()
