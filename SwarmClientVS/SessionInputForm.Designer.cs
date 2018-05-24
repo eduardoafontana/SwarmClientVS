@@ -157,6 +157,7 @@
             this.Name = "SessionInputForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Visual Studio Swarm Debugger Monitor Client ";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SessionInputForm_FormClosing);
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();
             this.gbTask.ResumeLayout(false);

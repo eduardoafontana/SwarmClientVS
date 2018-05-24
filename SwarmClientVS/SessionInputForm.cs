@@ -98,17 +98,8 @@ namespace SwarmClientVS
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            if (!NoneTaskTitleEmpty())
-                return;
-
-            if (!HasDeveloperNickName())
-                return;
-
-            SessionInputModel.Developer = txtDeveloperNickName.Text;
-
-            SessionInputService.PersistInputDataState(SessionInputModel);
-
-            Close();
+            if(ProcessCloseForm())
+                Close();
         }
 
         private bool HasDeveloperNickName()
@@ -162,6 +153,27 @@ namespace SwarmClientVS
                 txtDeveloperNickName.BackColor = Color.Tomato;
             else
                 txtDeveloperNickName.BackColor = Color.White;
+        }
+
+        private void SessionInputForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!ProcessCloseForm())
+                e.Cancel = true;
+        }
+
+        private bool ProcessCloseForm()
+        {
+            if (!NoneTaskTitleEmpty())
+                return false;
+
+            if (!HasDeveloperNickName())
+                return false;
+
+            SessionInputModel.Developer = txtDeveloperNickName.Text;
+
+            SessionInputService.PersistInputDataState(SessionInputModel);
+
+            return true;
         }
     }
 }
