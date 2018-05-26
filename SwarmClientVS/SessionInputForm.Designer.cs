@@ -38,6 +38,7 @@
             this.lblProject = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.txtDeveloperNickName = new System.Windows.Forms.TextBox();
+            this.chkMonitoring = new System.Windows.Forms.CheckBox();
             this.statusStrip1.SuspendLayout();
             this.gbTask.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTask)).BeginInit();
@@ -45,6 +46,7 @@
             // 
             // btnStart
             // 
+            this.btnStart.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.btnStart.Location = new System.Drawing.Point(497, 339);
             this.btnStart.Name = "btnStart";
             this.btnStart.Size = new System.Drawing.Size(75, 23);
@@ -139,6 +141,19 @@
             this.txtDeveloperNickName.TabIndex = 9;
             this.txtDeveloperNickName.TextChanged += new System.EventHandler(this.txtDeveloperNickName_TextChanged);
             // 
+            // chkMonitoring
+            // 
+            this.chkMonitoring.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkMonitoring.AutoSize = true;
+            this.chkMonitoring.FlatAppearance.CheckedBackColor = System.Drawing.Color.DodgerBlue;
+            this.chkMonitoring.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkMonitoring.Location = new System.Drawing.Point(12, 339);
+            this.chkMonitoring.Name = "chkMonitoring";
+            this.chkMonitoring.Size = new System.Drawing.Size(66, 23);
+            this.chkMonitoring.TabIndex = 10;
+            this.chkMonitoring.Text = "Monitoring";
+            this.chkMonitoring.UseVisualStyleBackColor = true;
+            // 
             // SessionInputForm
             // 
             this.AcceptButton = this.btnStart;
@@ -146,6 +161,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnStart;
             this.ClientSize = new System.Drawing.Size(584, 391);
+            this.Controls.Add(this.chkMonitoring);
             this.Controls.Add(this.txtDeveloperNickName);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.lblProject);
@@ -179,5 +195,6 @@
         private System.Windows.Forms.DataGridViewButtonColumn TaskDelete;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtDeveloperNickName;
+        private System.Windows.Forms.CheckBox chkMonitoring;
     }
 }
