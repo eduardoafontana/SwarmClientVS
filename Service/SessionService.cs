@@ -23,6 +23,9 @@ namespace SwarmClientVS.Domain.Service
 
         public static void RegisterAlreadyAddedBreakpoints(List<BreakpointModel> breakpoints)
         {
+            if (CurrentSession == null)
+                return;
+
             if (addedBreakpoints)
                 return;
 
@@ -161,6 +164,9 @@ namespace SwarmClientVS.Domain.Service
 
         public static void RegisterHitted(StepModel sessionModel)
         {
+            if (CurrentSession == null)
+                return;
+
             EventData eventData = new EventData
             {
                 Id = Guid.NewGuid(),
@@ -185,6 +191,9 @@ namespace SwarmClientVS.Domain.Service
 
         public static void RegisterStep(StepModel sessionModel)
         {
+            if (CurrentSession == null)
+                return;
+
             EventData eventData = new EventData
             {
                 Id = Guid.NewGuid(),
@@ -219,6 +228,9 @@ namespace SwarmClientVS.Domain.Service
 
         public static void RegisterPathNode(PathNodeModel pathNodeModel)
         {
+            if (CurrentSession == null)
+                return;
+
             if (pathNodeModel.CurrentCommandStep != CurrentCommandStep.StepInto)
                 return;
 
@@ -244,6 +256,9 @@ namespace SwarmClientVS.Domain.Service
 
         private static void AddNodeAsOf(int start, List<PathNodeItemModel> stackTrace, PathNodeOrigin pathNodeOrigin)
         {
+            if (CurrentSession == null)
+                return;
+
             for (int i = start; i < stackTrace.Count; i++)
             {
                 CurrentSession.PathNodes.Add(new PathNodeData
@@ -276,6 +291,12 @@ namespace SwarmClientVS.Domain.Service
             if (CurrentSession != null)
                 return;
 
+            SessionInputService sessionInputService = new SessionInputService(new RepositoryLog(), String.Empty);
+            SessionInputData sessionInputData = sessionInputService.GetInputData();
+
+            if (!sessionInputData.EnableMonitoring)
+                return;
+
             CurrentSession = new SessionData
             {
                 Id = Guid.NewGuid(),
@@ -285,9 +306,6 @@ namespace SwarmClientVS.Domain.Service
 
             Repository.GenerateIdentifier();
             Repository.Save(CurrentSession);
-
-            SessionInputService sessionInputService = new SessionInputService(new RepositoryLog(), String.Empty);
-            SessionInputData sessionInputData = sessionInputService.GetInputData();
 
             CurrentSession.TaskName = (sessionInputData.Task.LastOrDefault() ?? new TaskInputData { Name = String.Empty }).Name;
             CurrentSession.TaskDescription = (sessionInputData.Task.LastOrDefault() ?? new TaskInputData { Description = String.Empty }).Description;
@@ -304,6 +322,9 @@ namespace SwarmClientVS.Domain.Service
 
         public static void EndCurrentSession()
         {
+            if (CurrentSession == null)
+                return;
+
             CurrentSession.Finished = DateTime.Now;
 
             Repository.Save(CurrentSession);

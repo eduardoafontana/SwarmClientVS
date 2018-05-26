@@ -78,6 +78,7 @@ namespace SwarmClientVS
 
             lblProject.Text = SessionInputModel.Project;
             txtDeveloperNickName.Text = SessionInputModel.Developer;
+            chkMonitoring.Checked = SessionInputModel.EnableMonitoring;
         }
 
         private void dgTask_CellClick(object sender, DataGridViewCellEventArgs e)
@@ -173,6 +174,11 @@ namespace SwarmClientVS
             SessionInputService.PersistInputDataState(SessionInputModel);
 
             return true;
+        }
+
+        private void chkMonitoring_CheckedChanged(object sender, EventArgs e)
+        {
+            SessionInputModel.EnableMonitoring = chkMonitoring.Checked;
         }
     }
 }

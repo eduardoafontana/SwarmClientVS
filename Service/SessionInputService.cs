@@ -49,7 +49,8 @@ namespace SwarmClientVS.Domain.Service
                     Created = x.Created
                 }).ToList()),
                 Project = OpenedSolutionName,
-                Developer = inputData.Developer
+                Developer = inputData.Developer,
+                EnableMonitoring = inputData.EnableMonitoring
             };
 
             return sessionInputModel;
@@ -77,7 +78,8 @@ namespace SwarmClientVS.Domain.Service
                     Created = t.Created == DateTime.MinValue ? DateTime.Now : t.Created
                 }).ToList(),
                 Project = sessionInputModel.Project,
-                Developer = sessionInputModel.Developer
+                Developer = sessionInputModel.Developer,
+                EnableMonitoring = sessionInputModel.EnableMonitoring
             });
         }
     }

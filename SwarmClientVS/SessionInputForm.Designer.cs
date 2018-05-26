@@ -153,6 +153,7 @@
             this.chkMonitoring.TabIndex = 10;
             this.chkMonitoring.Text = "Monitoring";
             this.chkMonitoring.UseVisualStyleBackColor = true;
+            this.chkMonitoring.CheckedChanged += new System.EventHandler(this.chkMonitoring_CheckedChanged);
             // 
             // SessionInputForm
             // 

@@ -14,5 +14,6 @@ namespace SwarmClientVS.Domain.DataModel
         public List<TaskInputData> Task { get; set; } = new List<TaskInputData>();
         public string Project { get; set; }
         public string Developer { get; set; }
+        public bool EnableMonitoring { get; set; }
     }
 }
