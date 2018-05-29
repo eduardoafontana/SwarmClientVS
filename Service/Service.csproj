@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeFileModel.cs" />
     <Compile Include="BreakpointModel.cs" />
     <Compile Include="PathNodeItemParameterModel.cs" />
     <Compile Include="PathNodeItemModel.cs" />

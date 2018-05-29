@@ -17,6 +17,7 @@ namespace SwarmClientVS.Domain.Service
 
         private static List<BreakpointModel> currentBreakpointsList = new List<BreakpointModel>();
         private static List<BreakpointModel> dataBreakpointsList = new List<BreakpointModel>();
+        private static List<CodeFileModel> codeFilesList = new List<CodeFileModel>();
         private static bool addedBreakpoints = false;
         private static bool addedPathNode = false;
 
@@ -66,9 +67,28 @@ namespace SwarmClientVS.Domain.Service
 
                 CurrentSession.Events.Add(eventData);
                 CurrentSession.Breakpoints.Add(breakpointData);
+
                 Repository.Save(CurrentSession);
 
                 addedBreakpoints = true;
+            }
+
+            List<BreakpointModel> newBreakpointsListCodeFile = breakpoints.GroupBy(b => b.FilePath).Select(b => b.First()).ToList();
+
+            foreach (BreakpointModel item in newBreakpointsListCodeFile)
+            {
+                codeFilesList.Add(new CodeFileModel { Path = item.FilePath });
+
+                CodeFileData codeFileData = new CodeFileData
+                {
+                    Id = Guid.NewGuid(),
+                    Path = item.FilePath,
+                    Content = string.Empty, //TODO
+                    Created = DateTime.Now
+                };
+
+                CurrentSession.CodeFiles.Add(codeFileData);
+                Repository.Save(CurrentSession);
             }
         }
 
@@ -124,6 +144,24 @@ namespace SwarmClientVS.Domain.Service
                 };
 
                 CurrentSession.Breakpoints.Add(breakpointData);
+                Repository.Save(CurrentSession);
+            }
+
+            List<BreakpointModel> newBreakpointsListCodeFile = breakpoints.Where(n => !codeFilesList.Any(o => o.Path == n.FilePath)).ToList();
+
+            foreach (BreakpointModel item in newBreakpointsListCodeFile)
+            {
+                codeFilesList.Add(new CodeFileModel { Path = item.FilePath });
+
+                CodeFileData codeFileData = new CodeFileData
+                {
+                    Id = Guid.NewGuid(),
+                    Path = item.FilePath,
+                    Content = string.Empty, //TODO
+                    Created = DateTime.Now
+                };
+
+                CurrentSession.CodeFiles.Add(codeFileData);
                 Repository.Save(CurrentSession);
             }
         }

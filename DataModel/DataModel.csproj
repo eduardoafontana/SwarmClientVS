@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CodeFileData.cs" />
     <Compile Include="CodeMetricData.cs" />
     <Compile Include="PathNodeParameterData.cs" />
     <Compile Include="TaskInputData.cs" />
