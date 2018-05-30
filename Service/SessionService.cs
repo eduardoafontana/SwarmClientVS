@@ -83,7 +83,7 @@ namespace SwarmClientVS.Domain.Service
                 {
                     Id = Guid.NewGuid(),
                     Path = item.DocumentModel.FilePath,
-                    Content = string.Empty, //TODO
+                    Content = Convert.ToBase64String(Encoding.UTF8.GetBytes(item.DocumentModel.FileText)),
                     Created = DateTime.Now
                 };
 
@@ -157,7 +157,7 @@ namespace SwarmClientVS.Domain.Service
                 {
                     Id = Guid.NewGuid(),
                     Path = item.DocumentModel.FilePath,
-                    Content = string.Empty, //TODO
+                    Content = Convert.ToBase64String(Encoding.UTF8.GetBytes(item.DocumentModel.FileText)),
                     Created = DateTime.Now
                 };
 

@@ -18,16 +18,16 @@ namespace SwarmClientVS
                 CurrentLine = "Fail to get line",
                 CurrentLineNumber = -1,
                 Namespace = "Fail to get namespace",
-                FilePath = file
+                FilePath = "Fail to get filepath",
+                FileText = "Fail to get filetext",
             };
 
+            documentModel.FilePath = file;
             documentModel.CurrentLineNumber = fileLine;
+            documentModel.FileText = File.ReadAllText(file);
+            documentModel.CurrentLine = TryGetCurrentLineCode(file, fileLine);
 
-            string activeFilePath = Path.Combine(file);
-
-            documentModel.CurrentLine = TryGetCurrentLineCode(activeFilePath, fileLine);
-
-            string namespaceLine = File.ReadLines(activeFilePath).Where(p => p.IndexOf("namespace") >= 0).FirstOrDefault();
+            string namespaceLine = File.ReadLines(file).Where(p => p.IndexOf("namespace") >= 0).FirstOrDefault();
             if (String.IsNullOrEmpty(namespaceLine))
                 documentModel.Namespace += ", namespace word not found.";
 
@@ -44,7 +44,8 @@ namespace SwarmClientVS
                 CurrentLine = "Fail to get line",
                 CurrentLineNumber = -1,
                 Namespace = "Fail to get namespace",
-                FilePath = "Failt to get file path"
+                FilePath = "Failt to get file path",
+                FileText = "Fail to get filetext",
             };
 
             if (currentDocument == null)
@@ -52,10 +53,14 @@ namespace SwarmClientVS
                 documentModel.CurrentLine += ", document null.";
                 documentModel.Namespace += ", document null.";
                 documentModel.FilePath += ", document null.";
+                documentModel.FileText += ", document null.";
                 return documentModel;
             }
 
-            documentModel.FilePath = currentDocument.Path;
+            string activeFilePath = Path.Combine(currentDocument.Path, currentDocument.Name);
+
+            documentModel.FilePath = activeFilePath;
+            documentModel.FileText = File.ReadAllText(activeFilePath);
 
             TextSelection textSelection = (TextSelection)currentDocument.Selection;
 
@@ -67,9 +72,6 @@ namespace SwarmClientVS
             }
 
             documentModel.CurrentLineNumber = textSelection.ActivePoint.Line;
-
-            string activeFilePath = Path.Combine(currentDocument.Path, currentDocument.Name);
-
             documentModel.CurrentLine = TryGetCurrentLineCode(activeFilePath, textSelection.ActivePoint.Line);
 
             string namespaceLine = File.ReadLines(activeFilePath).Where(p => p.IndexOf("namespace") >= 0).FirstOrDefault();
