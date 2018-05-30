@@ -202,7 +202,6 @@ namespace SwarmClientVS
                 {
                     Name = x.Name,
                     FunctionName = x.FunctionName,
-                    FilePath = x.File,
                     FileLine = x.FileLine,
                     StartLineText = x.FileColumn,
                     DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine, x.FileColumn)
@@ -242,7 +241,6 @@ namespace SwarmClientVS
                     {
                         Name = x.Name,
                         FunctionName = x.FunctionName,
-                        FilePath = x.File,
                         FileLine = x.FileLine,
                         StartLineText = x.FileColumn,
                         DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine, x.FileColumn)
@@ -254,7 +252,6 @@ namespace SwarmClientVS
                     {
                         Name = x.Name,
                         FunctionName = x.FunctionName,
-                        FilePath = x.File,
                         FileLine = x.FileLine,
                         StartLineText = x.FileColumn,
                         DocumentModel = DocumentModelBuilder.Build(x.File, x.FileLine, x.FileColumn)

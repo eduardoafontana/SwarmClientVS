@@ -18,6 +18,7 @@ namespace SwarmClientVS
                 CurrentLine = "Fail to get line",
                 CurrentLineNumber = -1,
                 Namespace = "Fail to get namespace",
+                FilePath = file
             };
 
             documentModel.CurrentLineNumber = fileLine;
@@ -42,15 +43,19 @@ namespace SwarmClientVS
             {
                 CurrentLine = "Fail to get line",
                 CurrentLineNumber = -1,
-                Namespace = "Fail to get namespace"
+                Namespace = "Fail to get namespace",
+                FilePath = "Failt to get file path"
             };
 
             if (currentDocument == null)
             {
                 documentModel.CurrentLine += ", document null.";
                 documentModel.Namespace += ", document null.";
+                documentModel.FilePath += ", document null.";
                 return documentModel;
             }
+
+            documentModel.FilePath = currentDocument.Path;
 
             TextSelection textSelection = (TextSelection)currentDocument.Selection;
 

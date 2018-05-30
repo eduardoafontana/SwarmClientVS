@@ -10,7 +10,6 @@ namespace SwarmClientVS.Domain.Service
     {
         public string Name { get; set; }
         public string FunctionName { get; set; }
-        public string FilePath { get; set; }
         public int FileLine { get; set; }
         public int StartLineText { get; set; }
         public DocumentModel DocumentModel { get; set; }

@@ -73,16 +73,16 @@ namespace SwarmClientVS.Domain.Service
                 addedBreakpoints = true;
             }
 
-            List<BreakpointModel> newBreakpointsListCodeFile = breakpoints.GroupBy(b => b.FilePath).Select(b => b.First()).ToList();
+            List<BreakpointModel> newBreakpointsListCodeFile = breakpoints.GroupBy(b => b.DocumentModel.FilePath).Select(b => b.First()).ToList();
 
             foreach (BreakpointModel item in newBreakpointsListCodeFile)
             {
-                codeFilesList.Add(new CodeFileModel { Path = item.FilePath });
+                codeFilesList.Add(new CodeFileModel { Path = item.DocumentModel.FilePath });
 
                 CodeFileData codeFileData = new CodeFileData
                 {
                     Id = Guid.NewGuid(),
-                    Path = item.FilePath,
+                    Path = item.DocumentModel.FilePath,
                     Content = string.Empty, //TODO
                     Created = DateTime.Now
                 };
@@ -147,16 +147,16 @@ namespace SwarmClientVS.Domain.Service
                 Repository.Save(CurrentSession);
             }
 
-            List<BreakpointModel> newBreakpointsListCodeFile = breakpoints.Where(n => !codeFilesList.Any(o => o.Path == n.FilePath)).ToList();
+            List<BreakpointModel> newBreakpointsListCodeFile = breakpoints.Where(n => !codeFilesList.Any(o => o.Path == n.DocumentModel.FilePath)).ToList();
 
             foreach (BreakpointModel item in newBreakpointsListCodeFile)
             {
-                codeFilesList.Add(new CodeFileModel { Path = item.FilePath });
+                codeFilesList.Add(new CodeFileModel { Path = item.DocumentModel.FilePath });
 
                 CodeFileData codeFileData = new CodeFileData
                 {
                     Id = Guid.NewGuid(),
-                    Path = item.FilePath,
+                    Path = item.DocumentModel.FilePath,
                     Content = string.Empty, //TODO
                     Created = DateTime.Now
                 };
