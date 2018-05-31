@@ -9,5 +9,6 @@ namespace SwarmClientVS.Domain.Service
     public class CodeFileModel
     {
         public string Path { get; set; }
+        public string Text { get; set; }
     }
 }

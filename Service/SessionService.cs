@@ -75,23 +75,11 @@ namespace SwarmClientVS.Domain.Service
                 addedBreakpoints = true;
             }
 
-            List<BreakpointModel> newBreakpointsListCodeFile = breakpoints.GroupBy(b => b.DocumentModel.FilePath).Select(b => b.First()).ToList();
-
-            foreach (BreakpointModel item in newBreakpointsListCodeFile)
+            RegisterCodeFile(breakpoints.GroupBy(b => b.DocumentModel.FilePath).Select(b => b.First()).Select(b => new CodeFileModel
             {
-                codeFilesList.Add(new CodeFileModel { Path = item.DocumentModel.FilePath });
-
-                CodeFileData codeFileData = new CodeFileData
-                {
-                    Id = Guid.NewGuid(),
-                    Path = item.DocumentModel.FilePath,
-                    Content = Base64StringZip.ZipString(item.DocumentModel.FileText),
-                    Created = DateTime.Now
-                };
-
-                CurrentSession.CodeFiles.Add(codeFileData);
-                Repository.Save(CurrentSession);
-            }
+                Path = b.DocumentModel.FilePath,
+                Text = b.DocumentModel.FileText
+            }).ToList());
         }
 
         public static void VerifyBreakpointAddedOne(List<BreakpointModel> breakpoints)
@@ -150,17 +138,24 @@ namespace SwarmClientVS.Domain.Service
                 Repository.Save(CurrentSession);
             }
 
-            List<BreakpointModel> newBreakpointsListCodeFile = breakpoints.Where(n => !codeFilesList.Any(o => o.Path == n.DocumentModel.FilePath)).ToList();
-
-            foreach (BreakpointModel item in newBreakpointsListCodeFile)
+            RegisterCodeFile(breakpoints.Where(n => !codeFilesList.Any(o => o.Path == n.DocumentModel.FilePath)).Select(b => new CodeFileModel
             {
-                codeFilesList.Add(new CodeFileModel { Path = item.DocumentModel.FilePath });
+                Path = b.DocumentModel.FilePath,
+                Text = b.DocumentModel.FileText
+            }).ToList());
+        }
+
+        private static void RegisterCodeFile(List<CodeFileModel> codeFileModelList)
+        {
+            foreach (CodeFileModel item in codeFileModelList)
+            {
+                codeFilesList.Add(item);
 
                 CodeFileData codeFileData = new CodeFileData
                 {
                     Id = Guid.NewGuid(),
-                    Path = item.DocumentModel.FilePath,
-                    Content = Base64StringZip.ZipString(item.DocumentModel.FileText),
+                    Path = item.Path,
+                    Content = Base64StringZip.ZipString(item.Text),
                     Created = DateTime.Now
                 };
 
@@ -309,7 +304,7 @@ namespace SwarmClientVS.Domain.Service
                     Method = PathNodeItemModel.GetMethodName(stackTrace[i].StackName),
                     Created = DateTime.Now,
                     Namespace = PathNodeItemModel.GeNamespaceName(stackTrace[i].StackName),
-                    Parent = i == 0 ? null : PathNodeItemModel.GetHash(CurrentSession.GetCleanProjectName(), stackTrace[i -  1].StackName),
+                    Parent = i == 0 ? null : PathNodeItemModel.GetHash(CurrentSession.GetCleanProjectName(), stackTrace[i - 1].StackName),
                     Parent_Id = i == 0 ? Guid.Empty : CurrentSession.PathNodes.Last(pn => pn.Hash == PathNodeItemModel.GetHash(CurrentSession.GetCleanProjectName(), stackTrace[i - 1].StackName)).Id,
                     Type = PathNodeItemModel.GeTypeName(stackTrace[i].StackName),
                     ReturnType = stackTrace[i].ReturnType,
