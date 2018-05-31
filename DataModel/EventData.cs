@@ -37,6 +37,7 @@ namespace SwarmClientVS.Domain.DataModel
         public string MethodSignature { get; set; }
         public int CharStart { get; set; }
         public int CharEnd { get; set; }
+        public string CodeFilePath { get; set; }
         public int LineNumber { get; set; }
         public string LineOfCode { get; set; }
         public DateTime Created { get; set; }

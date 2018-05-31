@@ -49,6 +49,7 @@ namespace SwarmClientVS.Domain.Service
                     MethodSignature = item.FunctionName,
                     CharStart = item.StartLineText,
                     CharEnd = item.DocumentModel.EndLineText,
+                    CodeFilePath = item.DocumentModel.FilePath,
                     LineNumber = item.DocumentModel.CurrentLineNumber,
                     LineOfCode = item.DocumentModel.CurrentLine,
                     Created = DateTime.Now
@@ -106,6 +107,7 @@ namespace SwarmClientVS.Domain.Service
                     MethodSignature = item.FunctionName,
                     CharStart = item.StartLineText,
                     CharEnd = item.DocumentModel.EndLineText,
+                    CodeFilePath = item.DocumentModel.FilePath,
                     LineNumber = item.DocumentModel.CurrentLineNumber,
                     LineOfCode = item.DocumentModel.CurrentLine,
                     Created = DateTime.Now
@@ -188,6 +190,7 @@ namespace SwarmClientVS.Domain.Service
                     MethodSignature = item.FunctionName,
                     CharStart = item.StartLineText,
                     CharEnd = item.DocumentModel.EndLineText,
+                    CodeFilePath = item.DocumentModel.FilePath,
                     LineNumber = item.DocumentModel.CurrentLineNumber,
                     LineOfCode = item.DocumentModel.CurrentLine,
                     Created = DateTime.Now
@@ -216,6 +219,7 @@ namespace SwarmClientVS.Domain.Service
                 MethodSignature = sessionModel.CurrentStackFrameFunctionName,
                 CharStart = sessionModel.CurrentDocument.StartLineText,
                 CharEnd = sessionModel.CurrentDocument.EndLineText,
+                CodeFilePath = sessionModel.CurrentDocument.FilePath,
                 LineNumber = sessionModel.CurrentDocument.CurrentLineNumber,
                 LineOfCode = sessionModel.CurrentDocument.CurrentLine,
                 Created = DateTime.Now
@@ -243,6 +247,7 @@ namespace SwarmClientVS.Domain.Service
                 MethodSignature = sessionModel.CurrentStackFrameFunctionName,
                 CharStart = sessionModel.CurrentDocument.StartLineText,
                 CharEnd = sessionModel.CurrentDocument.EndLineText,
+                CodeFilePath = sessionModel.CurrentDocument.FilePath,
                 LineNumber = sessionModel.CurrentDocument.CurrentLineNumber,
                 LineOfCode = sessionModel.CurrentDocument.CurrentLine,
                 Created = DateTime.Now
@@ -250,6 +255,15 @@ namespace SwarmClientVS.Domain.Service
 
             CurrentSession.Events.Add(eventData);
             Repository.Save(CurrentSession);
+
+            if (!codeFilesList.Any(o => o.Path == sessionModel.CurrentDocument.FilePath))
+                RegisterCodeFile(new List<CodeFileModel>
+                { new CodeFileModel()
+                    {
+                        Path = sessionModel.CurrentDocument.FilePath,
+                        Text = sessionModel.CurrentDocument.FileText
+                    }
+                });
         }
 
         public static void RegisterStartPathNode(PathNodeModel pathNodeModel)
