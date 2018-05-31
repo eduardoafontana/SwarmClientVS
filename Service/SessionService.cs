@@ -7,6 +7,7 @@ using System.IO;
 using SwarmClientVS.Domain.IRepository;
 using SwarmClientVS.Domain.DataModel;
 using SwarmClientVS.DataLog.FileLog;
+using System.IO.Compression;
 
 namespace SwarmClientVS.Domain.Service
 {
@@ -83,7 +84,7 @@ namespace SwarmClientVS.Domain.Service
                 {
                     Id = Guid.NewGuid(),
                     Path = item.DocumentModel.FilePath,
-                    Content = Convert.ToBase64String(Encoding.UTF8.GetBytes(item.DocumentModel.FileText)),
+                    Content = Base64StringZip.ZipString(item.DocumentModel.FileText),
                     Created = DateTime.Now
                 };
 
@@ -157,7 +158,7 @@ namespace SwarmClientVS.Domain.Service
                 {
                     Id = Guid.NewGuid(),
                     Path = item.DocumentModel.FilePath,
-                    Content = Convert.ToBase64String(Encoding.UTF8.GetBytes(item.DocumentModel.FileText)),
+                    Content = Base64StringZip.ZipString(item.DocumentModel.FileText),
                     Created = DateTime.Now
                 };
 
