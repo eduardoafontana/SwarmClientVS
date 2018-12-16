@@ -20,7 +20,7 @@ namespace SwarmClientVS.Domain.Service
         private static List<BreakpointModel> dataBreakpointsList = new List<BreakpointModel>();
         private static List<CodeFileModel> codeFilesList = new List<CodeFileModel>();
         private static bool addedBreakpoints = false;
-        private static bool addedPathNode = false;
+        private static bool alreadyAddedFirstPathnode = false;
 
 
         public static void RegisterAlreadyAddedBreakpoints(List<BreakpointModel> breakpoints)
@@ -266,39 +266,53 @@ namespace SwarmClientVS.Domain.Service
                 });
         }
 
-        public static void RegisterStartPathNode(PathNodeModel pathNodeModel)
+        public static void RegisterFirstAndBreakpointPathNode(PathNodeModel pathNodeModel)
         {
-            if (addedPathNode)
-                return;
+            if (alreadyAddedFirstPathnode)
+            {
+                RegisterPathNode(pathNodeModel.StackTraceItems, PathNodeOrigin.Breakpoint);
+            }
+            else
+            {
+                AddNodeAsOf(0, pathNodeModel.StackTraceItems, PathNodeOrigin.Breakpoint);
 
-            AddNodeAsOf(0, pathNodeModel.StackTraceItems, PathNodeOrigin.Breakpoint);
-
-            addedPathNode = true;
+                alreadyAddedFirstPathnode = true;
+            }
         }
 
-        public static void RegisterPathNode(PathNodeModel pathNodeModel)
+        public static void RegisterStepIntoPathNode(PathNodeModel pathNodeModel)
         {
-            if (CurrentSession == null)
+            if (pathNodeModel.CurrentCommandStep == null)
                 return;
 
             if (pathNodeModel.CurrentCommandStep != CurrentCommandStep.StepInto)
                 return;
 
-            for (int i = 0; i < pathNodeModel.StackTraceItems.Count; i++)
+            RegisterPathNode(pathNodeModel.StackTraceItems, PathNodeOrigin.StepInto);
+        }
+
+        private static void RegisterPathNode(List<PathNodeItemModel> stackTraceItems, PathNodeOrigin pathNodeOrigin)
+        {
+            if (CurrentSession == null)
+                return;
+
+            //TODO: No futuro, salvar a linha do pathnode que está no evento sessionModel.CurrentDocument.CurrentLineNumber para que o resgate dessa informação na visualização fique mais acertiva e com menos complexidade.
+
+            for (int i = 0; i < stackTraceItems.Count; i++)
             {
                 if (i >= CurrentSession.PathNodes.Count)
                 {
-                    AddNodeAsOf(i, pathNodeModel.StackTraceItems, PathNodeOrigin.StepInto);
+                    AddNodeAsOf(i, stackTraceItems, pathNodeOrigin);
                     break;
                 }
-                else if (!pathNodeModel.StackTraceItems[i].StackName.Equals(CurrentSession.PathNodes[i].GetStackTrace()))
+                else if (!stackTraceItems[i].StackName.Equals(CurrentSession.PathNodes[i].GetStackTrace()))
                 {
-                    AddNodeAsOf(i, pathNodeModel.StackTraceItems, PathNodeOrigin.StepInto);
+                    AddNodeAsOf(i, stackTraceItems, pathNodeOrigin);
                     break;
                 }
-                else if (i == pathNodeModel.StackTraceItems.Count - 1)
+                else if (i == stackTraceItems.Count - 1)
                 {
-                    AddNodeAsOf(i, pathNodeModel.StackTraceItems, PathNodeOrigin.StepInto);
+                    AddNodeAsOf(i, stackTraceItems, pathNodeOrigin);
                     break;
                 }
             }
@@ -366,8 +380,9 @@ namespace SwarmClientVS.Domain.Service
 
             Repository.Save(CurrentSession);
 
+            codeFilesList = new List<CodeFileModel>();
             addedBreakpoints = false;
-            addedPathNode = false;
+            alreadyAddedFirstPathnode = false;
         }
 
         public static void EndCurrentSession()
@@ -380,8 +395,9 @@ namespace SwarmClientVS.Domain.Service
             Repository.Save(CurrentSession);
 
             CurrentSession = null;
+            codeFilesList = new List<CodeFileModel>();
             addedBreakpoints = false;
-            addedPathNode = false;
+            alreadyAddedFirstPathnode = false;
         }
     }
 }

@@ -129,8 +129,9 @@ namespace SwarmClientVS
                     }
                 );
 
-                SessionService.RegisterStartPathNode(new PathNodeModel
+                SessionService.RegisterFirstAndBreakpointPathNode(new PathNodeModel
                 {
+                    CurrentCommandStep = null,
                     StackTraceItems = dte.Debugger.CurrentThread.StackFrames.Cast<EnvDTE.StackFrame>().Reverse().Select(x => new PathNodeItemModel
                     {
                         StackName = x.FunctionName,
@@ -154,7 +155,7 @@ namespace SwarmClientVS
                     CurrentDocument = DocumentModelBuilder.Build(dte.ActiveDocument)
                 });
 
-                SessionService.RegisterPathNode(new PathNodeModel
+                SessionService.RegisterStepIntoPathNode(new PathNodeModel
                 {
                     CurrentCommandStep = currentCommandStep,
                     StackTraceItems = dte.Debugger.CurrentThread.StackFrames.Cast<EnvDTE.StackFrame>().Reverse().Select(x => new PathNodeItemModel
@@ -167,7 +168,7 @@ namespace SwarmClientVS
                             Name = p.Name,
                             Value = p.Value
                         }).ToList()
-                    } ).ToList(),
+                    }).ToList(),
                 });
             }
         }
