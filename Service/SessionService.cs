@@ -201,7 +201,7 @@ namespace SwarmClientVS.Domain.Service
             }
         }
 
-        public static void RegisterHitted(StepModel sessionModel)
+        public static void RegisterHitted(StepModel sessionModel, PathNodeModel pathNodeModel)
         {
             if (CurrentSession == null)
                 return;
@@ -227,9 +227,16 @@ namespace SwarmClientVS.Domain.Service
 
             CurrentSession.Events.Add(eventData);
             Repository.Save(CurrentSession);
+
+            foreach (var item in pathNodeModel.StackTraceItems)
+            {
+                item.Event_Id = eventData.Id;
+            }
+
+            RegisterFirstAndBreakpointPathNode(pathNodeModel);
         }
 
-        public static void RegisterStep(StepModel sessionModel)
+        public static void RegisterStep(StepModel sessionModel, PathNodeModel pathNodeModel)
         {
             if (CurrentSession == null)
                 return;
@@ -264,9 +271,16 @@ namespace SwarmClientVS.Domain.Service
                         Text = sessionModel.CurrentDocument.FileText
                     }
                 });
+
+            foreach (var item in pathNodeModel.StackTraceItems)
+            {
+                item.Event_Id = eventData.Id;
+            }
+
+            RegisterStepIntoPathNode(pathNodeModel);
         }
 
-        public static void RegisterFirstAndBreakpointPathNode(PathNodeModel pathNodeModel)
+        private static void RegisterFirstAndBreakpointPathNode(PathNodeModel pathNodeModel)
         {
             if (alreadyAddedFirstPathnode)
             {
@@ -280,23 +294,32 @@ namespace SwarmClientVS.Domain.Service
             }
         }
 
-        public static void RegisterStepIntoPathNode(PathNodeModel pathNodeModel)
+        private static void RegisterStepIntoPathNode(PathNodeModel pathNodeModel)
         {
             if (pathNodeModel.CurrentCommandStep == null)
                 return;
 
-            if (pathNodeModel.CurrentCommandStep != CurrentCommandStep.StepInto)
-                return;
+            //TODO: remove later
+            //if (pathNodeModel.CurrentCommandStep != CurrentCommandStep.StepInto)
+            //    return;
 
-            RegisterPathNode(pathNodeModel.StackTraceItems, PathNodeOrigin.StepInto);
+            //TODO: improve this code
+            PathNodeOrigin pathNodeOrigin = PathNodeOrigin.StepInto;
+
+            if (pathNodeModel.CurrentCommandStep == CurrentCommandStep.StepOver)
+                pathNodeOrigin = PathNodeOrigin.StepOver;
+
+            if (pathNodeModel.CurrentCommandStep == CurrentCommandStep.StepOut)
+                pathNodeOrigin = PathNodeOrigin.StepOut;
+            //---
+
+            RegisterPathNode(pathNodeModel.StackTraceItems, pathNodeOrigin);
         }
 
         private static void RegisterPathNode(List<PathNodeItemModel> stackTraceItems, PathNodeOrigin pathNodeOrigin)
         {
             if (CurrentSession == null)
                 return;
-
-            //TODO: No futuro, salvar a linha do pathnode que está no evento sessionModel.CurrentDocument.CurrentLineNumber para que o resgate dessa informação na visualização fique mais acertiva e com menos complexidade.
 
             for (int i = 0; i < stackTraceItems.Count; i++)
             {
@@ -343,7 +366,8 @@ namespace SwarmClientVS.Domain.Service
                         Name = x.Name,
                         Value = x.Value
                     }).ToList(),
-                    Origin = i == stackTrace.Count - 1 ? pathNodeOrigin.ToString() : PathNodeOrigin.Trace.ToString()
+                    Origin = i == stackTrace.Count - 1 ? pathNodeOrigin.ToString() : PathNodeOrigin.Trace.ToString(),
+                    Event_Id = stackTrace[i].Event_Id
                 });
 
                 Repository.Save(CurrentSession);

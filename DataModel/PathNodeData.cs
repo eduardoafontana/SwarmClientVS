@@ -11,7 +11,9 @@ namespace SwarmClientVS.Domain.DataModel
     {
         Trace,
         Breakpoint,
-        StepInto
+        StepInto,
+        StepOver,
+        StepOut,
     };
 
     public class PathNodeData : IData
@@ -28,6 +30,7 @@ namespace SwarmClientVS.Domain.DataModel
         public List<PathNodeParameterData> Parameters { get; set; } = new List<PathNodeParameterData>();
         public DateTime Created { get; set; }
         public CodeMetricData MethodCodeMetric { get; set; }
+        public Guid Event_Id { get; set; }
 
         public string GetStackTrace()
         {

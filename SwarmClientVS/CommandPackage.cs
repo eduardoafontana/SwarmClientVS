@@ -126,24 +126,23 @@ namespace SwarmClientVS
                         CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName,
                         BreakpointLastHitName = dte.Debugger.BreakpointLastHit.Name,
                         CurrentDocument = DocumentModelBuilder.Build(dte.ActiveDocument)
+                    }, 
+                    new PathNodeModel
+                    {
+                        CurrentCommandStep = null,
+                        StackTraceItems = dte.Debugger.CurrentThread.StackFrames.Cast<EnvDTE.StackFrame>().Reverse().Select(x => new PathNodeItemModel
+                        {
+                            StackName = x.FunctionName,
+                            ReturnType = x.ReturnType,
+                            Parameters = x.Locals.Cast<Expression>().Select(p => new PathNodeItemParameterModel
+                            {
+                                Type = p.Type,
+                                Name = p.Name,
+                                Value = p.Value
+                            }).ToList()
+                        }).ToList()
                     }
                 );
-
-                SessionService.RegisterFirstAndBreakpointPathNode(new PathNodeModel
-                {
-                    CurrentCommandStep = null,
-                    StackTraceItems = dte.Debugger.CurrentThread.StackFrames.Cast<EnvDTE.StackFrame>().Reverse().Select(x => new PathNodeItemModel
-                    {
-                        StackName = x.FunctionName,
-                        ReturnType = x.ReturnType,
-                        Parameters = x.Locals.Cast<Expression>().Select(p => new PathNodeItemParameterModel
-                        {
-                            Type = p.Type,
-                            Name = p.Name,
-                            Value = p.Value
-                        } ).ToList()
-                    } ).ToList()
-                });
             }
 
             if (reason == dbgEventReason.dbgEventReasonStep)//Any debug step (into, over, out)
@@ -153,9 +152,8 @@ namespace SwarmClientVS
                     CurrentCommandStep = currentCommandStep,
                     CurrentStackFrameFunctionName = dte.Debugger.CurrentStackFrame.FunctionName,
                     CurrentDocument = DocumentModelBuilder.Build(dte.ActiveDocument)
-                });
-
-                SessionService.RegisterStepIntoPathNode(new PathNodeModel
+                },
+                new PathNodeModel
                 {
                     CurrentCommandStep = currentCommandStep,
                     StackTraceItems = dte.Debugger.CurrentThread.StackFrames.Cast<EnvDTE.StackFrame>().Reverse().Select(x => new PathNodeItemModel
