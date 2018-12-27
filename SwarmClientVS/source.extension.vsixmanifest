@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="SwarmClientVS.31f3ee37-0349-4853-a136-b3601b51f890" Version="1.9" Language="en-US" Publisher="Eduardo Andreetta Fontana" />
+        <Identity Id="SwarmClientVS.31f3ee37-0349-4853-a136-b3601b51f890" Version="2.0" Language="en-US" Publisher="Eduardo Andreetta Fontana" />
         <DisplayName>SwarmClientVS</DisplayName>
         <Description xml:space="preserve">This is a Visual Studio version of the Swarm Debugger client.
 A project to contribute for the improvement tecnics of debugging software by coletive knowledgement.
