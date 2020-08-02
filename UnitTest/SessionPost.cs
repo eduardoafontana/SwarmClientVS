@@ -88,7 +88,7 @@ namespace UnitTest
             var byteContent = new ByteArrayContent(buffer);
             byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-            var response = await client.PostAsync("http://swarmserver.azurewebsites.net/api/session", byteContent);
+            var response = await client.PostAsync("http://swarmdbg.azurewebsites.net/api/session", byteContent);
 
             var responseString = await response.Content.ReadAsStringAsync();
 
@@ -98,7 +98,7 @@ namespace UnitTest
         [TestMethod]
         public async Task TestGet()
         {
-            var responseString = await client.GetStringAsync("http://swarmserver.azurewebsites.net/api/session");
+            var responseString = await client.GetStringAsync("http://swarmdbg.azurewebsites.net/api/session");
         }
     }
 }

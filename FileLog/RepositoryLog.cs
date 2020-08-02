@@ -61,7 +61,7 @@ namespace SwarmClientVS.DataLog.FileLog
                 var byteContent = new ByteArrayContent(buffer);
                 byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                var response = await httpClient.PostAsync("http://swarmserver.azurewebsites.net/api/session", byteContent);
+                var response = await httpClient.PostAsync("http://swarmdbg.azurewebsites.net/api/session", byteContent);
 
                 var responseString = await response.Content.ReadAsStringAsync();
 
