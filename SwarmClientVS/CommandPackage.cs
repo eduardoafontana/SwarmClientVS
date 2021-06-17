@@ -41,7 +41,7 @@ namespace SwarmClientVS
     [ProvideMenuResource("Menus.ctmenu", 1)]
     [Guid(CommandPackage.PackageGuidString)]
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1650:ElementDocumentationMustBeSpelledCorrectly", Justification = "pkgdef, VS and vsixmanifest are valid VS terms")]
-    [ProvideAutoLoad(UIContextGuids80.SolutionExists)]
+    [ProvideAutoLoad(UIContextGuids80.SolutionExists, PackageAutoLoadFlags.BackgroundLoad)]
     public sealed class CommandPackage : Package
     {
         /// <summary>
