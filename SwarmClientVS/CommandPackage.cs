@@ -196,7 +196,7 @@ namespace SwarmClientVS
             if (dte.Debugger.Breakpoints == null)
                 return;
 
-            SessionService.RegisterAlreadyAddedBreakpoints(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x =>
+            SessionService.RegisterAlreadyAddedBreakpoints(dte.Debugger.Breakpoints.Cast<Breakpoint>().Where(x => !string.IsNullOrEmpty(x.File)).Select(x =>
                 new BreakpointModel
                 {
                     Name = x.Name,
@@ -235,7 +235,7 @@ namespace SwarmClientVS
                 return;
 
             if (ID == 769)//The event code for breakpoint add
-                SessionService.VerifyBreakpointAddedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x =>
+                SessionService.VerifyBreakpointAddedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Where(x => !string.IsNullOrEmpty(x.File)).Select(x =>
                     new BreakpointModel
                     {
                         Name = x.Name,
@@ -246,7 +246,8 @@ namespace SwarmClientVS
                     }
                 ).ToList());
             else//The other event code that can represent a removed breakpoint. There is no especific event code for breakpoint remotion.
-                SessionService.VerifyBreakpointRemovedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Select(x =>
+                //Added .Where(x => !string.IsNullOrEmpty(x.File)), but not tested enough. Added that because was returning null on File, maybe because of VS update.
+                SessionService.VerifyBreakpointRemovedOne(dte.Debugger.Breakpoints.Cast<Breakpoint>().Where(x => !string.IsNullOrEmpty(x.File)).Select(x =>
                     new BreakpointModel
                     {
                         Name = x.Name,
